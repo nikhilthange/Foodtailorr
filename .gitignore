@@ -1,0 +1,78 @@
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Next.js
+.next/
+**/.next/
+out/
+**/out/
+
+# Environment / Secrets
+.env
+.env.*
+!.env.example
+!.env.template
+
+# Logs
+*.log
+logs/
+**/logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Runtime / local data
+*.pid
+*.seed
+*.pid.lock
+
+# DynamoDB Local
+DynamoDBLocal/
+dynamodb-local/
+*.db
+*.sqlite
+*.sqlite3
+
+# Coverage / tests
+coverage/
+.nyc_output/
+playwright-report/
+test-results/
+
+# Build / cache
+dist/
+build/
+.turbo/
+.cache/
+.parcel-cache/
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea/
+*.swp
+*.swo
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Certificates / private keys
+*.pem
+*.key
+*.crt
+
+# Vercel
+.vercel/
+
+# Misc
+*.tsbuildinfo

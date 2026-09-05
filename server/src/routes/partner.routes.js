@@ -2,6 +2,7 @@
 import { Router } from 'express';
 import { authenticate, requireRole } from '../middleware/auth.js';
 import { validate } from '../middleware/validate.js';
+import { AppError } from '../middleware/errorHandler.js';
 import * as partnerService from '../services/partner.service.js';
 import * as orderService from '../services/order.service.js';
 import { updatePartnerProfileSchema, dishSchema, updateOrderStatusSchema } from '../validators/schemas.js';
@@ -70,9 +71,15 @@ router.delete('/dishes/:id', async (req, res, next) => {
 // GET /api/partner/orders
 router.get('/orders', async (req, res, next) => {
   try {
-    const { prisma } = await import('../config/database.js');
-    const partner = await prisma.partner.findUnique({ where: { userId: req.user.id } });
-    if (!partner) return res.status(404).json({ error: 'Partner not found' });
+    const { partnerRepository } = await import('../repositories/dynamodb/index.js');
+    let partner = await partnerRepository.findByUserId(req.user.id);
+    if (!partner && req.user.partnerId) {
+      partner = await partnerRepository.findById(req.user.partnerId);
+    }
+    if (!partner && req.user.id) {
+      partner = await partnerRepository.findById(req.user.id);
+    }
+    if (!partner) throw new AppError('Partner not found', 404, 'NOT_FOUND');
     const result = await orderService.getPartnerOrders(partner.id, req.query);
     res.json(result);
   } catch (err) { next(err); }

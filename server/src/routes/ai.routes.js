@@ -16,11 +16,13 @@ router.post('/recommend-menu', aiLimiter, optionalAuth, validate(menuRecommendat
   } catch (err) { next(err); }
 });
 
+import { AppError } from '../middleware/errorHandler.js';
+
 // GET /api/ai/recommendations/:id
 router.get('/recommendations/:id', async (req, res, next) => {
   try {
     const recommendation = await getRecommendationById(req.params.id);
-    if (!recommendation) return res.status(404).json({ error: 'Recommendation not found' });
+    if (!recommendation) throw new AppError('Recommendation not found', 404, 'NOT_FOUND');
     res.json(recommendation);
   } catch (err) { next(err); }
 });

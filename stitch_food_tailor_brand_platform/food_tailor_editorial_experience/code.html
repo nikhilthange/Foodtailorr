@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { "primary-fixed-dim": "#a6d1ac", "error-container": "#ffdad6", "surface-container-low": "#f7f3ec", "on-primary-container": "#80aa86", "on-primary": "#ffffff", "on-error-container": "#93000a", "secondary": "#a33e00", "inverse-surface": "#31302c", "outline-variant": "#c1c8bf", "inverse-on-surface": "#f4f0e9", "on-background": "#1c1c18", "surface-bright": "#fdf9f2", "on-surface": "#1c1c18", "on-surface-variant": "#424941", "on-primary-fixed": "#00210c", "on-secondary": "#ffffff", "secondary-fixed-dim": "#ffb596", "secondary-fixed": "#ffdbcd", "surface-variant": "#e6e2db", "outline": "#727971", "primary": "#00280f", "on-secondary-container": "#672400", "surface-container": "#f1ede6", "secondary-container": "#ff7e41", "surface-container-highest": "#e6e2db", "surface": "#fdf9f2", "surface-dim": "#dddad3", "surface-container-lowest": "#ffffff", "tertiary": "#202220", "primary-container": "#173e23", "on-error": "#ffffff", "on-secondary-fixed-variant": "#7d2d00", "tertiary-container": "#363735", "inverse-primary": "#a6d1ac", "on-tertiary": "#ffffff", "background": "#fdf9f2", "surface-container-high": "#ebe8e1", "on-tertiary-fixed": "#1a1c1a", "on-primary-fixed-variant": "#284f32", "tertiary-fixed-dim": "#c7c6c4", "error": "#ba1a1a", "on-secondary-fixed": "#360f00", "primary-fixed": "#c1eec6", "tertiary-fixed": "#e3e2e0", "on-tertiary-fixed-variant": "#464745", "on-tertiary-container": "#a0a09d", "surface-tint": "#406748" }, borderRadius: { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" }, spacing: { "space-2xl": "3rem", "margin-desktop": "3.5rem", "space-xl": "2rem", "space-4xl": "6rem", "space-xs": "0.5rem", "space-lg": "1.5rem", "gutter-mobile": "1rem", "space-md": "1rem", "margin-mobile": "1.25rem", "gutter-desktop": "2rem", "space-2xs": "0.25rem", "space-3xl": "4.5rem", "space-sm": "0.75rem" }, fontFamily: { "display-lg-mobile": ["Plus Jakarta Sans"], "body-sm": ["Plus Jakarta Sans"], "headline-xl-mobile": ["Plus Jakarta Sans"], "label-editorial": ["Plus Jakarta Sans"], "label-sm": ["Plus Jakarta Sans"], "display-lg": ["Plus Jakarta Sans"], "body-lg": ["Plus Jakarta Sans"], "label-md": ["Plus Jakarta Sans"], "headline-md": ["Plus Jakarta Sans"], "headline-lg": ["Plus Jakarta Sans"], "headline-xl": ["Plus Jakarta Sans"], "headline-sm": ["Plus Jakarta Sans"], "body-md": ["Plus Jakarta Sans"] }, fontSize: { "display-lg-mobile": ["34px", { "lineHeight": "42px", "letterSpacing": "-0.02em", "fontWeight": "600" }], "body-sm": ["13px", { "lineHeight": "20px", "letterSpacing": "0.005em", "fontWeight": "400" }], "headline-xl-mobile": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.015em", "fontWeight": "600" }], "label-editorial": ["11px", { "lineHeight": "16px", "letterSpacing": "0.14em", "fontWeight": "600" }], "label-sm": ["11px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500" }], "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.025em", "fontWeight": "600" }], "body-lg": ["17px", { "lineHeight": "28px", "letterSpacing": "0em", "fontWeight": "400" }], "label-md": ["13px", { "lineHeight": "18px", "letterSpacing": "0.01em", "fontWeight": "600" }], "headline-md": ["22px", { "lineHeight": "30px", "letterSpacing": "-0.01em", "fontWeight": "500" }], "headline-lg": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.015em", "fontWeight": "600" }], "headline-xl": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "600" }], "headline-sm": ["18px", { "lineHeight": "26px", "letterSpacing": "-0.005em", "fontWeight": "600" }], "body-md": ["15px", { "lineHeight": "24px", "letterSpacing": "0em", "fontWeight": "400" }] } } } };</script><style>@layer base{html,body{width:100vw;margin:0;padding:0;background-color:#fdf9f2;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style></head><body class="bg-surface text-on-surface font-body-md flex flex-col min-h-screen"><header class="fixed top-0 w-full z-50 pt-safe bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.03)]"><div class="h-16 px-margin-mobile flex items-center justify-between"><div class="flex items-center gap-space-xs"><img alt="Food Tailor Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1XInvPh_9vImgm15DkPFqvEq9P-q76dEqaJwj3yBI4-oJ5zvKeUlikaFXJVcaIDTCvLqynA3Ii-9anlMTKuSoKTNBNlu2_hiLx_s4UbeyBqAucilVlBcTbbXTZeUGXD9-mYXXd3klApe2ks3r7gomXa9yMYg7kLVIIASd3-lH4Q4XnXFD8zNyFC3Ev53i3zgYoUM1sh0t6YFaUuHHliBfP60yD90u1wCknlLFDKMA-Mrvs25y4dhQearg"/><span class="font-headline-sm text-headline-sm tracking-tight text-primary-container font-semibold">Food Tailor</span></div><div class="flex items-center gap-space-sm"><span class="font-label-editorial text-label-editorial uppercase text-on-surface-variant hidden">Discover</span><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9CFxAzrlOIC8i2Mz1d5NXEkd2nrIIBpdAUbocyke3CIfGlQ3yXL5Lc6VR0_dWaHIE1d203UtVD15lRQLPCaHAUXfsxtYHYz_Du9KkjZ5nw1J_g3k4jN6FpoPBZJ6GdFscU24zsK3Pg_pK0X_fOxmYwnSCS-pfjHJZ0oiFdO7WEQWYigAXXF0LFKzPD-I7bzrqQCkvaeAG_rb03tqYETe8WDFqEi1Rjx8Ssl8g4s8Cn8oLihnS-Us"/><button aria-label="Open Navigation Menu" class="w-11 h-11 flex items-center justify-center text-primary-container rounded-xl active:bg-surface-container transition-colors" onclick="document.getElementById('mobile-drawer').classList.toggle('hidden')"><span class="material-symbols-outlined text-[24px]">menu</span></button></div></div></header><div class="fixed inset-0 z-50 hidden flex-col justify-between bg-surface/95 backdrop-blur-2xl px-margin-mobile pt-safe pb-safe" id="mobile-drawer"><div class="flex items-center justify-between h-16"><div class="flex items-center gap-space-xs"><img alt="Food Tailor Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1XInvPh_9vImgm15DkPFqvEq9P-q76dEqaJwj3yBI4-oJ5zvKeUlikaFXJVcaIDTCvLqynA3Ii-9anlMTKuSoKTNBNlu2_hiLx_s4UbeyBqAucilVlBcTbbXTZeUGXD9-mYXXd3klApe2ks3r7gomXa9yMYg7kLVIIASd3-lH4Q4XnXFD8zNyFC3Ev53i3zgYoUM1sh0t6YFaUuHHliBfP60yD90u1wCknlLFDKMA-Mrvs25y4dhQearg"/><span class="font-headline-sm text-headline-sm tracking-tight text-primary-container font-semibold">Food Tailor</span></div><button aria-label="Close Menu" class="w-11 h-11 flex items-center justify-center text-primary-container rounded-xl active:bg-surface-container" onclick="document.getElementById('mobile-drawer').classList.add('hidden')"><span class="material-symbols-outlined text-[24px]">close</span></button></div><div class="flex flex-col gap-space-lg py-space-xl"><a class="font-headline-md text-headline-md text-primary-container hover:text-secondary transition-colors" data-path="discover" href="#" onclick="document.getElementById('mobile-drawer').classList.add('hidden')">Home</a><a class="font-headline-md text-headline-md text-primary-container hover:text-secondary transition-colors" data-path="how-it-works" href="#" onclick="document.getElementById('mobile-drawer').classList.add('hidden')">How It Works</a><a class="font-headline-md text-headline-md text-primary-container hover:text-secondary transition-colors" data-path="experiences" href="#" onclick="document.getElementById('mobile-drawer').classList.add('hidden')">Explore</a><a class="font-headline-md text-headline-md text-primary-container hover:text-secondary transition-colors" data-path="menu-builder" href="#" onclick="document.getElementById('mobile-drawer').classList.add('hidden')">Menu Builder</a><a class="font-headline-md text-headline-md text-primary-container hover:text-secondary transition-colors" data-path="about" href="#" onclick="document.getElementById('mobile-drawer').classList.add('hidden')">About Concierge</a><a class="font-headline-md text-headline-md text-on-surface-variant hover:text-primary-container transition-colors" data-path="sign-in" href="#" onclick="document.getElementById('mobile-drawer').classList.add('hidden')">Sign In</a></div><div class="pb-space-xl"><a class="w-full h-12 flex items-center justify-center bg-primary-container text-on-primary rounded-xl font-label-md text-label-md tracking-wider uppercase shadow-[0_4px_16px_rgba(23,62,35,0.15)] active:opacity-95 transition-opacity" data-path="menu-builder" href="#" onclick="document.getElementById('mobile-drawer').classList.add('hidden')">Tailor Your Menu</a></div></div><main class="flex flex-col relative w-full pt-16 pb-24 bg-surface min-h-screen"><div class="flex flex-col w-full">
+<!-- SECTION 1: HERO (THE ATELIER SALUTATION) -->
+<section class="flex flex-col px-margin-mobile pt-space-md pb-space-2xl">
+<div class="flex items-center gap-space-xs mb-space-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+<span class="font-label-editorial text-label-editorial text-secondary uppercase">01 / PRIVATE CULINARY CONCIERGE</span>
+</div>
+<h1 class="font-display-lg-mobile text-display-lg-mobile text-primary-container tracking-tight mb-space-sm">
+      Food, tailored to you.
+    </h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-sm mb-space-lg">
+      Create a menu around your occasion, your guests, your preferences, and your taste.
+    </p>
+<div class="flex flex-col gap-space-sm mb-space-xl">
+<a class="w-full py-3.5 px-6 bg-primary-container text-on-primary rounded-xl font-label-md text-label-md uppercase tracking-wider text-center shadow-md active:opacity-95 transition-all" data-path="menu-builder" href="#">
+        Tailor Your Menu
+      </a>
+<a class="flex items-center justify-center gap-space-2xs py-2 text-primary-container font-label-md text-label-md hover:text-secondary transition-colors" data-path="experiences" href="#">
+<span>Explore Experiences</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</a>
+</div>
+<!-- Editorial Composition Frame -->
+<div class="relative w-full rounded-xl bg-surface-container-low shadow-sm overflow-hidden">
+<div class="relative h-80 w-full overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="High-end editorial culinary photography of a bespoke dining setup, soft sunlight streaming onto an uncoated linen tablecloth, handmade stoneware plate with delicate glazed duck breast and micro-herbs, deep forest green botanical accents, warm vermilion and terracotta tones, architectural framing, Michelin-star quiet luxury aesthetic" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBCWEbxT_8Hnhh9rom8bIFovoDbOXIMDPVemFq_U59k5co3Y4S9o_sI_ouDZxCNp61TWKeT7x1aYsfI_XZMk48h0MPYz-MsxamNyoVe2KstDshJGn5JHdRkOaXIgQBePWde5nXrbh7U3IlolMUa8bnu_7lvaoM7atSkSfbfl73NyhBiyBqCSNSQQpQU4Lp0y0zsLwUw8CVtm8P7fg8psBOCuOrEj6UyWtO-Cf5SGaFYMwAyUqGC4hE"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary-container/60 via-transparent to-transparent"></div>
+<!-- Registration stamp / Atelier note overlay -->
+<div class="absolute bottom-space-md left-space-md right-space-md flex items-end justify-between text-on-primary">
+<div class="flex flex-col">
+<span class="font-label-editorial text-label-editorial uppercase tracking-widest text-surface-variant">Selected Pairing Nº 408</span>
+<span class="font-headline-sm text-headline-sm">Smoked Chanterelle &amp; Emmer Wheat</span>
+</div>
+<div class="w-7 h-7 rounded-full bg-secondary flex items-center justify-center text-on-secondary shadow-sm">
+<span class="material-symbols-outlined text-[14px]">auto_awesome</span>
+</div>
+</div>
+</div>
+<div class="p-space-md flex items-center justify-between bg-surface-container-lowest">
+<div class="flex items-center gap-space-xs">
+<span class="font-label-editorial text-label-editorial uppercase text-on-surface-variant">Concierge Curation:</span>
+<span class="font-label-sm text-label-sm text-primary-container font-semibold">Seasonal Vernal Course</span>
+</div>
+<span class="font-label-editorial text-label-editorial text-secondary font-medium">PARIS / LONDON</span>
+</div>
+</div>
+</section>
+<!-- SECTION 2: BRAND STATEMENT (PHILOSOPHY CHAPTER) -->
+<section class="bg-surface-container-low px-margin-mobile py-space-2xl">
+<div class="flex flex-col">
+<div class="flex items-center gap-space-2xs mb-space-md">
+<span class="font-label-editorial text-label-editorial uppercase text-secondary">Folio 12</span>
+<span class="w-8 h-[1px] bg-secondary-container"></span>
+</div>
+<p class="font-headline-xl-mobile text-headline-xl-mobile text-primary-container tracking-tight mb-space-md leading-tight">
+        Every table is different.
+      </p>
+<p class="font-body-lg text-body-lg text-on-surface-variant leading-relaxed">
+        Different people. Different tastes. Different occasions. Food Tailor brings them together into one carefully tailored experience.
+      </p>
+<div class="mt-space-xl pt-space-md flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-headline-md text-headline-md text-primary-container font-semibold">100%</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Bespoke Compositions</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-md text-headline-md text-primary-container font-semibold">0</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Standardized Menus</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-md text-headline-md text-primary-container font-semibold">32+</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Master Purveyors</span>
+</div>
+</div>
+</div>
+</section>
+<!-- SECTION 3: HOW FOOD TAILOR WORKS (THE REFINED METHOD) -->
+<section class="px-margin-mobile py-space-2xl bg-surface">
+<div class="flex flex-col mb-space-xl">
+<span class="font-label-editorial text-label-editorial uppercase tracking-widest text-secondary mb-space-2xs">The Methodology</span>
+<h2 class="font-headline-xl-mobile text-headline-xl-mobile text-primary-container">
+        How Food Tailor Works
+      </h2>
+</div>
+<div class="flex flex-col gap-space-lg">
+<!-- Step 1 -->
+<div class="flex gap-space-md p-space-md bg-surface-container-lowest rounded-xl shadow-sm">
+<div class="flex flex-col items-center">
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary-container font-headline-sm text-headline-sm">
+            01
+          </div>
+<div class="w-[2px] h-full bg-surface-container-high my-2"></div>
+</div>
+<div class="flex flex-col pt-1 pb-2">
+<span class="font-label-editorial text-label-editorial uppercase text-secondary mb-1">Intent &amp; Atmosphere</span>
+<h3 class="font-headline-sm text-headline-sm text-primary-container mb-space-2xs">Choose Your Occasion</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+            Tell Food Tailor what you're celebrating. From an intimate anniversary under candlelight to an ambient rooftop dinner for twenty.
+          </p>
+</div>
+</div>
+<!-- Step 2 -->
+<div class="flex gap-space-md p-space-md bg-surface-container-lowest rounded-xl shadow-sm">
+<div class="flex flex-col items-center">
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary-container font-headline-sm text-headline-sm">
+            02
+          </div>
+<div class="w-[2px] h-full bg-surface-container-high my-2"></div>
+</div>
+<div class="flex flex-col pt-1 pb-2">
+<span class="font-label-editorial text-label-editorial uppercase text-secondary mb-1">Palate Matrix</span>
+<h3 class="font-headline-sm text-headline-sm text-primary-container mb-space-2xs">Shape Your Preferences</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+            Tell us what you love, avoid, and need. Specify guest dietary constraints, micro-allergens, vintage selections, and preferred textures.
+          </p>
+</div>
+</div>
+<!-- Step 3 -->
+<div class="flex gap-space-md p-space-md bg-surface-container-lowest rounded-xl shadow-sm">
+<div class="flex flex-col items-center">
+<div class="w-10 h-10 rounded-lg bg-primary-container flex items-center justify-center text-on-primary font-headline-sm text-headline-sm">
+            03
+          </div>
+</div>
+<div class="flex flex-col pt-1">
+<span class="font-label-editorial text-label-editorial uppercase text-secondary mb-1">Harmonious Blueprint</span>
+<h3 class="font-headline-sm text-headline-sm text-primary-container mb-space-2xs">Build Your Menu</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+            Food Tailor creates a menu around your occasion. Crafted alongside artisan private chefs, tailored dish by dish, course by course.
+          </p>
+</div>
+</div>
+</div>
+</section>
+<!-- SECTION 4: NOT JUST RECOMMENDED. TAILORED. (THE CRAFT OF SYNTHESIS) -->
+<section class="bg-surface-container-low px-margin-mobile py-space-2xl">
+<div class="flex flex-col text-center items-center mb-space-xl">
+<span class="font-label-editorial text-label-editorial uppercase tracking-widest text-secondary mb-space-2xs">Section 14 / Synthesis</span>
+<h2 class="font-headline-xl-mobile text-headline-xl-mobile text-primary-container mb-space-xs">
+        Not Just Recommended.<br/>Tailored.
+      </h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant max-w-xs">
+        Algorithms suggest what others buy. Concierge synthesizes who your guests actually are.
+      </p>
+</div>
+<!-- Interactive/Visual Synthesis Diagram -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm">
+<div class="grid grid-cols-2 gap-space-xs mb-space-md">
+<div class="p-space-xs bg-surface-container-low rounded-lg flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[18px] text-secondary">event</span>
+<div class="flex flex-col">
+<span class="font-label-editorial text-[9px] uppercase text-on-surface-variant">Occasion</span>
+<span class="font-label-sm text-label-sm text-primary-container font-semibold">Solstice Dinner</span>
+</div>
+</div>
+<div class="p-space-xs bg-surface-container-low rounded-lg flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[18px] text-secondary">group</span>
+<div class="flex flex-col">
+<span class="font-label-editorial text-[9px] uppercase text-on-surface-variant">Guests</span>
+<span class="font-label-sm text-label-sm text-primary-container font-semibold">8 Patrons</span>
+</div>
+</div>
+<div class="p-space-xs bg-surface-container-low rounded-lg flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[18px] text-secondary">no_meals</span>
+<div class="flex flex-col">
+<span class="font-label-editorial text-[9px] uppercase text-on-surface-variant">Dietary</span>
+<span class="font-label-sm text-label-sm text-primary-container font-semibold">1 Pescatarian, 0 Dairy</span>
+</div>
+</div>
+<div class="p-space-xs bg-surface-container-low rounded-lg flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[18px] text-secondary">room_service</span>
+<div class="flex flex-col">
+<span class="font-label-editorial text-[9px] uppercase text-on-surface-variant">Cuisine</span>
+<span class="font-label-sm text-label-sm text-primary-container font-semibold">Modern Nordic-Kyoto</span>
+</div>
+</div>
+</div>
+<!-- Arrow Down Synthesis Step -->
+<div class="flex items-center justify-center my-space-xs">
+<div class="flex items-center gap-space-xs px-space-md py-1 bg-primary-container text-on-primary rounded-full">
+<span class="font-label-editorial text-label-editorial uppercase tracking-wider">Food Tailor Engine</span>
+<span class="material-symbols-outlined text-[16px]">arrow_downward</span>
+</div>
+</div>
+<!-- Tailored Output Card -->
+<div class="mt-space-md p-space-md bg-surface-container-low rounded-lg">
+<div class="flex justify-between items-center mb-space-xs">
+<span class="font-label-editorial text-label-editorial uppercase text-secondary">Custom Menu Manifest</span>
+<span class="font-label-editorial text-[10px] text-on-surface-variant">CONFIDENTIAL</span>
+</div>
+<div class="font-headline-sm text-headline-sm text-primary-container mb-space-2xs">
+          Tasting Narrative in V Movements
+        </div>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-snug">
+          Charred kombu broth, salt-baked celeriac with cured sumac, and wild turbot roasted over applewood. Tailored without dairy; gluten-adapted.
+        </p>
+</div>
+</div>
+</section>
+<!-- SECTION 5: SIGNATURE KITCHENS & DISHES (CURATED PROVENANCE) -->
+<section class="px-margin-mobile py-space-2xl bg-surface">
+<div class="flex justify-between items-end mb-space-lg">
+<div class="flex flex-col">
+<span class="font-label-editorial text-label-editorial uppercase tracking-widest text-secondary mb-space-2xs">Atelier Guild</span>
+<h2 class="font-headline-xl-mobile text-headline-xl-mobile text-primary-container leading-tight">
+          The Kitchens Behind Your Experience
+        </h2>
+</div>
+</div>
+<!-- Dish Showcases (Editorial Non-Transactional Presentation) -->
+<div class="flex flex-col gap-space-xl">
+<!-- Dish Item 1 -->
+<div class="flex flex-col bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm">
+<div class="relative h-64 w-full">
+<img class="w-full h-full object-cover" data-alt="Exquisite plating of lightly seared Brittany langoustine resting in an emulsion of kaffir lime oil and reduced smoked dashi, served on dark charcoal porcelain, artistic culinary photography with deep contrasts and warm reflections" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCQaJCnVJunlyi-IuPyDqpETfAkWffPp5uaA89vtzfZstiKlQRJiMe9WYd81vtS9d0S7s7ez6zu8WS5L_hj2kDZRfszMWBsqv2rPnfGvYIEPVm8cUMXLRVmlcPpqML367UtDrTwWRivB_D9BkBbdSgvbAp-tVd6BhoimjVh31JStrUpxgKWKDHQPP6tQEkVccPrXIGJAKWcjeDeIDR5y8vSrWyCCU5-5ySwWE_4loTxvJu9cYmwsCk"/>
+<div class="absolute top-space-sm left-space-sm">
+<span class="px-space-xs py-1 bg-surface-container-lowest/90 backdrop-blur-md rounded-md font-label-editorial text-label-editorial uppercase text-primary-container">
+              Atelier Noema • Copenhagen
+            </span>
+</div>
+</div>
+<div class="p-space-md flex flex-col">
+<div class="flex justify-between items-start mb-space-2xs">
+<h3 class="font-headline-md text-headline-md text-primary-container font-semibold">Brittany Langoustine &amp; Citrus Kaffir</h3>
+<span class="font-label-editorial text-label-editorial text-secondary uppercase font-semibold">Course III</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant mb-space-xs">Signature of Chef Marcus Lindqvist • French-Nordic Guild</span>
+<p class="font-body-sm text-body-sm text-on-surface leading-relaxed">
+            Wild-caught shellfish glazed gently in brown butter, finished with reduced seaside broth and foraged pine needles.
+          </p>
+</div>
+</div>
+<!-- Dish Item 2 -->
+<div class="flex flex-col bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm">
+<div class="relative h-64 w-full">
+<img class="w-full h-full object-cover" data-alt="Top view of hand-crimped agnolotti pasta filled with roasted Piedmontese chestnuts and thirty-month Parmigiano Reggiano, drizzled with golden sage-infused butter, fine dining editorial photography with rich amber tones and warm moody lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB6obFeI-B35663WTRbibDPYZqg9bvTRnL5YhstYHSp2uDHoZHh6YAtNd5mycT9aXiZKpVoXAFvIOJd5b2V-uRgM1NwGyg8tZioFe78L6x29fU8ZY94gKr6-vNs2ukEr4er8g3ALXV-rPUrkqe1wAkgbOriZVW9oiMpwHxMtJGJr62aOz8rlBF2fAVsi2DzJlFMoKx7XmE6VOjmkf-bGuIYeUAynnH86_HZf_4P9M3xS67GZrJCQmg"/>
+<div class="absolute top-space-sm left-space-sm">
+<span class="px-space-xs py-1 bg-surface-container-lowest/90 backdrop-blur-md rounded-md font-label-editorial text-label-editorial uppercase text-primary-container">
+              Casa Morandi • Bologna
+            </span>
+</div>
+</div>
+<div class="p-space-md flex flex-col">
+<div class="flex justify-between items-start mb-space-2xs">
+<h3 class="font-headline-md text-headline-md text-primary-container font-semibold">Agnolotti del Plin di Castagne</h3>
+<span class="font-label-editorial text-label-editorial text-secondary uppercase font-semibold">Course IV</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant mb-space-xs">Signature of Nonna Beatrice Morandi • Heritage Emilian</span>
+<p class="font-body-sm text-body-sm text-on-surface leading-relaxed">
+            Hand-rolled egg yolk dough, autumn chestnut purée, aged brown butter, and shaved mountain winter truffle.
+          </p>
+</div>
+</div>
+</div>
+</section>
+<!-- SECTION 6: OCCASIONS GRID (THE CURATION OF MOMENTS) -->
+<section class="bg-surface-container-low px-margin-mobile py-space-2xl">
+<div class="flex flex-col mb-space-lg">
+<span class="font-label-editorial text-label-editorial uppercase tracking-widest text-secondary mb-space-2xs">The Settings</span>
+<h2 class="font-headline-xl-mobile text-headline-xl-mobile text-primary-container">
+        Crafted for the Occasion
+      </h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">
+        Atmospheres shaped to elevate the human connection of your evening.
+      </p>
+</div>
+<div class="grid grid-cols-2 gap-space-sm">
+<!-- Card 1 -->
+<div class="relative rounded-xl overflow-hidden h-48 bg-surface-container shadow-sm flex flex-col justify-end p-space-sm group">
+<img class="absolute inset-0 w-full h-full object-cover" data-alt="An intimate evening table setup for a private birthday celebration with tapered candles, dried floral arrangements, dark glassware, warm atmospheric glow" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-wQf9nkYSOGfqKQ5cIMlrs8wauOGXxjpxsXHVSJuKEg7uZNa6DJfEUsRXOWM3ZQm62H6bl612naZerOYZmGvbE7052uvT3zvsFI0wl6rkaNLC1pn5WRpMmTIQ1fgp7xh3UCwj1PBvr380UOWkp5gUMZIbWYDXcT3vh8Gpdq5MPrDPk3lca-go3JV4W4whbXtkzNfnVIhRPN6WctvQWFrUQ4doaWb8Kj9PuLLMJKPthrycygQ_39k"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary-container/85 via-primary-container/30 to-transparent"></div>
+<div class="relative z-10">
+<span class="font-label-editorial text-label-editorial uppercase text-surface-variant">Gathering</span>
+<h4 class="font-headline-sm text-headline-sm text-on-primary">Milestones</h4>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="relative rounded-xl overflow-hidden h-48 bg-surface-container shadow-sm flex flex-col justify-end p-space-sm">
+<img class="absolute inset-0 w-full h-full object-cover" data-alt="Warm multi-generational family dining table bathed in golden hour light, ceramic sharing bowls, artisan sourdough bread, wine carafes, inviting and generous mood" src="https://lh3.googleusercontent.com/aida-public/AB6AXuALK6Q1I_AJhCQvJ6k0ummYCSK08wukn03hikaNwEZ3CiErCmOtDuO0B7UcjPPgVKUdYphtvO3sOp_jnHuCjj_SdQCTVHuLtKczc_kriZxDCqgWHp5QiiCjZaCwn_P6QJPMpjL2PQkNt3gFdZkrybwdc8QL2yXeDIzuWpl9_L3puoG8JzISvNXvnaiIC5u2sMDPOKLOvTy3dTfT5M_jWHDT43tQroDhjmnn30zYA3z3KKE0VfcFItc"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary-container/85 via-primary-container/30 to-transparent"></div>
+<div class="relative z-10">
+<span class="font-label-editorial text-label-editorial uppercase text-surface-variant">Kinship</span>
+<h4 class="font-headline-sm text-headline-sm text-on-primary">Family Table</h4>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="relative rounded-xl overflow-hidden h-48 bg-surface-container shadow-sm flex flex-col justify-end p-space-sm">
+<img class="absolute inset-0 w-full h-full object-cover" data-alt="Architectural modern salon penthouse with cocktail glassware, refined hors d'oeuvres passed on dark slate platters, ambient stylish cocktail gathering" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAM2BV-godKXLlPMe6RJxcdB0cZP0WdM_MLuig88IMDlipGeVq_1PKAJch0Nie5cavWfnOEaHm54bvkjy5LCaO-Nko1DlynBDjJbulkZGMCsAYY9ekG-Xp5fZrthYBtX6G8qoTeQRlfE6zr7M51GV0OrgVrmAZf9TYRiflsf3bMN2LlPVDqEtIasjMu0p-1u8IX6fLhpRgFTZporgPkzgSH4kPyU2I5MM7FiMKJcckecRCAWlq-7_s"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary-container/85 via-primary-container/30 to-transparent"></div>
+<div class="relative z-10">
+<span class="font-label-editorial text-label-editorial uppercase text-surface-variant">Soirée</span>
+<h4 class="font-headline-sm text-headline-sm text-on-primary">House Parties</h4>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="relative rounded-xl overflow-hidden h-48 bg-surface-container shadow-sm flex flex-col justify-end p-space-sm">
+<img class="absolute inset-0 w-full h-full object-cover" data-alt="Opulent botanical wedding feast banquet table under festoon lighting in an olive grove, natural organic luxury dinner setting with fine linen" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDvhmPxukUhD8nWvOyP1M2EXMmdA_xvFL73lIZwGxAfGjPkL-iyHNnB4x5beWHpJnz63amJLzFSgZ25iqSVwH4OTRFWQ8StbpTjMdvcWq8d2PhgOMqr8dUNPdV-4giuWG22xLosnZD76qMrNDi5BemrES2t5FPTAKbXloZCUFsrZpZ7ZZr4SwffVcdD0-x0HEQIzvrvt4jKsbo93-0AXuAFX0QYSe4vBjKJkvyKw8N8_R3IBVD2b50"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary-container/85 via-primary-container/30 to-transparent"></div>
+<div class="relative z-10">
+<span class="font-label-editorial text-label-editorial uppercase text-surface-variant">Ceremony</span>
+<h4 class="font-headline-sm text-headline-sm text-on-primary">Weddings</h4>
+</div>
+</div>
+</div>
+</section>
+<!-- SECTION 7: WHY FOOD TAILOR (THE PILLARS) -->
+<section class="px-margin-mobile py-space-2xl bg-surface">
+<div class="flex flex-col mb-space-xl">
+<span class="font-label-editorial text-label-editorial uppercase tracking-widest text-secondary mb-space-2xs">Tenets</span>
+<h2 class="font-headline-xl-mobile text-headline-xl-mobile text-primary-container">
+        Why Food Tailor
+      </h2>
+</div>
+<div class="flex flex-col gap-space-md">
+<div class="p-space-md bg-surface-container-low rounded-xl">
+<div class="flex items-center gap-space-sm mb-space-xs">
+<span class="material-symbols-outlined text-[20px] text-secondary">fingerprint</span>
+<h3 class="font-headline-sm text-headline-sm text-primary-container">Deeply Personal</h3>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+          No two hosts receive the same composition. Every menu reflects the exact nuances of your personal guest list.
+        </p>
+</div>
+<div class="p-space-md bg-surface-container-low rounded-xl">
+<div class="flex items-center gap-space-sm mb-space-xs">
+<span class="material-symbols-outlined text-[20px] text-secondary">workspace_premium</span>
+<h3 class="font-headline-sm text-headline-sm text-primary-container">Strictly Curated</h3>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+          We partner solely with independent culinary studios, sommeliers, and Michelin-alumni private chefs.
+        </p>
+</div>
+<div class="p-space-md bg-surface-container-low rounded-xl">
+<div class="flex items-center gap-space-sm mb-space-xs">
+<span class="material-symbols-outlined text-[20px] text-secondary">psychology</span>
+<h3 class="font-headline-sm text-headline-sm text-primary-container">Intelligently Balanced</h3>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+          Course pacing, palate cleansers, acidity levels, and wine narratives are calibrated with rigorous culinary balance.
+        </p>
+</div>
+<div class="p-space-md bg-surface-container-low rounded-xl">
+<div class="flex items-center gap-space-sm mb-space-xs">
+<span class="material-symbols-outlined text-[20px] text-secondary">connect_without_contact</span>
+<h3 class="font-headline-sm text-headline-sm text-primary-container">Effortlessly Connected</h3>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+          A dedicated culinary desk coordinates table setup, sommelier pairings, and service flow from inception to completion.
+        </p>
+</div>
+</div>
+</section>
+<!-- SECTION 8: EDITORIAL FOOTER (THE DISCREET CONCIERGE DESK) -->
+<footer class="bg-primary-container text-on-primary px-margin-mobile pt-space-2xl pb-space-3xl rounded-t-xl">
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs mb-space-sm">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="font-headline-sm text-headline-sm text-on-primary font-semibold tracking-tight">Food Tailor</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-primary-container max-w-xs mb-space-xl">
+        The private culinary atelier shaping memorable tables worldwide. By invitation and bespoke reservation.
+      </p>
+<div class="p-space-md bg-primary rounded-xl mb-space-xl flex flex-col gap-space-xs">
+<span class="font-label-editorial text-label-editorial uppercase text-secondary">Direct Concierge Inquiries</span>
+<span class="font-headline-sm text-headline-sm text-on-primary">desk@foodtailor.atelier</span>
+<span class="font-label-sm text-label-sm text-on-primary-container">Available daily for private consultations</span>
+</div>
+<div class="flex justify-between items-center pt-space-md">
+<span class="font-label-editorial text-label-editorial uppercase text-on-primary-container">© MMXXV Food Tailor</span>
+<div class="flex gap-space-md">
+<a class="font-label-editorial text-label-editorial uppercase text-on-primary-container hover:text-on-primary transition-colors" href="#">Privacy</a>
+<a class="font-label-editorial text-label-editorial uppercase text-on-primary-container hover:text-on-primary transition-colors" href="#">Charter</a>
+</div>
+</div>
+</div>
+</footer>
+</div></main><nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface/90 backdrop-blur-xl shadow-[0_-1px_8px_rgba(0,0,0,0.03)]" data-active-classes="text-primary-container"><div class="flex justify-around items-center h-20 px-space-xs"><a aria-current="page" class="flex flex-col items-center justify-center min-w-[56px] min-h-[44px] gap-1 transition-colors text-primary-container" data-path="discover" href="#"><span class="material-symbols-outlined text-[22px]">roofing</span><span class="font-label-sm text-label-sm">Discover</span></a><a class="flex flex-col items-center justify-center min-w-[56px] min-h-[44px] gap-1 text-on-surface-variant transition-colors" data-path="concierge" href="#"><span class="material-symbols-outlined text-[22px]">skillet</span><span class="font-label-sm text-label-sm">Concierge</span></a><a class="flex flex-col items-center justify-center min-w-[56px] min-h-[44px] px-space-sm py-1 bg-primary-container text-on-primary rounded-xl transition-all shadow-[0_2px_8px_rgba(23,62,35,0.12)]" data-path="tailor-action" href="#"><span class="font-label-editorial text-label-editorial uppercase tracking-widest text-on-primary">Tailor</span></a><a class="flex flex-col items-center justify-center min-w-[56px] min-h-[44px] gap-1 text-on-surface-variant transition-colors" data-path="experiences" href="#"><span class="material-symbols-outlined text-[22px]">table_restaurant</span><span class="font-label-sm text-label-sm">Experiences</span></a><a class="flex flex-col items-center justify-center min-w-[56px] min-h-[44px] gap-1 text-on-surface-variant transition-colors" data-path="my-table" href="#"><span class="material-symbols-outlined text-[22px]">bookmark_border</span><span class="font-label-sm text-label-sm">My Table</span></a></div></nav></body></html>

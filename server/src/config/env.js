@@ -7,7 +7,6 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 dotenv.config({ path: resolve(__dirname, '../../.env') });
 
 const requiredInProduction = [
-  'DATABASE_URL',
   'JWT_ACCESS_SECRET',
   'JWT_REFRESH_SECRET',
 ];
@@ -34,8 +33,14 @@ validateEnv();
 export const env = {
   NODE_ENV: process.env.NODE_ENV || 'development',
   PORT: parseInt(process.env.PORT || '3001', 10),
-  DATABASE_URL: process.env.DATABASE_URL || 'postgresql://foodtailor:foodtailor@localhost:5432/foodtailor',
-  FRONTEND_URL: process.env.FRONTEND_URL || 'http://localhost:5173',
+  FRONTEND_URL: process.env.FRONTEND_URL || 'http://localhost:3000',
+
+  // DynamoDB Configuration
+  DYNAMODB_TABLE_NAME: process.env.DYNAMODB_TABLE_NAME || 'food_tailor',
+  DYNAMODB_ENDPOINT: process.env.DYNAMODB_ENDPOINT || (process.env.NODE_ENV === 'production' ? undefined : 'http://localhost:8000'),
+  AWS_REGION: process.env.AWS_REGION || process.env.AWS_DEFAULT_REGION || 'us-east-1',
+  AWS_ACCESS_KEY_ID: process.env.AWS_ACCESS_KEY_ID || (process.env.NODE_ENV === 'production' ? undefined : 'localKey'),
+  AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY || (process.env.NODE_ENV === 'production' ? undefined : 'localSecret'),
 
   JWT_ACCESS_SECRET: process.env.JWT_ACCESS_SECRET || 'dev-access-secret-change-in-production-1234567890abcdef',
   JWT_REFRESH_SECRET: process.env.JWT_REFRESH_SECRET || 'dev-refresh-secret-change-in-production-fedcba0987654321',
@@ -50,7 +55,18 @@ export const env = {
   VLLM_BASE_URL: process.env.VLLM_BASE_URL || 'http://localhost:8000',
 
   PAYMENT_PROVIDER: process.env.PAYMENT_PROVIDER || 'mock',
+  RAZORPAY_KEY_ID: process.env.RAZORPAY_KEY_ID || '',
+  RAZORPAY_KEY_SECRET: process.env.RAZORPAY_KEY_SECRET || '',
+  RAZORPAY_WEBHOOK_SECRET: process.env.RAZORPAY_WEBHOOK_SECRET || '',
 
   isProd: process.env.NODE_ENV === 'production',
   isDev: process.env.NODE_ENV !== 'production',
 };
+
+// Hardening Check
+if (env.AI_PROVIDER === 'fallback') {
+  console.warn('⚠️ WARNING: AI_PROVIDER is set to "fallback". The system will run without a real AI backend and use deterministic logic. This is NOT recommended for production.');
+}
+if (env.PAYMENT_PROVIDER === 'mock') {
+  console.warn('⚠️ WARNING: PAYMENT_PROVIDER is set to "mock". No real payments will be processed.');
+}

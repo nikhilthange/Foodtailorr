@@ -1,16 +1,26 @@
-# React + Vite
+# 🍽️ Food Tailor — Frontend Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+> **Next.js 15+ App Router • React 19 • TypeScript • Tailwind CSS**
 
-Currently, two official plugins are available:
+The frontend application provides three isolated role experiences:
+1. **Customer Portal**: Degustation discovery, 5-chapter bespoke menu builder intake, real-time folio review, commission creation, and payment tracking.
+2. **Partner Portal**: 6-chapter culinary atelier onboarding with draft persistence, kitchen dashboard, dish management, and order fulfillment.
+3. **Admin Console**: Executive oversight, multi-atelier catalog management, partner onboarding approval audit, and order lifecycle control.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## 🎨 Design System & Visual Identity
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Food Deep Green**: `#173E23` (Brand primary)
+- **Tailor Saffron**: `#C55418` (Action accents & highlights)
+- **Cream Surface**: `#FDF9F2`
+- **Typography**: Plus Jakarta Sans, consistent editorial rhythm, desktop-first responsive grid.
 
-## Expanding the Oxlint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+## 🚀 Scripts
+
+- `npm run dev`: Launch Next.js development server on `http://localhost:3000`
+- `npm run build`: Compile production Next.js application with Turbopack
+- `npm run start`: Run production server
+- `npm run lint`: Execute Oxlint code quality analysis across `src/`

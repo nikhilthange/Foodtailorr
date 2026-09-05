@@ -44,18 +44,30 @@ router.post('/logout', async (req, res, next) => {
 // GET /api/auth/me — get current user
 router.get('/me', authenticate, async (req, res, next) => {
   try {
-    const { prisma } = await import('../config/database.js');
-    const user = await prisma.user.findUnique({
-      where: { id: req.user.id },
-      select: {
-        id: true, email: true, firstName: true, lastName: true, phone: true,
-        role: true, isActive: true, createdAt: true,
-        preferences: true,
-        addresses: true,
-        partner: req.user.role === 'PARTNER' ? { select: { id: true, businessName: true, isApproved: true, cuisine: true } } : false,
-      },
+    const { userRepository, partnerRepository } = await import('../repositories/dynamodb/index.js');
+    const user = await userRepository.findById(req.user.id);
+    if (!user) return res.status(404).json({ error: 'User not found' });
+
+    let partner = null;
+    if (user.role === 'PARTNER') {
+      partner = await partnerRepository.findByUserId(user.id);
+    }
+
+    const preferences = await userRepository.getPreferences(user.id);
+
+    res.json({
+      id: user.id,
+      email: user.email,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      phone: user.phone,
+      role: user.role,
+      isActive: user.isActive !== false,
+      createdAt: user.createdAt,
+      preferences: preferences || {},
+      addresses: user.addresses || [],
+      partner: partner ? { id: partner.id, businessName: partner.businessName, isApproved: partner.isApproved, cuisine: partner.cuisine } : null,
     });
-    res.json(user);
   } catch (err) { next(err); }
 });
 

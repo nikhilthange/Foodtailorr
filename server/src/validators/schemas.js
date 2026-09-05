@@ -44,7 +44,7 @@ export const resetPasswordSchema = z.object({
 // ─── Menu Builder / AI Validators ────────────────────
 
 export const menuRecommendationSchema = z.object({
-  occasionId: z.string().uuid().optional(),
+  occasionId: z.string().min(1).optional(),
   occasionName: z.string().optional(),
   guestCount: z.number().int().min(10, 'Minimum 10 guests required').max(5000),
   budgetPerHead: z.number().int().min(100).max(10000),
@@ -57,14 +57,14 @@ export const menuRecommendationSchema = z.object({
 });
 
 export const menuRefineSchema = z.object({
-  recommendationId: z.string().uuid(),
+  recommendationId: z.string().min(1),
   action: z.enum([
     'make_vegetarian', 'reduce_budget', 'increase_premium',
     'add_desserts', 'kid_friendly', 'more_starters',
     'swap_dish', 'remove_dish', 'add_dish', 'regenerate',
   ]),
-  dishId: z.string().uuid().optional(),
-  replacementDishId: z.string().uuid().optional(),
+  dishId: z.string().min(1).optional(),
+  replacementDishId: z.string().min(1).optional(),
   guestCount: z.number().int().min(10).optional(),
   budgetPerHead: z.number().int().min(100).optional(),
 });
@@ -72,7 +72,7 @@ export const menuRefineSchema = z.object({
 // ─── Order Validators ────────────────────────────────
 
 export const createOrderSchema = z.object({
-  occasionId: z.string().uuid().optional().nullable(),
+  occasionId: z.string().min(1).optional().nullable(),
   guestCount: z.number().int().min(10),
   budgetPerHead: z.number().int().optional(),
   dietaryType: z.enum(['VEG', 'NON_VEG', 'VEGAN', 'ALL']).default('ALL'),
@@ -83,7 +83,7 @@ export const createOrderSchema = z.object({
   contactEmail: z.string().email().optional().nullable(),
   notes: z.string().max(1000).optional().nullable(),
   items: z.array(z.object({
-    dishId: z.string().uuid(),
+    dishId: z.string().min(1),
     quantity: z.number().int().min(1),
   })).min(1, 'At least one dish is required'),
 });
@@ -100,10 +100,10 @@ export const updateOrderStatusSchema = z.object({
 
 export const savedMenuSchema = z.object({
   name: z.string().min(1).max(200),
-  occasionId: z.string().uuid().optional().nullable(),
+  occasionId: z.string().min(1).optional().nullable(),
   guestCount: z.number().int().min(10),
   items: z.array(z.object({
-    dishId: z.string().uuid(),
+    dishId: z.string().min(1),
     quantity: z.number().int().min(1),
   })).min(1),
 });
@@ -124,7 +124,7 @@ export const updatePartnerProfileSchema = z.object({
 
 export const dishSchema = z.object({
   name: z.string().min(1).max(200),
-  categoryId: z.string().uuid(),
+  categoryId: z.string().min(1),
   description: z.string().max(1000).optional(),
   pricePerHead: z.number().int().min(1),
   isVeg: z.boolean().default(false),

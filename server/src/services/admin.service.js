@@ -1,30 +1,41 @@
-// Admin service — user management, partner approval, catalog, analytics
-import { prisma } from '../config/database.js';
+// Admin service — user management, partner approval, catalog, analytics using DynamoDB Repositories
+import {
+  userRepository,
+  partnerRepository,
+  dishRepository,
+  categoryRepository,
+  cuisineRepository,
+  occasionRepository,
+  orderRepository,
+  aiRepository,
+} from '../repositories/dynamodb/index.js';
 import { AppError } from '../middleware/errorHandler.js';
 
 /**
  * Admin dashboard summary
  */
 export async function getDashboard() {
-  const [totalUsers, totalPartners, pendingPartners, totalOrders, pendingOrders, totalDishes, recentOrders, totalRecommendations] = await Promise.all([
-    prisma.user.count({ where: { role: 'CUSTOMER' } }),
-    prisma.partner.count(),
-    prisma.partner.count({ where: { isApproved: false } }),
-    prisma.order.count(),
-    prisma.order.count({ where: { status: { in: ['SUBMITTED', 'PENDING_PARTNER'] } } }),
-    prisma.dish.count(),
-    prisma.order.findMany({
-      include: { user: { select: { firstName: true, lastName: true, email: true } }, occasion: true },
-      orderBy: { createdAt: 'desc' },
-      take: 10,
-    }),
-    prisma.aIRecommendation.count(),
+  const [
+    totalUsers,
+    totalPartners,
+    pendingPartners,
+    ordersResult,
+    totalDishes,
+    totalRecommendations,
+    totalRevenue,
+  ] = await Promise.all([
+    userRepository.countUsers({ role: 'CUSTOMER' }),
+    partnerRepository.count(),
+    partnerRepository.count({ isApproved: false }),
+    orderRepository.listAll({ limit: 1000 }),
+    dishRepository.count(),
+    aiRepository.count(),
+    orderRepository.aggregateCompletedRevenue(),
   ]);
 
-  const revenue = await prisma.order.aggregate({
-    where: { status: 'COMPLETED' },
-    _sum: { totalAmount: true },
-  });
+  const totalOrders = ordersResult.total;
+  const pendingOrders = ordersResult.orders.filter(o => ['SUBMITTED', 'PENDING_PARTNER'].includes(o.status)).length;
+  const recentOrders = ordersResult.orders.slice(0, 10);
 
   return {
     stats: {
@@ -35,7 +46,7 @@ export async function getDashboard() {
       pendingOrders,
       totalDishes,
       totalRecommendations,
-      totalRevenue: revenue._sum.totalAmount || 0,
+      totalRevenue,
     },
     recentOrders,
   };
@@ -45,185 +56,152 @@ export async function getDashboard() {
  * List all users with pagination
  */
 export async function getUsers({ page = 1, limit = 20, search, role } = {}) {
-  const where = {};
-  if (role) where.role = role;
-  if (search) {
-    where.OR = [
-      { email: { contains: search, mode: 'insensitive' } },
-      { firstName: { contains: search, mode: 'insensitive' } },
-      { lastName: { contains: search, mode: 'insensitive' } },
-    ];
-  }
-
-  const [users, total] = await Promise.all([
-    prisma.user.findMany({
-      where,
-      select: { id: true, email: true, firstName: true, lastName: true, role: true, isActive: true, createdAt: true },
-      orderBy: { createdAt: 'desc' },
-      skip: (page - 1) * limit,
-      take: limit,
-    }),
-    prisma.user.count({ where }),
-  ]);
-
-  return { users, total, page, totalPages: Math.ceil(total / limit) };
+  return userRepository.listUsers({ page, limit, search, role });
 }
 
 /**
  * Update user status or role
  */
 export async function updateUser(userId, data) {
-  return prisma.user.update({
-    where: { id: userId },
-    data,
-    select: { id: true, email: true, firstName: true, lastName: true, role: true, isActive: true },
-  });
+  return userRepository.update(userId, data);
 }
 
 /**
  * Soft delete / deactivate user
  */
 export async function deleteUser(userId) {
-  return prisma.user.update({
-    where: { id: userId },
-    data: { isActive: false },
-    select: { id: true, isActive: true },
-  });
+  return userRepository.update(userId, { isActive: false });
 }
 
 /**
  * List all partners with pagination
  */
 export async function getAllPartners({ page = 1, limit = 20, search, approved } = {}) {
-  const where = {};
-  if (approved !== undefined) where.isApproved = approved === 'true' || approved === true;
-  if (search) {
-    where.OR = [
-      { businessName: { contains: search, mode: 'insensitive' } },
-      { cuisine: { contains: search, mode: 'insensitive' } },
-    ];
-  }
+  const result = await partnerRepository.listAll({ page, limit, search, approved });
 
-  const [partners, total] = await Promise.all([
-    prisma.partner.findMany({
-      where,
-      include: {
-        user: { select: { email: true, firstName: true, lastName: true } },
-        _count: { select: { dishes: true } },
-      },
-      orderBy: { createdAt: 'desc' },
-      skip: (page - 1) * limit,
-      take: limit,
-    }),
-    prisma.partner.count({ where }),
-  ]);
+  // Enrich with user email/name and dish count
+  const enriched = await Promise.all(
+    result.partners.map(async (p) => {
+      const [user, dishes] = await Promise.all([
+        p.userId ? userRepository.findById(p.userId) : null,
+        dishRepository.findByPartnerId(p.id),
+      ]);
 
-  return { partners, total, page, totalPages: Math.ceil(total / limit) };
+      return {
+        ...p,
+        user: user ? { email: user.email, firstName: user.firstName, lastName: user.lastName } : null,
+        _count: { dishes: dishes.length },
+      };
+    })
+  );
+
+  return {
+    partners: enriched,
+    total: result.total,
+    page: result.page,
+    totalPages: result.totalPages,
+  };
 }
 
 /**
  * Update partner approval status
  */
 export async function updatePartner(partnerId, data) {
-  return prisma.partner.update({
-    where: { id: partnerId },
-    data,
-    include: { user: { select: { email: true, firstName: true, lastName: true } } },
-  });
+  const updated = await partnerRepository.update(partnerId, data);
+  const user = updated.userId ? await userRepository.findById(updated.userId) : null;
+
+  return {
+    ...updated,
+    user: user ? { email: user.email, firstName: user.firstName, lastName: user.lastName } : null,
+  };
 }
 
 /**
  * Admin CRUD for categories
  */
 export async function createCategory(name, sortOrder = 0) {
-  return prisma.category.create({ data: { name, sortOrder } });
+  return categoryRepository.create({ name, sortOrder });
 }
 
 export async function updateCategory(id, data) {
-  return prisma.category.update({ where: { id }, data });
+  return categoryRepository.update(id, data);
 }
 
 export async function deleteCategory(id) {
-  const dishCount = await prisma.dish.count({ where: { categoryId: id } });
-  if (dishCount > 0) throw new AppError('Cannot delete category with existing dishes', 400);
-  return prisma.category.delete({ where: { id } });
+  const catalog = await dishRepository.listCatalog({ categoryId: id, limit: 10 });
+  if (catalog.total > 0) {
+    throw new AppError('Cannot delete category with existing dishes', 400);
+  }
+  return categoryRepository.delete(id);
 }
 
 export async function getCategories() {
-  return prisma.category.findMany({ orderBy: { sortOrder: 'asc' } });
+  return categoryRepository.listAll();
 }
 
 /**
  * Admin CRUD for dishes
  */
 export async function getDishes({ page = 1, limit = 20, search } = {}) {
-  const where = {};
-  if (search) {
-    where.OR = [
-      { name: { contains: search, mode: 'insensitive' } },
-      { description: { contains: search, mode: 'insensitive' } },
-    ];
-  }
+  const result = await dishRepository.listCatalog({ page, limit, search, availableOnly: false });
 
-  const [dishes, total] = await Promise.all([
-    prisma.dish.findMany({
-      where,
-      include: { category: true, partner: { select: { businessName: true } } },
-      orderBy: { createdAt: 'desc' },
-      skip: (page - 1) * limit,
-      take: limit,
-    }),
-    prisma.dish.count({ where }),
+  const [categories, partners] = await Promise.all([
+    categoryRepository.listAll(),
+    partnerRepository.listAll({ limit: 1000 }),
   ]);
 
-  return { dishes, total, page, totalPages: Math.ceil(total / limit) };
+  const catMap = new Map(categories.map(c => [c.id, c]));
+  const ptrMap = new Map(partners.partners.map(p => [p.id, p]));
+
+  const enriched = result.dishes.map(d => ({
+    ...d,
+    category: catMap.get(d.categoryId) || { id: d.categoryId, name: 'General' },
+    partner: ptrMap.get(d.partnerId) ? { businessName: ptrMap.get(d.partnerId).businessName } : null,
+  }));
+
+  return {
+    dishes: enriched,
+    total: result.total,
+    page: result.page,
+    totalPages: result.totalPages,
+  };
 }
 
 export async function createDish(data) {
-  return prisma.dish.create({ data });
+  return dishRepository.create(data);
 }
 
 export async function updateDish(id, data) {
-  return prisma.dish.update({ where: { id }, data });
+  return dishRepository.update(id, data);
 }
 
 export async function deleteDish(id) {
-  return prisma.dish.delete({ where: { id } });
+  return dishRepository.delete(id);
 }
 
 /**
  * Admin CRUD for cuisines
  */
 export async function createCuisine(name, description) {
-  return prisma.cuisine.create({ data: { name, description } });
+  return cuisineRepository.create({ name, description });
 }
 
 /**
  * Admin CRUD for occasions
  */
 export async function createOccasion(data) {
-  return prisma.occasion.create({ data });
+  return occasionRepository.create(data);
 }
 
 export async function updateOccasion(id, data) {
-  return prisma.occasion.update({ where: { id }, data });
+  return occasionRepository.update(id, data);
 }
 
 /**
  * Get AI recommendation logs
  */
 export async function getAILogs({ page = 1, limit = 20 } = {}) {
-  const [logs, total] = await Promise.all([
-    prisma.aIRecommendation.findMany({
-      include: { _count: { select: { items: true } } },
-      orderBy: { createdAt: 'desc' },
-      skip: (page - 1) * limit,
-      take: limit,
-    }),
-    prisma.aIRecommendation.count(),
-  ]);
-
-  return { logs, total, page, totalPages: Math.ceil(total / limit) };
+  return aiRepository.listLogs({ page, limit });
 }
 
 /**
@@ -233,15 +211,24 @@ export async function getAnalytics(days = 30) {
   const dateLimit = new Date();
   dateLimit.setDate(dateLimit.getDate() - days);
 
-  const orders = await prisma.order.findMany({
-    where: { createdAt: { gte: dateLimit } },
-    select: { createdAt: true, totalAmount: true, status: true }
-  });
+  const [ordersRes, usersRes] = await Promise.all([
+    orderRepository.listAll({ limit: 1000 }),
+    userRepository.listUsers({ role: 'CUSTOMER', limit: 1000 }),
+  ]);
 
-  const users = await prisma.user.findMany({
-    where: { createdAt: { gte: dateLimit }, role: 'CUSTOMER' },
-    select: { createdAt: true }
-  });
+  const orders = ordersRes.orders
+    .filter(o => new Date(o.createdAt) >= dateLimit)
+    .map(o => ({
+      createdAt: o.createdAt,
+      totalAmount: o.totalAmount,
+      status: o.status,
+    }));
+
+  const users = usersRes.users
+    .filter(u => new Date(u.createdAt) >= dateLimit)
+    .map(u => ({
+      createdAt: u.createdAt,
+    }));
 
   return { orders, users };
 }

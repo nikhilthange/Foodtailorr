@@ -1,6 +1,7 @@
 // Catalog routes — public endpoints for partners, dishes, categories, occasions
 import { Router } from 'express';
 import * as catalogService from '../services/catalog.service.js';
+import { AppError } from '../middleware/errorHandler.js';
 
 const router = Router();
 
@@ -16,7 +17,7 @@ router.get('/partners', async (req, res, next) => {
 router.get('/partners/:id', async (req, res, next) => {
   try {
     const partner = await catalogService.getPartnerWithDishes(req.params.id);
-    if (!partner) return res.status(404).json({ error: 'Partner not found' });
+    if (!partner) throw new AppError('Partner not found', 404, 'NOT_FOUND');
     res.json(partner);
   } catch (err) { next(err); }
 });
@@ -33,7 +34,7 @@ router.get('/dishes', async (req, res, next) => {
 router.get('/dishes/:id', async (req, res, next) => {
   try {
     const dish = await catalogService.getDishById(req.params.id);
-    if (!dish) return res.status(404).json({ error: 'Dish not found' });
+    if (!dish) throw new AppError('Dish not found', 404, 'NOT_FOUND');
     res.json(dish);
   } catch (err) { next(err); }
 });

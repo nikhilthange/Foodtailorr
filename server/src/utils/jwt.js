@@ -7,8 +7,12 @@ import { env } from '../config/env.js';
  * @returns {string}
  */
 export function signAccessToken(user) {
+  const payload = { sub: user.id, email: user.email, role: user.role };
+  if (user.partnerId || user.partner?.id) {
+    payload.partnerId = user.partnerId || user.partner.id;
+  }
   return jwt.sign(
-    { sub: user.id, email: user.email, role: user.role },
+    payload,
     env.JWT_ACCESS_SECRET,
     { expiresIn: env.JWT_ACCESS_EXPIRY }
   );

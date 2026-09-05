@@ -8,11 +8,15 @@ export function validate(schema) {
     const result = schema.safeParse(req.body);
     if (!result.success) {
       return res.status(400).json({
-        error: 'Validation failed',
-        details: result.error.errors.map(e => ({
-          path: e.path.join('.'),
-          message: e.message,
-        })),
+        success: false,
+        error: {
+          code: 'VALIDATION_ERROR',
+          message: 'Validation failed',
+          details: result.error.errors.map(e => ({
+            path: e.path.join('.'),
+            message: e.message,
+          })),
+        },
       });
     }
     req.validated = result.data;
@@ -29,11 +33,15 @@ export function validateQuery(schema) {
     const result = schema.safeParse(req.query);
     if (!result.success) {
       return res.status(400).json({
-        error: 'Invalid query parameters',
-        details: result.error.errors.map(e => ({
-          path: e.path.join('.'),
-          message: e.message,
-        })),
+        success: false,
+        error: {
+          code: 'VALIDATION_ERROR',
+          message: 'Invalid query parameters',
+          details: result.error.errors.map(e => ({
+            path: e.path.join('.'),
+            message: e.message,
+          })),
+        },
       });
     }
     req.validatedQuery = result.data;

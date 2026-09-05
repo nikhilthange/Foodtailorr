@@ -1,85 +1,98 @@
-// Auth context — manages authentication state across the app
-import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
-import { api, setOnLogout, getAccessToken } from '../../lib/apiClient.js';
+'use client';
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import { api } from '../../lib/apiClient';
 
-const AuthContext = createContext(null);
+const defaultAuthValue = {
+  user: null,
+  loading: false,
+  login: async () => null,
+  logout: async () => {},
+  register: async () => null,
+  setUser: () => {},
+};
 
-export function AuthProvider({ children }) {
-  const [user, setUser] = useState(() => {
-    try {
-      const stored = localStorage.getItem('ft_user');
-      return stored ? JSON.parse(stored) : null;
-    } catch { return null; }
-  });
+const AuthContext = createContext(defaultAuthValue);
+
+export const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Set logout callback
   useEffect(() => {
-    setOnLogout(() => {
-      setUser(null);
-      localStorage.removeItem('ft_user');
-    });
-  }, []);
+    const initAuth = async () => {
+      if (typeof window === 'undefined') {
+        setLoading(false);
+        return;
+      }
 
-  // Check existing auth on mount
-  useEffect(() => {
-    const token = getAccessToken();
-    if (token && !user) {
-      api.getMe()
-        .then(data => {
-          setUser(data);
-          localStorage.setItem('ft_user', JSON.stringify(data));
-        })
-        .catch(() => {
+      try {
+        const stored = localStorage.getItem('user');
+        if (stored) {
+          setUser(JSON.parse(stored));
+        }
+      } catch {
+        // ignore JSON parse errors
+      }
+
+      const token = localStorage.getItem('token');
+      if (token) {
+        try {
+          const userData = await api.getMe();
+          setUser(userData);
+          localStorage.setItem('user', JSON.stringify(userData));
+        } catch {
+          localStorage.removeItem('token');
+          localStorage.removeItem('refreshToken');
+          localStorage.removeItem('user');
           setUser(null);
-          localStorage.removeItem('ft_user');
-        })
-        .finally(() => setLoading(false));
-    } else {
+        }
+      }
       setLoading(false);
+    };
+    initAuth();
+  }, []);
+
+  const login = async (credentials) => {
+    const data = await api.login(credentials);
+    const token = data.accessToken || data.token;
+    if (token) localStorage.setItem('token', token);
+    if (data.refreshToken) localStorage.setItem('refreshToken', data.refreshToken);
+    if (data.user) {
+      localStorage.setItem('user', JSON.stringify(data.user));
+      setUser(data.user);
     }
-  }, []);
-
-  const login = useCallback(async (email, password) => {
-    const result = await api.login(email, password);
-    setUser(result.user);
-    localStorage.setItem('ft_user', JSON.stringify(result.user));
-    return result.user;
-  }, []);
-
-  const register = useCallback(async (data) => {
-    const result = await api.register(data);
-    setUser(result.user);
-    localStorage.setItem('ft_user', JSON.stringify(result.user));
-    return result.user;
-  }, []);
-
-  const logout = useCallback(async () => {
-    await api.logout();
-    setUser(null);
-    localStorage.removeItem('ft_user');
-  }, []);
-
-  const value = {
-    user,
-    loading,
-    isAuthenticated: !!user,
-    isAdmin: user?.role === 'ADMIN',
-    isPartner: user?.role === 'PARTNER',
-    isCustomer: user?.role === 'CUSTOMER',
-    login,
-    register,
-    logout,
-    setUser,
+    return data.user;
   };
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
-}
+  const register = async (credentials) => {
+    const data = await api.register(credentials);
+    const token = data.accessToken || data.token;
+    if (token) localStorage.setItem('token', token);
+    if (data.refreshToken) localStorage.setItem('refreshToken', data.refreshToken);
+    if (data.user) {
+      localStorage.setItem('user', JSON.stringify(data.user));
+      setUser(data.user);
+    }
+    return data.user;
+  };
 
-export function useAuth() {
-  const ctx = useContext(AuthContext);
-  if (!ctx) throw new Error('useAuth must be used within AuthProvider');
-  return ctx;
-}
+  const logout = async () => {
+    try {
+      await api.logout();
+    } catch {
+      // ignore
+    } finally {
+      localStorage.removeItem('token');
+      localStorage.removeItem('refreshToken');
+      localStorage.removeItem('user');
+      setUser(null);
+    }
+  };
 
-export default AuthContext;
+  return (
+    <AuthContext.Provider value={{ user, loading, login, logout, register, setUser }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};
+
+export const useAuth = () => useContext(AuthContext) || defaultAuthValue;

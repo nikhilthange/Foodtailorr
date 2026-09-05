@@ -1,10 +1,14 @@
-// Order routes — create, list, status management
+// Order routes — create, list, status management using DynamoDB Repositories
 import { Router } from 'express';
 import * as orderService from '../services/order.service.js';
-import { authenticate, requireRole } from '../middleware/auth.js';
+import { authenticate } from '../middleware/auth.js';
 import { validate } from '../middleware/validate.js';
 import { createOrderSchema, updateOrderStatusSchema, savedMenuSchema } from '../validators/schemas.js';
-import { prisma } from '../config/database.js';
+import { orderRepository, dishRepository } from '../repositories/dynamodb/index.js';
+import { paymentProvider } from '../services/payment.service.js';
+import crypto from 'crypto';
+import { env } from '../config/env.js';
+import { AppError } from '../middleware/errorHandler.js';
 
 const router = Router();
 
@@ -51,28 +55,24 @@ router.post('/saved-menus', authenticate, validate(savedMenuSchema), async (req,
 
     // Calculate total per head from server-side prices
     const dishIds = items.map(i => i.dishId);
-    const dishes = await prisma.dish.findMany({ where: { id: { in: dishIds } } });
+    const dishes = await dishRepository.findManyByIds(dishIds);
     const dishMap = new Map(dishes.map(d => [d.id, d]));
     const totalPerHead = items.reduce((sum, item) => {
       const dish = dishMap.get(item.dishId);
       return sum + (dish?.pricePerHead || 0);
     }, 0);
 
-    const savedMenu = await prisma.savedMenu.create({
-      data: {
-        userId: req.user.id,
-        name,
-        occasionId: occasionId || null,
-        guestCount,
-        totalPerHead,
-        items: {
-          create: items.map(item => ({
-            dishId: item.dishId,
-            quantity: item.quantity,
-          })),
-        },
-      },
-      include: { items: { include: { dish: { include: { partner: { select: { id: true, businessName: true } } } } } } },
+    const savedMenu = await orderRepository.createSavedMenu({
+      userId: req.user.id,
+      name,
+      occasionId: occasionId || null,
+      guestCount,
+      totalPerHead,
+      items: items.map(item => ({
+        dishId: item.dishId,
+        quantity: item.quantity,
+        dish: dishMap.get(item.dishId) || null,
+      })),
     });
 
     res.status(201).json(savedMenu);
@@ -82,13 +82,7 @@ router.post('/saved-menus', authenticate, validate(savedMenuSchema), async (req,
 // GET /api/saved-menus
 router.get('/saved-menus', authenticate, async (req, res, next) => {
   try {
-    const menus = await prisma.savedMenu.findMany({
-      where: { userId: req.user.id },
-      include: {
-        items: { include: { dish: { include: { partner: { select: { id: true, businessName: true } }, category: true } } } },
-      },
-      orderBy: { createdAt: 'desc' },
-    });
+    const menus = await orderRepository.listSavedMenus(req.user.id);
     res.json(menus);
   } catch (err) { next(err); }
 });
@@ -96,12 +90,116 @@ router.get('/saved-menus', authenticate, async (req, res, next) => {
 // DELETE /api/saved-menus/:id
 router.delete('/saved-menus/:id', authenticate, async (req, res, next) => {
   try {
-    const menu = await prisma.savedMenu.findUnique({ where: { id: req.params.id } });
-    if (!menu || menu.userId !== req.user.id) {
-      return res.status(404).json({ error: 'Saved menu not found' });
-    }
-    await prisma.savedMenu.delete({ where: { id: req.params.id } });
+    await orderRepository.deleteSavedMenu(req.params.id, req.user.id);
     res.json({ message: 'Menu deleted' });
+  } catch (err) { next(err); }
+});
+
+// ─── Payment Routes ─────────────────────────────────────
+
+// POST /api/orders/:id/pay — Initiate payment
+router.post('/:id/pay', authenticate, async (req, res, next) => {
+  try {
+    const order = await orderService.getOrderById(req.params.id, req.user.id, req.user.role);
+    
+    if (order.paymentStatus === 'COMPLETED') {
+      throw new AppError('Order is already paid', 400, 'ALREADY_PAID');
+    }
+
+    const paymentResponse = await paymentProvider.initiatePayment(order.id, order.totalAmount);
+    
+    await orderRepository.update(order.id, {
+      paymentProvider: env.PAYMENT_PROVIDER,
+      paymentRef: paymentResponse.paymentId,
+    });
+
+    res.json({
+      success: true,
+      data: {
+        orderId: paymentResponse.paymentId,
+        amount: order.totalAmount,
+        currency: 'INR',
+        keyId: env.RAZORPAY_KEY_ID,
+      },
+    });
+  } catch (err) { next(err); }
+});
+
+// POST /api/orders/:id/verify-payment — Verify payment from frontend success callback
+router.post('/:id/verify-payment', authenticate, async (req, res, next) => {
+  try {
+    const order = await orderService.getOrderById(req.params.id, req.user.id, req.user.role);
+
+    // Idempotency: if already paid, return safely
+    if (order.paymentStatus === 'COMPLETED') {
+      return res.json({ success: true, data: order, message: 'Payment already completed' });
+    }
+
+    const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
+    
+    const verification = await paymentProvider.verifyPayment({
+      razorpay_order_id,
+      razorpay_payment_id,
+      razorpay_signature,
+    });
+
+    const newStatus = order.status === 'SUBMITTED' ? 'PENDING_PARTNER' : order.status;
+    const now = new Date().toISOString();
+
+    const historyEntry = {
+      fromStatus: order.status,
+      toStatus: newStatus,
+      changedBy: req.user.id,
+      note: `Payment verified via ${env.PAYMENT_PROVIDER}`,
+      createdAt: now,
+    };
+
+    const newHistory = [historyEntry, ...(order.statusHistory || [])].slice(0, 15);
+
+    const updatedOrder = await orderRepository.update(order.id, {
+      status: newStatus,
+      paymentStatus: verification.status,
+      paymentRef: verification.transactionId,
+      statusHistory: newHistory,
+      updatedAt: now,
+    });
+
+    res.json({ success: true, data: updatedOrder });
+  } catch (err) { next(err); }
+});
+
+// POST /api/orders/webhook/razorpay — Razorpay asynchronous webhook
+router.post('/webhook/razorpay', async (req, res, next) => {
+  try {
+    const signature = req.headers['x-razorpay-signature'];
+    const bodyText = JSON.stringify(req.body);
+    const webhookSecret = env.RAZORPAY_WEBHOOK_SECRET || 'change_this_to_webhook_secret';
+    
+    const expectedSignature = crypto
+      .createHmac('sha256', webhookSecret)
+      .update(bodyText)
+      .digest('hex');
+
+    if (env.PAYMENT_PROVIDER !== 'mock' && expectedSignature !== signature) {
+      return res.status(400).json({ success: false, error: 'Invalid webhook signature' });
+    }
+
+    const event = req.body;
+    if (event.event === 'payment.captured') {
+      const paymentEntity = event.payload.payment.entity;
+      const razorpayOrderId = paymentEntity.order_id;
+      const transactionId = paymentEntity.id;
+
+      const order = await orderRepository.findByPaymentRef(razorpayOrderId);
+      if (order) {
+        await orderRepository.update(order.id, {
+          paymentStatus: 'COMPLETED',
+          paymentRef: transactionId,
+        });
+      }
+    }
+    
+    res.json({ success: true, received: true });
   } catch (err) { next(err); }
 });
 

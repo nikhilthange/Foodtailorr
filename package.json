@@ -1,0 +1,34 @@
+{
+  "name": "food-tailor-workspace",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Food Tailor — Bespoke Culinary Atelier Platform",
+  "type": "module",
+  "scripts": {
+    "dev": "npm run dev:app",
+    "dev:server": "npm --prefix server run dev",
+    "dev:app": "npm --prefix app run dev",
+    "build:server": "npm --prefix server run db:init",
+    "build:app": "npm --prefix app run build",
+    "build": "npm run build:app",
+    "test": "npm --prefix server test",
+    "test:e2e": "node server/e2e-test.js",
+    "lint:app": "npm --prefix app run lint",
+    "lint": "npm run lint:app",
+    "typecheck": "npm --prefix app run typecheck",
+    "db:init": "npm --prefix server run db:init",
+    "db:seed": "npm --prefix server run db:seed",
+    "start": "npm --prefix app run start"
+  },
+  "keywords": [
+    "culinary-atelier",
+    "bespoke-catering",
+    "ai-menu-planner",
+    "express",
+    "react",
+    "nextjs",
+    "dynamodb"
+  ],
+  "author": "Food Tailor Engineering Team",
+  "license": "UNLICENSED"
+}

@@ -1,17 +1,23 @@
-// Order service — create, list, status transitions, partner management
-import { prisma } from '../config/database.js';
+// Order service — create, list, status transitions, partner management using DynamoDB Repositories
+import {
+  orderRepository,
+  dishRepository,
+  partnerRepository,
+  userRepository,
+  occasionRepository,
+} from '../repositories/dynamodb/index.js';
 import { AppError } from '../middleware/errorHandler.js';
 import crypto from 'crypto';
 
 // Valid status transitions
-const VALID_TRANSITIONS = {
+export const VALID_TRANSITIONS = {
   DRAFT: ['SUBMITTED', 'CANCELLED'],
-  SUBMITTED: ['PENDING_PARTNER', 'CANCELLED'],
-  PENDING_PARTNER: ['ACCEPTED', 'REJECTED'],
+  SUBMITTED: ['PENDING_PARTNER', 'ACCEPTED', 'CANCELLED'],
+  PENDING_PARTNER: ['ACCEPTED', 'REJECTED', 'CANCELLED'],
   ACCEPTED: ['PREPARING', 'CANCELLED'],
   REJECTED: [],
-  PREPARING: ['CONFIRMED'],
-  CONFIRMED: ['COMPLETED'],
+  PREPARING: ['CONFIRMED', 'COMPLETED', 'CANCELLED'],
+  CONFIRMED: ['COMPLETED', 'CANCELLED'],
   COMPLETED: [],
   CANCELLED: [],
 };
@@ -25,10 +31,7 @@ export async function createOrder(userId, data) {
 
   // Fetch all dishes to validate and calculate server-side pricing
   const dishIds = data.items.map(i => i.dishId);
-  const dishes = await prisma.dish.findMany({
-    where: { id: { in: dishIds }, isAvailable: true },
-    include: { partner: { select: { id: true, isApproved: true, isActive: true } } },
-  });
+  const dishes = await dishRepository.findManyByIds(dishIds);
 
   if (dishes.length !== dishIds.length) {
     const foundIds = new Set(dishes.map(d => d.id));
@@ -36,11 +39,15 @@ export async function createOrder(userId, data) {
     throw new AppError(`Some dishes are unavailable: ${missing.join(', ')}`, 400);
   }
 
-  // Verify all partners are approved and active
-  for (const dish of dishes) {
-    if (!dish.partner.isApproved || !dish.partner.isActive) {
-      throw new AppError(`Partner for dish "${dish.name}" is not available`, 400);
+  // Fetch partners to verify they are active & approved
+  const partnerIds = [...new Set(dishes.map(d => d.partnerId))];
+  const partnerMap = new Map();
+  for (const pid of partnerIds) {
+    const partner = await partnerRepository.findById(pid);
+    if (!partner || partner.isApproved === false || partner.isActive === false) {
+      throw new AppError(`Partner for dishes is not available or approved`, 400);
     }
+    partnerMap.set(pid, partner);
   }
 
   // SERVER-SIDE price recalculation — NEVER trust client prices
@@ -48,12 +55,15 @@ export async function createOrder(userId, data) {
   let totalAmount = 0;
   const orderItems = data.items.map(item => {
     const dish = dishMap.get(item.dishId);
-    const pricePerHead = dish.pricePerHead;
+    const partner = partnerMap.get(dish.partnerId);
+    const pricePerHead = Number(dish.pricePerHead);
     const totalPrice = pricePerHead * item.quantity;
     totalAmount += totalPrice;
     return {
       dishId: item.dishId,
-      partnerId: dish.partner.id,
+      partnerId: dish.partnerId,
+      partner: { id: partner.id, businessName: partner.businessName },
+      dish: { id: dish.id, name: dish.name, pricePerHead },
       quantity: item.quantity,
       pricePerHead,
       totalPrice,
@@ -64,36 +74,30 @@ export async function createOrder(userId, data) {
   const coordinationFee = Math.round(totalAmount * 0.10);
   totalAmount += coordinationFee;
 
-  const order = await prisma.order.create({
-    data: {
-      orderRef,
-      userId,
-      occasionId: data.occasionId || null,
-      guestCount: data.guestCount,
-      budgetPerHead: data.budgetPerHead || null,
-      dietaryType: data.dietaryType || 'ALL',
-      totalAmount,
-      status: 'SUBMITTED',
-      eventDate: data.eventDate ? new Date(data.eventDate) : null,
-      venueAddress: data.venueAddress || null,
-      contactName: data.contactName,
-      contactPhone: data.contactPhone || null,
-      contactEmail: data.contactEmail || null,
-      notes: data.notes || null,
-      items: { create: orderItems },
-      statusHistory: {
-        create: {
-          fromStatus: null,
-          toStatus: 'SUBMITTED',
-          changedBy: userId,
-          note: 'Order submitted',
-        },
-      },
-    },
-    include: {
-      items: { include: { dish: true, partner: { select: { id: true, businessName: true } } } },
-      occasion: true,
-    },
+  let occasion = null;
+  if (data.occasionId) {
+    occasion = await occasionRepository.findById(data.occasionId);
+  }
+
+  const order = await orderRepository.create({
+    orderRef,
+    userId,
+    occasionId: data.occasionId || null,
+    occasion: occasion ? { id: occasion.id, name: occasion.name } : null,
+    guestCount: data.guestCount,
+    budgetPerHead: data.budgetPerHead || null,
+    dietaryType: data.dietaryType || 'ALL',
+    totalAmount,
+    status: 'SUBMITTED',
+    paymentStatus: 'PENDING',
+    paymentProvider: 'mock',
+    eventDate: data.eventDate ? new Date(data.eventDate).toISOString() : null,
+    venueAddress: data.venueAddress || null,
+    contactName: data.contactName,
+    contactPhone: data.contactPhone || null,
+    contactEmail: data.contactEmail || null,
+    notes: data.notes || null,
+    items: orderItems,
   });
 
   return order;
@@ -103,53 +107,34 @@ export async function createOrder(userId, data) {
  * Get orders for a customer
  */
 export async function getUserOrders(userId, { page = 1, limit = 20 } = {}) {
-  const [orders, total] = await Promise.all([
-    prisma.order.findMany({
-      where: { userId },
-      include: {
-        items: {
-          include: {
-            dish: { select: { id: true, name: true } },
-            partner: { select: { id: true, businessName: true } },
-          },
-        },
-        occasion: true,
-        _count: { select: { items: true } },
-      },
-      orderBy: { createdAt: 'desc' },
-      skip: (page - 1) * limit,
-      take: limit,
-    }),
-    prisma.order.count({ where: { userId } }),
-  ]);
-
-  return { orders, total, page, totalPages: Math.ceil(total / limit) };
+  return orderRepository.findByUserId(userId, { page, limit });
 }
 
 /**
  * Get a single order by ID (with authorization check)
  */
 export async function getOrderById(orderId, userId, role) {
-  const order = await prisma.order.findUnique({
-    where: { id: orderId },
-    include: {
-      items: {
-        include: {
-          dish: true,
-          partner: { select: { id: true, businessName: true } },
-        },
-      },
-      occasion: true,
-      statusHistory: { orderBy: { createdAt: 'desc' } },
-      user: { select: { id: true, firstName: true, lastName: true, email: true } },
-    },
-  });
-
+  const order = await orderRepository.findById(orderId);
   if (!order) throw new AppError('Order not found', 404);
 
-  // Authorization: customer can only see their own orders
+  // Authorization: customer can only see their own orders; partner only if their dishes are in the order
   if (role === 'CUSTOMER' && order.userId !== userId) {
     throw new AppError('Not authorized to view this order', 403);
+  }
+  if (role === 'PARTNER') {
+    const partner = await partnerRepository.findByUserId(userId);
+    const hasItems = order.items.some(item => (item.partnerId || item.partner?.id) === partner?.id);
+    if (!hasItems) {
+      throw new AppError('Not authorized to view this order', 403);
+    }
+  }
+
+  // Enrich user info if not present
+  if (!order.user && order.userId) {
+    const user = await userRepository.findById(order.userId);
+    if (user) {
+      order.user = { id: user.id, firstName: user.firstName, lastName: user.lastName, email: user.email };
+    }
   }
 
   return order;
@@ -159,46 +144,28 @@ export async function getOrderById(orderId, userId, role) {
  * Update order status with transition validation
  */
 export async function updateOrderStatus(orderId, newStatus, changedBy, note, role) {
-  const order = await prisma.order.findUnique({
-    where: { id: orderId },
-    include: { items: { include: { partner: true } } },
-  });
-
+  const order = await orderRepository.findById(orderId);
   if (!order) throw new AppError('Order not found', 404);
 
-  // Validate transition
-  const allowed = VALID_TRANSITIONS[order.status] || [];
-  if (!allowed.includes(newStatus)) {
-    throw new AppError(`Cannot transition from ${order.status} to ${newStatus}`, 400);
-  }
-
-  // Partner can only accept/reject their own orders
+  // 1. Partner authorization & ownership validation
   if (role === 'PARTNER') {
-    if (!['ACCEPTED', 'REJECTED', 'PREPARING', 'CONFIRMED'].includes(newStatus)) {
-      throw new AppError('Partners can only accept, reject, prepare, or confirm orders', 403);
+    const partner = await partnerRepository.findByUserId(changedBy);
+    const partnerOwnsItem = order.items.some(item => (item.partnerId || item.partner?.id) === partner?.id);
+    if (!partnerOwnsItem) {
+      throw new AppError('Not authorized to update an order containing no items from your kitchen', 403);
+    }
+    if (!['ACCEPTED', 'REJECTED', 'PREPARING', 'CONFIRMED', 'COMPLETED'].includes(newStatus)) {
+      throw new AppError('Partners can only accept, reject, prepare, confirm, or complete orders', 403);
     }
   }
 
-  const updated = await prisma.order.update({
-    where: { id: orderId },
-    data: {
-      status: newStatus,
-      statusHistory: {
-        create: {
-          fromStatus: order.status,
-          toStatus: newStatus,
-          changedBy,
-          note: note || `Status changed to ${newStatus}`,
-        },
-      },
-    },
-    include: {
-      items: { include: { dish: true, partner: { select: { id: true, businessName: true } } } },
-      occasion: true,
-      statusHistory: { orderBy: { createdAt: 'desc' }, take: 5 },
-    },
-  });
+  // 2. Validate transition
+  const allowed = VALID_TRANSITIONS[order.status] || [];
+  if (role !== 'ADMIN' && !allowed.includes(newStatus)) {
+    throw new AppError(`Cannot transition from ${order.status} to ${newStatus}`, 400);
+  }
 
+  const updated = await orderRepository.updateStatus(orderId, newStatus, changedBy, note);
   return updated;
 }
 
@@ -206,58 +173,12 @@ export async function updateOrderStatus(orderId, newStatus, changedBy, note, rol
  * Get orders for a partner (only orders containing their dishes)
  */
 export async function getPartnerOrders(partnerId, { page = 1, limit = 20, status } = {}) {
-  const where = { items: { some: { partnerId } } };
-  if (status) where.status = status;
-
-  const [orders, total] = await Promise.all([
-    prisma.order.findMany({
-      where,
-      include: {
-        items: {
-          where: { partnerId },
-          include: { dish: { select: { id: true, name: true, pricePerHead: true } } },
-        },
-        occasion: true,
-        user: { select: { firstName: true, lastName: true, email: true } },
-      },
-      orderBy: { createdAt: 'desc' },
-      skip: (page - 1) * limit,
-      take: limit,
-    }),
-    prisma.order.count({ where }),
-  ]);
-
-  return { orders, total, page, totalPages: Math.ceil(total / limit) };
+  return orderRepository.findByPartnerId(partnerId, { page, limit, status });
 }
 
 /**
  * Get all orders (admin)
  */
 export async function getAllOrders({ page = 1, limit = 20, status, search } = {}) {
-  const where = {};
-  if (status) where.status = status;
-  if (search) {
-    where.OR = [
-      { orderRef: { contains: search, mode: 'insensitive' } },
-      { contactName: { contains: search, mode: 'insensitive' } },
-      { contactEmail: { contains: search, mode: 'insensitive' } },
-    ];
-  }
-
-  const [orders, total] = await Promise.all([
-    prisma.order.findMany({
-      where,
-      include: {
-        user: { select: { firstName: true, lastName: true, email: true } },
-        occasion: true,
-        _count: { select: { items: true } },
-      },
-      orderBy: { createdAt: 'desc' },
-      skip: (page - 1) * limit,
-      take: limit,
-    }),
-    prisma.order.count({ where }),
-  ]);
-
-  return { orders, total, page, totalPages: Math.ceil(total / limit) };
+  return orderRepository.listAll({ page, limit, status, search });
 }

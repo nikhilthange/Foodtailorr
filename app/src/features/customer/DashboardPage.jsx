@@ -1,198 +1,288 @@
-// Customer Dashboard
-import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../auth/AuthContext';
-import { api } from '../../lib/apiClient';
-import { motion } from 'framer-motion';
-import { ShoppingBag, Heart, User, LogOut, ChevronRight, Clock, CheckCircle, Search, Calendar, FileText } from 'lucide-react';
-import './customer.css';
+'use client';
 
-export default function CustomerDashboard() {
-  const { user, logout } = useAuth();
-  const navigate = useNavigate();
+import React, { useEffect, useState } from 'react';
+import { Link } from '../../lib/navigation';
+import { api } from '../../lib/apiClient';
+import { useAuth } from '../auth/AuthContext';
+import StatCard from '../../components/ui/StatCard';
+import EmptyState from '../../components/ui/EmptyState';
+import LoadingState from '../../components/ui/LoadingState';
+import {
+  CalendarCheck,
+  UtensilsCrossed,
+  BookmarkCheck,
+  Plus,
+  ArrowRight,
+  Bookmark,
+} from 'lucide-react';
+import { ClocheSketch } from '../../components/ui/svg/FoodSketches';
+
+export default function DashboardPage() {
+  const { user } = useAuth();
   const [orders, setOrders] = useState([]);
   const [savedMenus, setSavedMenus] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState('orders');
 
   useEffect(() => {
-    Promise.all([
-      api.getOrders({ limit: 5 }).catch(() => ({ orders: [] })),
-      api.getSavedMenus().catch(() => []),
-    ]).then(([orderData, menuData]) => {
-      setOrders(orderData.orders || []);
-      setSavedMenus(Array.isArray(menuData) ? menuData : []);
-    }).finally(() => setLoading(false));
+    const fetchData = async () => {
+      try {
+        const [ordersRes, menusRes] = await Promise.all([
+          api.getOrders().catch(() => ({ orders: [] })),
+          api.getSavedMenus().catch(() => []),
+        ]);
+        setOrders(ordersRes.orders || ordersRes || []);
+        setSavedMenus(menusRes || []);
+      } catch (err) {
+        console.error('Failed to load customer dashboard data', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
   }, []);
 
-  const handleLogout = async () => {
-    await logout();
-    navigate('/');
-  };
-
-  const statusColors = {
-    SUBMITTED: '#F59E0B', PENDING_PARTNER: '#F59E0B', ACCEPTED: '#3B82F6',
-    PREPARING: '#8B5CF6', READY_FOR_PICKUP: '#10B981', COMPLETED: '#10B981',
-    CANCELLED: '#EF4444', REJECTED: '#EF4444', DRAFT: '#6B7280',
-  };
-
-  if (loading) return (
-    <div className="dashboard-page"><div className="dashboard-empty">Preparing your experience...</div></div>
-  );
+  const activeOrdersCount = orders.filter(
+    (o) => o.status !== 'COMPLETED' && o.status !== 'CANCELLED'
+  ).length;
 
   return (
-    <div className="dashboard-page">
-      <div className="dashboard-container">
-        {/* Welcome Hero */}
-        <motion.div className="dashboard-header" initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }}>
-          <div className="dashboard-header__left">
-            <h1 className="dashboard-header__title">Welcome back, {user?.firstName || 'Guest'}</h1>
-            <p className="dashboard-header__subtitle">Your next memorable meal starts with a menu made for you.</p>
+    <div className="max-w-6xl mx-auto px-4 md:px-8 py-8 md:py-12">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 mb-8 border-b border-[#EBE3D5]">
+        <div>
+          <div className="inline-flex items-center gap-2 mb-1">
+            <span className="w-2 h-2 rounded-full bg-[#C55418]"></span>
+            <span className="text-xs uppercase tracking-widest text-[#C55418] font-bold">
+              Private Concierge Desk
+            </span>
           </div>
-          <div className="dashboard-header__actions">
-            <Link to="/menu-builder" className="dashboard-btn dashboard-btn--primary">
-              Build a New Menu
-            </Link>
-            <Link to="/brands" className="dashboard-btn dashboard-btn--ghost">
-              Explore Brands
-            </Link>
-            <Link to="/dashboard/profile" className="dashboard-btn dashboard-btn--ghost" title="Profile" style={{ padding: '12px' }}>
-              <User size={18} />
-            </Link>
-            <button onClick={handleLogout} className="dashboard-btn dashboard-btn--ghost" title="Logout" style={{ padding: '12px' }}>
-              <LogOut size={18} />
-            </button>
-          </div>
-        </motion.div>
-
-        {/* Stats Cards */}
-        <motion.div className="dashboard-stats" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
-          <div className="dashboard-stat-card">
-            <div className="dashboard-stat-card__icon" style={{ background: 'rgba(255,255,255,0.05)', color: '#fff' }}>
-              <FileText size={24} />
-            </div>
-            <div className="dashboard-stat-card__info">
-              <span className="dashboard-stat-card__value">{savedMenus.length < 10 ? `0${savedMenus.length}` : savedMenus.length}</span>
-              <span className="dashboard-stat-card__label">Menus Created</span>
-            </div>
-          </div>
-          <div className="dashboard-stat-card">
-            <div className="dashboard-stat-card__icon" style={{ background: 'rgba(255,255,255,0.05)', color: '#fff' }}>
-              <ShoppingBag size={24} />
-            </div>
-            <div className="dashboard-stat-card__info">
-              <span className="dashboard-stat-card__value">{orders.length < 10 ? `0${orders.length}` : orders.length}</span>
-              <span className="dashboard-stat-card__label">Orders Placed</span>
-            </div>
-          </div>
-          <div className="dashboard-stat-card">
-            <div className="dashboard-stat-card__icon" style={{ background: 'rgba(255,255,255,0.05)', color: '#fff' }}>
-              <Heart size={24} />
-            </div>
-            <div className="dashboard-stat-card__info">
-              <span className="dashboard-stat-card__value">{savedMenus.length < 10 ? `0${savedMenus.length}` : savedMenus.length}</span>
-              <span className="dashboard-stat-card__label">Saved Menus</span>
-            </div>
-          </div>
-        </motion.div>
-
-        <div className="dashboard-grid">
-          {/* Recent Orders */}
-          <motion.div className="dashboard-card" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
-            <div className="dashboard-card__header">
-              <h2 className="dashboard-card__title">Recent Orders</h2>
-              {orders.length > 0 && <Link to="/dashboard/orders" className="dashboard-card__link">View All <ChevronRight size={14} /></Link>}
-            </div>
-            <div className="dashboard-card__body">
-              {orders.length === 0 ? (
-                <div className="dashboard-empty">
-                  <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" style={{ marginBottom: '1rem', opacity: 0.5 }}>
-                    <path d="M12 3v18M3 12h18" strokeLinecap="round"/>
-                    <circle cx="12" cy="12" r="9"/>
-                  </svg>
-                  <p style={{ fontFamily: 'var(--font-display)', fontSize: '1.25rem', color: '#fff' }}>No orders yet</p>
-                  <p style={{ fontSize: '0.9rem', marginBottom: '1.5rem' }}>Your first tailored dining experience is waiting.</p>
-                  <Link to="/menu-builder" className="dashboard-btn dashboard-btn--ghost dashboard-btn--sm">Build Your First Menu</Link>
-                </div>
-              ) : (
-                <div className="dashboard-list">
-                  {orders.map(order => (
-                    <div key={order.id} className="dashboard-list-item" onClick={() => navigate(`/dashboard/orders/${order.id}`)}>
-                      <div className="dashboard-list-item__left">
-                        <span className="dashboard-list-item__ref">{order.orderRef}</span>
-                        <span className="dashboard-list-item__date">
-                          {new Date(order.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
-                        </span>
-                      </div>
-                      <div className="dashboard-list-item__right">
-                        <span className="dashboard-status" style={{ color: statusColors[order.status] || '#fff', background: `${statusColors[order.status] || '#ffffff'}15` }}>
-                          {order.status.replace(/_/g, ' ')}
-                        </span>
-                        <span className="dashboard-list-item__amount">₹{order.totalAmount?.toLocaleString()}</span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          </motion.div>
-
-          {/* Saved Menus */}
-          <motion.div className="dashboard-card" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
-            <div className="dashboard-card__header">
-              <h2 className="dashboard-card__title">Saved Menus</h2>
-            </div>
-            <div className="dashboard-card__body">
-              {savedMenus.length === 0 ? (
-                <div className="dashboard-empty">
-                  <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" style={{ marginBottom: '1rem', opacity: 0.5 }}>
-                    <path d="M4 4h16v16H4z" strokeLinecap="round"/>
-                    <path d="M4 8h16M8 4v16" strokeLinecap="round"/>
-                  </svg>
-                  <p style={{ fontFamily: 'var(--font-display)', fontSize: '1.25rem', color: '#fff' }}>No saved menus</p>
-                  <p style={{ fontSize: '0.9rem', marginBottom: '1.5rem' }}>Curate your next occasion.</p>
-                  <Link to="/menu-builder" className="dashboard-btn dashboard-btn--ghost dashboard-btn--sm">Create a Menu</Link>
-                </div>
-              ) : (
-                <div className="dashboard-list">
-                  {savedMenus.map(menu => (
-                    <div key={menu.id} className="dashboard-list-item">
-                      <div className="dashboard-list-item__left">
-                        <span className="dashboard-list-item__ref">{menu.name}</span>
-                        <span className="dashboard-list-item__date">{menu.guestCount} guests · ₹{menu.totalPerHead}/head</span>
-                      </div>
-                      <div className="dashboard-list-item__right">
-                        <span className="dashboard-list-item__amount">{menu.items?.length || 0} items</span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          </motion.div>
+          <h1 className="font-serif text-2xl md:text-3xl text-[#173E23] font-bold tracking-tight">
+            Welcome, {user?.firstName || user?.email?.split('@')[0] || 'Host'}
+          </h1>
+          <p className="text-xs text-[#1c1c18]/70 mt-0.5 font-sans">
+            Your private culinary concierge.
+          </p>
         </div>
 
-        {/* Quick Actions */}
-        <motion.div className="dashboard-quick-actions" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 }}>
-          <Link to="/menu-builder" className="dashboard-action-card">
-            <span className="dashboard-action-card__icon">
-              <FileText size={32} color="var(--ft-red-light)" />
-            </span>
-            <span className="dashboard-action-card__label">Build Menu</span>
-          </Link>
-          <Link to="/brands" className="dashboard-action-card">
-            <span className="dashboard-action-card__icon">
-              <Search size={32} color="var(--ft-red-light)" />
-            </span>
-            <span className="dashboard-action-card__label">Browse Brands</span>
-          </Link>
-          <Link to="/how-it-works" className="dashboard-action-card">
-            <span className="dashboard-action-card__icon">
-              <Calendar size={32} color="var(--ft-red-light)" />
-            </span>
-            <span className="dashboard-action-card__label">Plan an Occasion</span>
-          </Link>
-        </motion.div>
+        <Link
+          to="/build-menu"
+          className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#C55418] hover:bg-[#d95d1c] text-white rounded-xl text-xs font-bold uppercase tracking-wider shadow-sm transition-all"
+        >
+          <span>Tailor New Menu</span>
+          <Plus className="w-4 h-4" strokeWidth={2.5} />
+        </Link>
       </div>
+
+      {/* Metrics Row — Structured StatCards */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+        <StatCard
+          icon={CalendarCheck}
+          label="ACTIVE COMMISSIONS"
+          value={activeOrdersCount}
+          supportingText={
+            activeOrdersCount === 0
+              ? 'No active events in preparation'
+              : `${activeOrdersCount} event${activeOrdersCount > 1 ? 's' : ''} currently orchestrated`
+          }
+          accentColor="#173E23"
+        />
+
+        <StatCard
+          icon={UtensilsCrossed}
+          label="TOTAL FEASTS HOSTED"
+          value={orders.length}
+          supportingText="Lifetime culinary commissions"
+          accentColor="#C55418"
+        />
+
+        <StatCard
+          icon={BookmarkCheck}
+          label="SAVED FOLIOS"
+          value={savedMenus.length}
+          supportingText="Curated menus ready to re-order"
+          accentColor="#173E23"
+        />
+      </div>
+
+      {/* Tabs */}
+      <div className="flex items-center gap-6 border-b border-[#EBE3D5] mb-6">
+        <button
+          onClick={() => setActiveTab('orders')}
+          className={`pb-3 text-xs font-bold uppercase tracking-wider transition-all relative ${
+            activeTab === 'orders'
+              ? 'text-[#173E23] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-[#173E23]'
+              : 'text-[#1c1c18]/60 hover:text-[#173E23]'
+          }`}
+        >
+          My Orders & Reservations ({orders.length})
+        </button>
+        <button
+          onClick={() => setActiveTab('saved')}
+          className={`pb-3 text-xs font-bold uppercase tracking-wider transition-all relative ${
+            activeTab === 'saved'
+              ? 'text-[#173E23] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-[#173E23]'
+              : 'text-[#1c1c18]/60 hover:text-[#173E23]'
+          }`}
+        >
+          Saved Menu Folios ({savedMenus.length})
+        </button>
+      </div>
+
+      {/* Tab Content */}
+      {loading ? (
+        <LoadingState message="Loading Tastings..." />
+      ) : activeTab === 'orders' ? (
+        <div>
+          {orders.length === 0 ? (
+            <EmptyState
+              sketch={ClocheSketch}
+              title="No Feasts Booked Yet"
+              description="Your tailored culinary commissions and reservations will appear here."
+              actionLabel="Tailor Your First Feast"
+              actionHref="/build-menu"
+            />
+          ) : (
+            <div className="space-y-4">
+              {orders.map((order) => {
+                const partnerCount = new Set(
+                  (order.items || [])
+                    .map((i) => i.dish?.partnerId || i.dish?.partner?.businessName)
+                    .filter(Boolean)
+                ).size || 1;
+
+                return (
+                  <div
+                    key={order.id}
+                    className="sketch-card p-5 bg-[#FAF6EF] rounded-2xl border border-[#EBE3D5] hover:border-[#173E23]/40 transition-all flex flex-col md:flex-row md:items-center justify-between gap-4 group shadow-sm"
+                  >
+                    <div>
+                      <div className="flex items-center gap-2 mb-1.5 flex-wrap">
+                        <span className="font-serif text-base font-bold text-[#173E23] group-hover:text-[#C55418] transition-colors">
+                          {order.orderRef}
+                        </span>
+                        <span
+                          className={`px-2.5 py-0.5 text-[10px] font-bold uppercase rounded-full ${
+                            order.status === 'COMPLETED'
+                              ? 'bg-emerald-100 text-emerald-800 border border-emerald-300'
+                              : 'bg-[#173E23]/10 text-[#173E23] border border-[#173E23]/20'
+                          }`}
+                        >
+                          {order.status}
+                        </span>
+                        <span
+                          className={`px-2 py-0.5 text-[10px] font-bold uppercase rounded ${
+                            order.paymentStatus === 'COMPLETED'
+                              ? 'bg-emerald-700 text-white'
+                              : 'bg-[#C55418]/15 text-[#C55418]'
+                          }`}
+                        >
+                          {order.paymentStatus === 'COMPLETED' ? 'PAID' : 'PAYMENT DUE'}
+                        </span>
+                      </div>
+
+                      <p className="text-xs text-[#1c1c18]/80 font-sans">
+                        Occasion: <strong className="text-[#173E23]">{order.occasionName || 'Artisanal Degustation'}</strong> • {partnerCount} Atelier{partnerCount > 1 ? 's' : ''} • {order.guestCount} Guests • Event: {new Date(order.eventDate).toLocaleDateString()}
+                      </p>
+                      <p className="text-[11px] text-[#1c1c18]/60 mt-0.5 truncate max-w-md font-sans">
+                        Venue: {order.venueAddress}
+                      </p>
+                    </div>
+
+                    <div className="flex items-center justify-between md:justify-end gap-4 border-t md:border-t-0 pt-3 md:pt-0 border-[#EBE3D5]">
+                      <div className="text-left md:text-right">
+                        <span className="font-serif text-lg font-bold text-[#173E23]">
+                          ₹{order.totalAmount?.toLocaleString()}
+                        </span>
+                        <span className="text-[10px] text-[#1c1c18]/60 block font-sans">
+                          {order.items?.length || 0} Courses
+                        </span>
+                      </div>
+
+                      <Link
+                        to={`/order/${order.id}`}
+                        className="px-4 py-2 bg-white text-[#173E23] border border-[#EBE3D5] rounded-xl text-xs font-bold uppercase tracking-wider hover:bg-[#173E23] hover:text-white transition-all flex items-center gap-1.5 shadow-sm"
+                      >
+                        <span>Track & Details</span>
+                        <ArrowRight className="w-3.5 h-3.5" />
+                      </Link>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
+      ) : (
+        /* Saved Menus Tab */
+        <div>
+          {savedMenus.length === 0 ? (
+            <EmptyState
+              icon={Bookmark}
+              title="No Saved Folios"
+              description="When curating menus, click 'Save Folio' to store your favorite compositions for future events."
+              actionLabel="Create a Menu Now"
+              actionHref="/build-menu"
+            />
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {savedMenus.map((menu) => (
+                <div
+                  key={menu.id}
+                  className="sketch-card p-5 bg-[#FAF6EF] rounded-2xl border border-[#EBE3D5] shadow-sm flex flex-col justify-between"
+                >
+                  <div>
+                    <span className="text-[10px] uppercase font-bold text-[#C55418]">
+                      Saved Folio
+                    </span>
+                    <h3 className="font-serif text-lg font-bold text-[#173E23] mb-1 mt-0.5">
+                      {menu.name}
+                    </h3>
+                    <p className="text-xs text-[#1c1c18]/70 mb-3 font-sans">
+                      Calibrated for {menu.guestCount} Guests • ₹{menu.totalPerHead} / head
+                    </p>
+
+                    <div className="space-y-1.5 mb-4">
+                      {menu.items?.slice(0, 3).map((item, idx) => (
+                        <div key={idx} className="text-xs text-[#1c1c18] flex items-center gap-2">
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#C55418]" />
+                          <span className="font-medium">{item.dish?.name}</span>
+                          <span className="text-[#1c1c18]/60 text-[11px]">
+                            ({item.dish?.partner?.businessName})
+                          </span>
+                        </div>
+                      ))}
+                      {menu.items?.length > 3 && (
+                        <span className="text-[11px] text-[#1c1c18]/60 block italic">
+                          + {menu.items.length - 3} more selections
+                        </span>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="pt-3 border-t border-[#EBE3D5] flex items-center justify-between">
+                    <button
+                      onClick={async () => {
+                        await api.deleteSavedMenu(menu.id);
+                        setSavedMenus((prev) => prev.filter((m) => m.id !== menu.id));
+                      }}
+                      className="text-xs text-red-600/80 hover:text-red-700 font-medium"
+                    >
+                      Remove
+                    </button>
+                    <Link
+                      to="/build-menu"
+                      className="px-3.5 py-1.5 bg-[#173E23] hover:bg-[#1f502f] text-white rounded-xl text-xs font-bold uppercase tracking-wider transition-all"
+                    >
+                      Re-order Menu
+                    </Link>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }
