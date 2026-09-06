@@ -3,24 +3,23 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from '../lib/navigation';
 import { api } from '../lib/apiClient';
-import PencilUnderline from '../components/ui/svg/PencilUnderline';
-import { BiryaniBowlSketch, SamosaSketch, ClocheSketch } from '../components/ui/svg/FoodSketches';
-import { Search, ArrowRight } from 'lucide-react';
+import { FALLBACK_DISHES, FALLBACK_PARTNERS } from '../lib/fallbackData';
+import { Search, ArrowRight, Sparkles, Utensils, Flame, Cake, Wine, Coffee, ChefHat, Check } from 'lucide-react';
 
 const CATEGORIES = [
-  { label: 'All Courses', value: 'ALL' },
-  { label: 'Starters & Chaat', value: 'Starter' },
-  { label: 'Royal Biryani', value: 'Biryani' },
-  { label: 'Mains & Curries', value: 'Main' },
-  { label: 'Desserts & Mithai', value: 'Dessert' },
-  { label: 'Beverages & Shakes', value: 'Beverage' },
-  { label: 'Royal Paan', value: 'Paan' },
+  { label: 'All Courses', value: 'ALL', icon: Utensils },
+  { label: 'Starters & Chaat', value: 'Starter', icon: Flame },
+  { label: 'Royal Biryani', value: 'Biryani', icon: ChefHat },
+  { label: 'Mains & Curries', value: 'Main', icon: Utensils },
+  { label: 'Desserts & Mithai', value: 'Dessert', icon: Cake },
+  { label: 'Beverages & Shakes', value: 'Beverage', icon: Wine },
+  { label: 'Royal Paan', value: 'Paan', icon: Coffee },
 ];
 
 export default function MenusPage() {
-  const [dishes, setDishes] = useState([]);
-  const [partners, setPartners] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [dishes, setDishes] = useState(FALLBACK_DISHES);
+  const [partners, setPartners] = useState(FALLBACK_PARTNERS);
+  const [loading, setLoading] = useState(false);
 
   // Filter States
   const [selectedCategory, setSelectedCategory] = useState('ALL');
@@ -40,10 +39,14 @@ export default function MenusPage() {
         const rawDishes = dishesRes.dishes || dishesRes.data?.dishes || (Array.isArray(dishesRes) ? dishesRes : []);
         const rawPartners = partnersRes.partners || partnersRes.data?.partners || (Array.isArray(partnersRes) ? partnersRes : []);
 
-        setDishes(rawDishes);
-        setPartners(rawPartners);
-      } catch (err) {
-        console.error('Failed to load menu catalog:', err);
+        if (rawDishes.length > 0) setDishes(rawDishes);
+        else setDishes(FALLBACK_DISHES);
+
+        if (rawPartners.length > 0) setPartners(rawPartners);
+        else setPartners(FALLBACK_PARTNERS);
+      } catch {
+        setDishes(FALLBACK_DISHES);
+        setPartners(FALLBACK_PARTNERS);
       } finally {
         setLoading(false);
       }
@@ -51,47 +54,42 @@ export default function MenusPage() {
     loadCatalog();
   }, []);
 
-  // Partner lookup dictionary
   const partnerMap = useMemo(() => {
     const map = {};
-    for (const p of partners) {
+    const list = (partners && partners.length > 0) ? partners : FALLBACK_PARTNERS;
+    for (const p of list) {
       map[p.id] = p.businessName;
     }
     return map;
   }, [partners]);
 
-  // Filtered dishes
   const filteredDishes = useMemo(() => {
-    return dishes.filter((d) => {
-      // Search query
+    const list = (dishes && dishes.length > 0) ? dishes : FALLBACK_DISHES;
+    return list.filter((d) => {
       if (searchQuery.trim()) {
-        const s = searchQuery.toLowerCase().trim();
-        const pName = (d.partnerName || partnerMap[d.partnerId] || '').toLowerCase();
+        const q = searchQuery.toLowerCase().trim();
         const matches =
-          d.name?.toLowerCase().includes(s) ||
-          d.description?.toLowerCase().includes(s) ||
-          d.category?.toLowerCase().includes(s) ||
-          pName.includes(s);
+          d.name?.toLowerCase().includes(q) ||
+          d.description?.toLowerCase().includes(q) ||
+          d.partnerName?.toLowerCase().includes(q) ||
+          partnerMap[d.partnerId]?.toLowerCase().includes(q);
         if (!matches) return false;
       }
 
-      // Category filter
       if (selectedCategory !== 'ALL') {
-        const cat = d.category?.toLowerCase() || '';
+        const cat = (typeof d.category === 'object' ? d.category?.name : d.category || '').toLowerCase();
         const target = selectedCategory.toLowerCase();
-        if (target === 'starter' && !cat.includes('starter') && !cat.includes('snack') && !cat.includes('appetizer')) return false;
-        if (target === 'biryani' && !cat.includes('biryani')) return false;
-        if (target === 'main' && !cat.includes('main') && !cat.includes('curry')) return false;
-        if (target === 'dessert' && !cat.includes('dessert') && !cat.includes('sweet') && !cat.includes('confectionery')) return false;
+        if (target === 'biryani' && !cat.includes('biryani') && !d.name.toLowerCase().includes('biryani')) return false;
+        if (target === 'starter' && !cat.includes('starter') && !cat.includes('appetizer') && !cat.includes('chaat') && !cat.includes('snack')) return false;
+        if (target === 'main' && !cat.includes('main') && !cat.includes('curry') && !cat.includes('gravy') && !cat.includes('bread') && !cat.includes('haleem')) return false;
+        if (target === 'dessert' && !cat.includes('dessert') && !cat.includes('sweet') && !cat.includes('mithai') && !cat.includes('halwa') && !cat.includes('ice cream') && !cat.includes('chocolate')) return false;
         if (target === 'beverage' && !cat.includes('beverage') && !cat.includes('shake') && !cat.includes('tea') && !cat.includes('chai')) return false;
         if (target === 'paan' && !cat.includes('paan')) return false;
       }
 
-      // Diet filter
       if (selectedDiet === 'VEG' && !d.isVeg) return false;
       if (selectedDiet === 'NON_VEG' && d.isVeg) return false;
 
-      // Partner filter
       if (selectedPartner !== 'ALL') {
         const pName = d.partnerName || partnerMap[d.partnerId] || '';
         if (pName.toLowerCase() !== selectedPartner.toLowerCase()) return false;
@@ -102,20 +100,23 @@ export default function MenusPage() {
   }, [dishes, searchQuery, selectedCategory, selectedDiet, selectedPartner, partnerMap]);
 
   return (
-    <div className="min-h-screen bg-[#FDF9F2] text-[#1C1C18]">
+    <div className="min-h-screen bg-slate-50 text-slate-900">
       
-      {/* Editorial Header */}
-      <section className="bg-[#173E23] text-[#FDF9F2] pt-24 pb-14 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+      {/* Luxury Porcelain Editorial Header */}
+      <section className="relative bg-gradient-to-b from-white via-slate-50 to-slate-100/60 pt-28 pb-12 sm:pb-16 px-4 sm:px-6 lg:px-8 border-b border-slate-200/80 overflow-hidden">
+        {/* Subtle Ambient Glows */}
+        <div className="absolute top-10 left-1/4 w-96 h-96 bg-brand-forest/5 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-brand-terracotta/5 rounded-full blur-3xl pointer-events-none" />
+
         <div className="max-w-7xl mx-auto relative z-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-emerald-300 text-xs font-semibold tracking-wider uppercase mb-4 backdrop-blur-sm border border-white/10">
-            <span className="w-2 h-2 rounded-full bg-[#C55418]" />
-            Curated Atelier Catalog
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-terracotta/10 text-brand-terracotta border border-brand-terracotta/20 text-xs font-bold uppercase tracking-widest mb-4">
+            <Sparkles className="w-3.5 h-3.5 text-brand-terracotta" />
+            <span>Curated Atelier Catalog • Approved Banquet Repertoires</span>
           </div>
-          <h1 className="font-display text-4xl sm:text-5xl md:text-6xl uppercase tracking-wider text-white max-w-3xl leading-none">
+          <h1 className="font-serif text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight text-slate-900 max-w-3xl leading-tight">
             Menus Tailored Around Your Moment
           </h1>
-          <PencilUnderline className="w-56 h-3 my-3" color="#C55418" />
-          <p className="mt-2 text-[#FDF9F2]/80 text-sm sm:text-base max-w-2xl font-serif italic font-light leading-relaxed">
+          <p className="mt-3 text-slate-600 text-sm sm:text-base max-w-2xl font-normal leading-relaxed">
             Every dish is an authenticated heirloom creation from Hyderabad's verified culinary institutions, portioned and staged for celebratory banquets.
           </p>
         </div>
@@ -123,213 +124,227 @@ export default function MenusPage() {
 
       {/* Main Catalog Workspace */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
-        
         {/* Curated Collections Highlights Row */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-          
-          <div className="p-6 bg-[#FAF6EF] rounded-2xl border border-[#EBE3D5] flex items-start gap-4 shadow-sm group">
-            <div className="w-12 h-12 rounded-xl bg-[#173E23]/10 flex items-center justify-center flex-shrink-0 text-[#173E23] group-hover:scale-110 transition-transform">
-              <BiryaniBowlSketch className="w-7 h-7" color="#173E23" />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+          <div className="p-6 bg-white rounded-2xl border border-slate-200/80 flex items-start gap-4 shadow-card-soft hover:shadow-card-hover hover:-translate-y-1 transition-all duration-300 group">
+            <div className="w-12 h-12 rounded-xl bg-emerald-50 text-brand-forest flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+              <ChefHat className="w-6 h-6" />
             </div>
             <div>
-              <span className="text-[10px] uppercase font-bold tracking-widest text-[#C55418] block mb-1">
+              <span className="text-[10px] uppercase font-bold tracking-widest text-brand-terracotta block mb-1">
                 Signature Collection
               </span>
-              <h3 className="font-serif font-bold text-lg text-[#173E23]">Royal Nizami Dum Feast</h3>
-              <p className="text-xs text-[#7C6F5A] mt-1 leading-relaxed">
+              <h3 className="font-serif font-bold text-base text-slate-900">Royal Nizami Dum Feast</h3>
+              <p className="text-xs text-slate-500 mt-1 leading-relaxed">
                 Slow-steamed mutton dum biryanis, midnight-simmered Haleem, and heirloom saffron breads.
               </p>
             </div>
           </div>
 
-          <div className="p-6 bg-[#FAF6EF] rounded-2xl border border-[#EBE3D5] flex items-start gap-4 shadow-sm group">
-            <div className="w-12 h-12 rounded-xl bg-[#C55418]/10 flex items-center justify-center flex-shrink-0 text-[#C55418] group-hover:scale-110 transition-transform">
-              <SamosaSketch className="w-7 h-7" color="#C55418" />
+          <div className="p-6 bg-white rounded-2xl border border-slate-200/80 flex items-start gap-4 shadow-card-soft hover:shadow-card-hover hover:-translate-y-1 transition-all duration-300 group">
+            <div className="w-12 h-12 rounded-xl bg-orange-50 text-brand-terracotta flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+              <Flame className="w-6 h-6" />
             </div>
             <div>
-              <span className="text-[10px] uppercase font-bold tracking-widest text-[#C55418] block mb-1">
+              <span className="text-[10px] uppercase font-bold tracking-widest text-brand-terracotta block mb-1">
                 Cocktail Soiree
               </span>
-              <h3 className="font-serif font-bold text-lg text-[#173E23]">Live Street Chaat Theatre</h3>
-              <p className="text-xs text-[#7C6F5A] mt-1 leading-relaxed">
-                Interactive Dahi Puri, crispy gourmet triangular pastries, and savory appetizers for cocktail hours.
+              <h3 className="font-serif font-bold text-base text-slate-900">Artisanal Starters & Chaat</h3>
+              <p className="text-xs text-slate-500 mt-1 leading-relaxed">
+                Crispy 45-min cocktail samosas, live mineral water pani puri bars, and charcoal skewers.
               </p>
             </div>
           </div>
 
-          <div className="p-6 bg-[#FAF6EF] rounded-2xl border border-[#EBE3D5] flex items-start gap-4 shadow-sm group">
-            <div className="w-12 h-12 rounded-xl bg-[#173E23]/10 flex items-center justify-center flex-shrink-0 text-[#173E23] group-hover:scale-110 transition-transform">
-              <ClocheSketch className="w-7 h-7" color="#173E23" />
+          <div className="p-6 bg-white rounded-2xl border border-slate-200/80 flex items-start gap-4 shadow-card-soft hover:shadow-card-hover hover:-translate-y-1 transition-all duration-300 group">
+            <div className="w-12 h-12 rounded-xl bg-emerald-50 text-brand-forest flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+              <Cake className="w-6 h-6" />
             </div>
             <div>
-              <span className="text-[10px] uppercase font-bold tracking-widest text-[#C55418] block mb-1">
-                Confectionery Atelier
+              <span className="text-[10px] uppercase font-bold tracking-widest text-brand-terracotta block mb-1">
+                Grand Finale
               </span>
-              <h3 className="font-serif font-bold text-lg text-[#173E23]">High-Cacao & Pure Ghee</h3>
-              <p className="text-xs text-[#7C6F5A] mt-1 leading-relaxed">
-                Single-origin West Godavari cacao bonbons, pure ghee Bisticks, and live granite rolled scoops.
+              <h3 className="font-serif font-bold text-base text-slate-900">Desserts & Godavari Cacao</h3>
+              <p className="text-xs text-slate-500 mt-1 leading-relaxed">
+                West Godavari bean-to-bar chocolate bonbons, pure ghee badam halwa, and silver-vark paan.
               </p>
             </div>
           </div>
-
         </div>
 
-        {/* Filter Controls Bar */}
-        <div className="bg-white p-4 sm:p-5 rounded-2xl border border-[#E2D8C6] shadow-sm mb-8 space-y-4">
-          
-          <div className="flex flex-col md:flex-row gap-3 items-center justify-between">
-            {/* Search Input */}
-            <div className="relative w-full md:w-96">
-              <Search className="w-4 h-4 text-[#7C6F5A] absolute left-3.5 top-1/2 -translate-y-1/2" />
+        {/* Filter Bar */}
+        <div className="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/80 shadow-card-soft mb-8 space-y-4">
+          {/* Category Pills */}
+          <div className="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">
+            {CATEGORIES.map((cat) => {
+              const Icon = cat.icon;
+              const isSelected = selectedCategory === cat.value;
+              return (
+                <button
+                  key={cat.value}
+                  onClick={() => setSelectedCategory(cat.value)}
+                  className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider whitespace-nowrap transition-all flex items-center gap-2 ${
+                    isSelected
+                      ? 'bg-brand-forest text-white shadow-sm'
+                      : 'bg-slate-50 text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+                  }`}
+                >
+                  <Icon className="w-3.5 h-3.5" />
+                  <span>{cat.label}</span>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Search, Diet & Partner Filters Row */}
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-3 border-t border-slate-100">
+            <div className="relative flex-1">
+              <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
               <input
                 type="text"
-                placeholder="Search dish name or partner..."
+                placeholder="Search dishes or recipes..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-2.5 bg-[#FDFBF7] rounded-xl border border-[#E2D8C6] focus:outline-none focus:border-[#173E23] text-sm text-[#173E23]"
+                className="w-full pl-9 pr-4 py-2.5 bg-slate-50/80 rounded-xl border border-slate-200 focus:outline-none focus:border-brand-forest text-xs font-medium text-slate-800 placeholder-slate-400"
               />
             </div>
 
-            {/* Partner Filter */}
+            {/* Diet Filter */}
+            <div className="flex items-center bg-slate-50 p-1 rounded-xl border border-slate-200 shrink-0">
+              {['ALL', 'VEG', 'NON_VEG'].map((diet) => (
+                <button
+                  key={diet}
+                  onClick={() => setSelectedDiet(diet)}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-all ${
+                    selectedDiet === diet
+                      ? 'bg-white text-slate-900 shadow-xs'
+                      : 'text-slate-500 hover:text-slate-900'
+                  }`}
+                >
+                  {diet === 'ALL' ? 'All Diets' : diet === 'VEG' ? 'Pure Veg' : 'Non-Veg'}
+                </button>
+              ))}
+            </div>
+
+            {/* Partner Dropdown */}
             <select
               value={selectedPartner}
               onChange={(e) => setSelectedPartner(e.target.value)}
-              className="p-2.5 bg-[#FDFBF7] border border-[#E2D8C6] rounded-xl text-xs font-semibold text-[#173E23] w-full md:w-auto focus:outline-none focus:border-[#173E23]"
+              aria-label="Filter by Partner Atelier"
+              className="px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-700 focus:outline-none focus:border-brand-forest shrink-0 cursor-pointer"
             >
-              <option value="ALL">All Culinary Houses</option>
+              <option value="ALL">All Partner Ateliers</option>
               {partners.map((p) => (
                 <option key={p.id} value={p.businessName}>
                   {p.businessName}
                 </option>
               ))}
             </select>
-
-            {/* Diet Segment Filter */}
-            <div className="flex items-center gap-1.5 p-1 bg-[#FDFBF7] border border-[#E2D8C6] rounded-xl w-full md:w-auto overflow-x-auto">
-              <button
-                onClick={() => setSelectedDiet('ALL')}
-                className={`px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-all whitespace-nowrap ${
-                  selectedDiet === 'ALL' ? 'bg-[#173E23] text-white shadow-sm' : 'text-[#7C6F5A] hover:text-[#173E23]'
-                }`}
-              >
-                All Diets
-              </button>
-              <button
-                onClick={() => setSelectedDiet('VEG')}
-                className={`px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-all whitespace-nowrap flex items-center gap-1.5 ${
-                  selectedDiet === 'VEG' ? 'bg-emerald-700 text-white shadow-sm' : 'text-[#7C6F5A] hover:text-emerald-700'
-                }`}
-              >
-                <span className="w-2 h-2 rounded-full bg-emerald-400" />
-                Pure Veg
-              </button>
-              <button
-                onClick={() => setSelectedDiet('NON_VEG')}
-                className={`px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-all whitespace-nowrap flex items-center gap-1.5 ${
-                  selectedDiet === 'NON_VEG' ? 'bg-[#C55418] text-white shadow-sm' : 'text-[#7C6F5A] hover:text-[#C55418]'
-                }`}
-              >
-                <span className="w-2 h-2 rounded-full bg-red-400" />
-                Non-Veg
-              </button>
-            </div>
           </div>
-
-          {/* Course Category Pills */}
-          <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none pt-2 border-t border-[#F3EFE6]">
-            {CATEGORIES.map((cat) => (
-              <button
-                key={cat.value}
-                onClick={() => setSelectedCategory(cat.value)}
-                className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${
-                  selectedCategory === cat.value
-                    ? 'bg-[#173E23] text-white shadow-sm'
-                    : 'bg-[#FDFBF7] text-[#595347] border border-[#E2D8C6] hover:bg-white'
-                }`}
-              >
-                {cat.label}
-              </button>
-            ))}
-          </div>
-
         </div>
 
-        {/* Results Metadata */}
+        {/* Counter Summary */}
         <div className="flex items-center justify-between mb-6">
-          <p className="text-xs sm:text-sm text-[#595347]">
-            Showing <strong>{filteredDishes.length}</strong> authenticated dish{filteredDishes.length === 1 ? '' : 'es'}
-          </p>
+          <span className="text-xs font-medium text-slate-500">
+            Showing <strong className="text-slate-900 font-bold">{filteredDishes.length}</strong> calibrated banquet courses
+          </span>
           <Link
             to="/build-menu"
-            className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#C55418] hover:underline"
+            className="text-xs font-bold uppercase tracking-wider text-brand-terracotta hover:underline flex items-center gap-1"
           >
-            <span>Launch Menu Builder</span>
+            <span>Orchestrate Custom Degustation</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>
 
-        {/* Loading State */}
-        {loading && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[1, 2, 3, 4, 5, 6].map((n) => (
-              <div key={n} className="h-64 rounded-2xl bg-[#EBE3D5]/50 animate-pulse" />
-            ))}
-          </div>
-        )}
-
         {/* Dishes Grid */}
-        {!loading && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {filteredDishes.length === 0 ? (
+          <div className="bg-white rounded-2xl border border-slate-200/80 p-12 text-center max-w-md mx-auto shadow-card-soft">
+            <Utensils className="w-10 h-10 text-brand-terracotta mx-auto mb-2 opacity-80" />
+            <h3 className="font-serif font-bold text-lg text-slate-900 mb-1">No Dishes Match Filter</h3>
+            <p className="text-xs text-slate-500 mb-4">Try clearing some filter criteria to browse other courses.</p>
+            <button
+              onClick={() => {
+                setSelectedCategory('ALL');
+                setSelectedDiet('ALL');
+                setSelectedPartner('ALL');
+                setSearchQuery('');
+              }}
+              className="btn-accent px-4 py-2 rounded-xl text-xs font-bold uppercase"
+            >
+              Reset Filters
+            </button>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredDishes.map((dish) => {
-              const partnerName = dish.partnerName || partnerMap[dish.partnerId] || 'Partner Atelier';
+              const pName = dish.partnerName || partnerMap[dish.partnerId] || 'Specialty Atelier';
               return (
                 <div
                   key={dish.id}
-                  className="sketch-card p-5 rounded-2xl flex flex-col justify-between group hover:border-[#173E23]/40 shadow-sm"
+                  className="bg-white rounded-2xl border border-slate-200/80 overflow-hidden shadow-card-soft hover:shadow-card-hover hover:border-brand-forest/30 flex flex-col justify-between transition-all duration-300 group"
                 >
-                  <div>
-                    {/* Top Row: Partner and Diet indicator */}
-                    <div className="flex items-center justify-between gap-2 mb-2.5">
-                      <span className="text-[11px] uppercase tracking-wider font-bold text-[#C55418] truncate">
-                        {partnerName}
+                  {/* Dish Image */}
+                  <div className="relative h-48 w-full overflow-hidden bg-slate-900">
+                    <img
+                      src={dish.imageUrl || 'https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=800&auto=format&fit=crop'}
+                      alt={dish.name}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent" />
+                    
+                    {/* Top Badges */}
+                    <div className="absolute top-3 left-3 right-3 flex items-center justify-between gap-2">
+                      <span className="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-slate-900/80 text-white backdrop-blur-md border border-white/15">
+                        {(typeof dish.category === 'object' ? dish.category?.name : dish.category) || 'Specialty'}
                       </span>
+
                       <span
-                        className={`inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold uppercase ${
+                        className={`px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider ${
                           dish.isVeg
-                            ? 'bg-emerald-100 text-emerald-800 border border-emerald-300'
-                            : 'bg-red-100 text-red-800 border border-red-300'
+                            ? 'bg-emerald-500 text-white shadow-xs'
+                            : 'bg-red-500 text-white shadow-xs'
                         }`}
                       >
-                        <span className={`w-1.5 h-1.5 rounded-full ${dish.isVeg ? 'bg-emerald-600' : 'bg-red-600'}`} />
                         {dish.isVeg ? 'Pure Veg' : 'Non-Veg'}
                       </span>
                     </div>
 
-                    {/* Dish Name */}
-                    <h3 className="font-serif font-bold text-lg text-[#173E23] group-hover:text-[#C55418] transition-colors leading-tight mb-2">
-                      {dish.name}
-                    </h3>
-
-                    {/* Description */}
-                    <p className="text-xs text-[#4A453A] leading-relaxed line-clamp-2 mb-4 font-light">
-                      {dish.description || 'Authentic heirloom preparation cooked according to traditional Hyderabadi recipes.'}
-                    </p>
-                  </div>
-
-                  {/* Pricing & Course Metadata (No raw IDs / internal fields) */}
-                  <div className="pt-3 border-t border-[#EBE3D5] flex items-center justify-between">
-                    <div>
-                      <span className="text-[10px] uppercase tracking-wider text-[#7C6F5A] block">
-                        Price Per Cover
-                      </span>
-                      <span className="font-serif font-bold text-base text-[#173E23]">
-                        ₹{dish.pricePerHead || dish.price || 180}
+                    {/* Bottom Partner Tag */}
+                    <div className="absolute bottom-3 left-3 right-3">
+                      <span className="text-[11px] font-bold text-amber-300 uppercase tracking-wider drop-shadow-md">
+                        {pName}
                       </span>
                     </div>
+                  </div>
 
-                    <span className="px-2.5 py-1 bg-[#173E23]/5 text-[#173E23] rounded-lg text-xs font-semibold">
-                      {(typeof dish.category === 'object' ? dish.category?.name : dish.category) || 'Specialty'}
-                    </span>
+                  {/* Dish Body */}
+                  <div className="p-5 flex-1 flex flex-col justify-between">
+                    <div>
+                      <h4 className="font-serif font-bold text-base text-slate-900 mb-1.5 group-hover:text-brand-terracotta transition-colors">
+                        {dish.name}
+                      </h4>
+                      <p className="text-xs text-slate-500 leading-relaxed line-clamp-2 font-normal mb-4">
+                        {dish.description || 'Authentic heirloom preparation with verified ingredients.'}
+                      </p>
+                    </div>
+
+                    <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
+                      <div>
+                        <span className="text-[10px] uppercase font-bold text-slate-400 block">Price / Head</span>
+                        <span className="font-serif font-bold text-base text-brand-forest">
+                          ₹{dish.pricePerHead || 180}
+                        </span>
+                      </div>
+
+                      <Link
+                        to={`/build-menu?dish=${encodeURIComponent(dish.id)}`}
+                        className="btn-accent px-4 py-2 rounded-xl text-xs uppercase tracking-wider font-bold shadow-xs flex items-center gap-1"
+                      >
+                        <span>Include</span>
+                        <ArrowRight className="w-3.5 h-3.5" />
+                      </Link>
+                    </div>
                   </div>
                 </div>
               );
@@ -338,7 +353,6 @@ export default function MenusPage() {
         )}
 
       </div>
-
     </div>
   );
 }

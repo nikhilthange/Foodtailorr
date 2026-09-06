@@ -4,8 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from '../lib/navigation';
 import { api } from '../lib/apiClient';
 import { useAuth } from '../features/auth/AuthContext';
-import { CheckCircle2, Bookmark, ArrowRight, X, Trash2, Edit3 } from 'lucide-react';
-import BotanicalSprig from '../components/ui/svg/BotanicalSprig';
+import { CheckCircle2, Bookmark, ArrowRight, X, Trash2, Edit3, Sparkles, ShieldCheck, Clock } from 'lucide-react';
 
 const getDefaultEventDate = () => {
   const target = new Date();
@@ -47,7 +46,6 @@ export default function MenuBuilderReview() {
           setActiveItems(pkgs[0].items || []);
         }
       } else {
-        // Fallback default recommendation if loaded directly
         api
           .recommendMenu({ guestCount: 25, budgetPerHead: 850, dietaryType: 'ALL' })
           .then((res) => {
@@ -184,31 +182,31 @@ export default function MenuBuilderReview() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FDF9F2] text-[#1C1C18] pt-24 pb-16 px-4 md:px-8">
+    <div className="min-h-screen bg-slate-50/50 text-slate-900 pt-24 pb-16 px-4 md:px-8">
       <div className="max-w-6xl mx-auto">
         
         {/* Toast */}
         {toastMessage && (
-          <div className="fixed top-20 right-4 z-50 bg-[#173E23] text-white px-5 py-3 rounded-xl shadow-xl flex items-center gap-2 border border-white/20 text-xs font-semibold animate-fade-in">
+          <div className="fixed top-20 right-4 z-50 bg-[#0D381E] text-white px-5 py-3 rounded-xl shadow-xl flex items-center gap-2 border border-white/20 text-xs font-semibold animate-fade-in">
             <CheckCircle2 className="w-4 h-4 text-emerald-300" />
             <span>{toastMessage}</span>
           </div>
         )}
 
         {/* Header Chapter */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 mb-8 border-b border-[#EBE3D5]">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 mb-8 border-b border-slate-200/90">
           <div>
             <div className="inline-flex items-center gap-2 mb-1">
-              <span className="w-2 h-2 rounded-full bg-[#C55418]"></span>
-              <span className="text-xs uppercase tracking-widest text-[#C55418] font-bold">
-                Chapter IX • Degustation Review
+              <span className="w-2 h-2 rounded-full bg-[#C85419]" />
+              <span className="text-xs uppercase tracking-widest text-[#C85419] font-bold">
+                Degustation Review
               </span>
             </div>
-            <h1 className="font-display text-3xl sm:text-4xl md:text-5xl uppercase tracking-wider text-[#173E23]">
+            <h1 className="font-display text-3xl sm:text-4xl md:text-5xl font-extrabold uppercase tracking-tight text-[#0D381E]">
               Your Tailored Banquet Folio
             </h1>
-            <p className="text-xs sm:text-sm text-[#7C6F5A] mt-1 font-serif italic">
-              Carefully calibrated for <strong className="text-[#173E23] not-italic">{guestCount} Guests</strong> • Occasion: <strong className="text-[#173E23] not-italic capitalize">{intake.occasion || 'Gathering'}</strong>
+            <p className="text-xs sm:text-sm text-slate-500 mt-1">
+              Carefully calibrated for <strong className="text-[#0D381E]">{guestCount} Guests</strong> • Occasion: <strong className="text-[#0D381E] capitalize">{intake.occasion || 'Gathering'}</strong>
             </p>
           </div>
 
@@ -216,14 +214,14 @@ export default function MenuBuilderReview() {
             <button
               onClick={handleSaveMenu}
               disabled={savingMenu}
-              className="px-4 py-2.5 bg-white border border-[#E2D8C6] hover:border-[#173E23] text-[#173E23] rounded-xl text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 shadow-sm"
+              className="px-4 py-2.5 bg-white border border-slate-200 hover:border-[#0D381E] text-[#0D381E] rounded-xl text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 shadow-xs cursor-pointer"
             >
-              <Bookmark className="w-4 h-4 text-[#C55418]" />
+              <Bookmark className="w-4 h-4 text-[#C85419]" />
               <span>{savingMenu ? 'Saving...' : 'Save Folio'}</span>
             </button>
             <button
               onClick={() => setIsCheckoutOpen(true)}
-              className="px-6 py-2.5 bg-[#C55418] hover:bg-[#a33e00] text-white rounded-xl text-xs font-bold uppercase tracking-wider shadow-md transition-all flex items-center gap-1.5 active:scale-95"
+              className="btn-accent"
             >
               <span>CONTINUE TO ORDER</span>
               <ArrowRight className="w-4 h-4" />
@@ -231,18 +229,18 @@ export default function MenuBuilderReview() {
           </div>
         </div>
 
-        {/* Section 30 Requirement: Personalization Profile Summary */}
-        <div className="bg-[#FAF6EF] p-5 sm:p-6 rounded-2xl border border-[#EBE3D5] mb-8 shadow-sm">
-          <div className="flex items-center justify-between pb-3 mb-4 border-b border-[#EBE3D5]">
+        {/* Personalization Profile Summary */}
+        <div className="bg-white p-5 sm:p-6 rounded-2xl border border-slate-200/90 mb-8 shadow-sm">
+          <div className="flex items-center justify-between pb-3 mb-4 border-b border-slate-100">
             <div className="flex items-center gap-2">
-              <BotanicalSprig className="w-5 h-5 text-[#173E23]" color="#173E23" />
-              <span className="text-xs uppercase font-bold tracking-widest text-[#173E23]">
+              <Sparkles className="w-4 h-4 text-[#0D381E]" />
+              <span className="text-xs uppercase font-bold tracking-widest text-[#0D381E]">
                 Intake Parameters Summary
               </span>
             </div>
             <Link
               to="/build-menu"
-              className="text-xs font-bold text-[#C55418] hover:underline flex items-center gap-1"
+              className="text-xs font-bold text-[#C85419] hover:underline flex items-center gap-1"
             >
               <Edit3 className="w-3.5 h-3.5" />
               <span>Edit Intake</span>
@@ -251,32 +249,32 @@ export default function MenuBuilderReview() {
 
           <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-4 text-xs">
             <div>
-              <span className="text-[#7C6F5A] uppercase tracking-wider block text-[10px] font-bold">Occasion</span>
-              <strong className="text-[#173E23] capitalize font-serif text-sm">{intake.occasion || 'Gathering'}</strong>
+              <span className="text-slate-400 uppercase tracking-wider block text-[10px] font-bold">Occasion</span>
+              <strong className="text-[#0D381E] capitalize text-sm">{intake.occasion || 'Gathering'}</strong>
             </div>
             <div>
-              <span className="text-[#7C6F5A] uppercase tracking-wider block text-[10px] font-bold">Guests</span>
-              <strong className="text-[#173E23] font-serif text-sm">{guestCount} Covers</strong>
+              <span className="text-slate-400 uppercase tracking-wider block text-[10px] font-bold">Guests</span>
+              <strong className="text-[#0D381E] text-sm">{guestCount} Covers</strong>
             </div>
             <div>
-              <span className="text-[#7C6F5A] uppercase tracking-wider block text-[10px] font-bold">Spice Scale</span>
-              <strong className="text-[#173E23] font-serif text-sm">{intake.spiceLevel || 'MEDIUM'}</strong>
+              <span className="text-slate-400 uppercase tracking-wider block text-[10px] font-bold">Spice Scale</span>
+              <strong className="text-[#0D381E] text-sm">{intake.spiceLevel || 'MEDIUM'}</strong>
             </div>
             <div>
-              <span className="text-[#7C6F5A] uppercase tracking-wider block text-[10px] font-bold">Diet Focus</span>
-              <strong className="text-[#173E23] font-serif text-sm">{intake.dietaryType || 'ALL'}</strong>
+              <span className="text-slate-400 uppercase tracking-wider block text-[10px] font-bold">Diet Focus</span>
+              <strong className="text-[#0D381E] text-sm">{intake.dietaryType || 'ALL'}</strong>
             </div>
             <div>
-              <span className="text-[#7C6F5A] uppercase tracking-wider block text-[10px] font-bold">Atmosphere</span>
-              <strong className="text-[#173E23] font-serif text-sm">{intake.mood || 'Elegant'}</strong>
+              <span className="text-slate-400 uppercase tracking-wider block text-[10px] font-bold">Atmosphere</span>
+              <strong className="text-[#0D381E] text-sm">{intake.mood || 'Elegant'}</strong>
             </div>
             <div>
-              <span className="text-[#7C6F5A] uppercase tracking-wider block text-[10px] font-bold">Target Budget</span>
-              <strong className="text-[#173E23] font-serif text-sm">₹{intake.budgetPerHead || calculatePerHead()} / head</strong>
+              <span className="text-slate-400 uppercase tracking-wider block text-[10px] font-bold">Target Budget</span>
+              <strong className="text-[#0D381E] text-sm">₹{intake.budgetPerHead || calculatePerHead()} / head</strong>
             </div>
             <div>
-              <span className="text-[#7C6F5A] uppercase tracking-wider block text-[10px] font-bold">Partners Sync</span>
-              <strong className="text-[#173E23] font-serif text-sm">
+              <span className="text-slate-400 uppercase tracking-wider block text-[10px] font-bold">Partners Sync</span>
+              <strong className="text-[#0D381E] text-sm">
                 {new Set(activeItems.map((i) => i.partnerName)).size} Houses
               </strong>
             </div>
@@ -293,22 +291,22 @@ export default function MenuBuilderReview() {
                   key={idx}
                   type="button"
                   onClick={() => handleSelectPackage(idx)}
-                  className={`p-4 rounded-2xl text-left border transition-all flex flex-col justify-between ${
+                  className={`p-4 rounded-2xl text-left border transition-all flex flex-col justify-between cursor-pointer ${
                     isSelected
-                      ? 'bg-white border-[#173E23] shadow-md ring-2 ring-[#173E23]/20'
-                      : 'bg-[#FAF6EF] border-[#EBE3D5] hover:bg-white'
+                      ? 'bg-white border-[#0D381E] shadow-md ring-2 ring-[#0D381E]/20'
+                      : 'bg-slate-50 border-slate-200 hover:bg-white'
                   }`}
                 >
                   <div>
-                    <span className="text-[10px] uppercase font-bold tracking-widest text-[#C55418] block mb-1">
+                    <span className="text-[10px] uppercase font-bold tracking-widest text-[#C85419] block mb-1">
                       Option 0{idx + 1}
                     </span>
-                    <h3 className="font-serif font-bold text-base text-[#173E23] mb-1">{pkg.name}</h3>
-                    <p className="text-xs text-[#7C6F5A] line-clamp-2 mb-3">{pkg.description}</p>
+                    <h3 className="font-display font-bold text-base text-[#0D381E] mb-1">{pkg.name}</h3>
+                    <p className="text-xs text-slate-500 line-clamp-2 mb-3">{pkg.description}</p>
                   </div>
-                  <div className="pt-2 border-t border-[#EBE3D5] flex items-center justify-between text-xs">
-                    <span className="font-serif font-bold text-[#173E23]">₹{pkg.perHead} / cover</span>
-                    <span className="text-[#C55418] font-semibold">{pkg.items?.length || 0} Courses</span>
+                  <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-xs">
+                    <span className="font-bold text-[#0D381E]">₹{pkg.perHead} / cover</span>
+                    <span className="text-[#C85419] font-semibold">{pkg.items?.length || 0} Courses</span>
                   </div>
                 </button>
               );
@@ -322,18 +320,18 @@ export default function MenuBuilderReview() {
           {/* Left 8 Cols: Course List */}
           <div className="lg:col-span-8 space-y-4">
             <div className="flex items-center justify-between mb-2">
-              <h2 className="font-serif font-bold text-xl text-[#173E23]">
+              <h2 className="font-display font-bold text-xl text-[#0D381E]">
                 Recommended Menu ({activeItems.length} Selections)
               </h2>
-              <span className="text-xs text-[#7C6F5A]">
+              <span className="text-xs text-slate-500">
                 You can remove or modify dishes below
               </span>
             </div>
 
             {activeItems.length === 0 ? (
-              <div className="p-8 text-center bg-white rounded-2xl border border-[#E2D8C6]">
-                <p className="text-sm text-[#7C6F5A]">All dishes removed from this composition.</p>
-                <Link to="/build-menu" className="mt-3 inline-block text-xs font-bold text-[#C55418] uppercase">
+              <div className="p-8 text-center bg-white rounded-2xl border border-slate-200">
+                <p className="text-sm text-slate-500">All dishes removed from this composition.</p>
+                <Link to="/build-menu" className="mt-3 inline-block text-xs font-bold text-[#C85419] uppercase">
                   Re-run Menu Intake
                 </Link>
               </div>
@@ -341,45 +339,45 @@ export default function MenuBuilderReview() {
               activeItems.map((item, idx) => (
                 <div
                   key={item.dishId || idx}
-                  className="sketch-card p-5 rounded-2xl border border-[#EBE3D5] hover:border-[#173E23]/40 transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4 group shadow-sm bg-white"
+                  className="p-5 rounded-2xl border border-slate-200/90 hover:border-emerald-700/40 transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4 group shadow-sm bg-white"
                 >
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-1.5 flex-wrap">
                       <span className={`w-2 h-2 rounded-full ${item.isVeg ? 'bg-emerald-600' : 'bg-red-600'}`} />
-                      <span className="text-[10px] uppercase font-bold tracking-wider text-[#C55418]">
+                      <span className="text-[10px] uppercase font-bold tracking-wider text-[#C85419]">
                         {(typeof item.category === 'object' ? item.category?.name : item.category) ||
                           item.categoryName ||
                           `Course 0${idx + 1}`}
                       </span>
                       {item.isSignature && (
-                        <span className="px-1.5 py-0.2 text-[9px] bg-[#C55418]/10 text-[#C55418] rounded font-bold">
+                        <span className="px-1.5 py-0.5 text-[9px] bg-[#C85419]/10 text-[#C85419] rounded font-bold">
                           Signature
                         </span>
                       )}
-                      <span className="text-[11px] font-bold text-[#173E23]">
+                      <span className="text-[11px] font-bold text-[#0D381E]">
                         • {item.partnerName}
                       </span>
                     </div>
 
-                    <h3 className="font-serif font-bold text-base text-[#173E23] leading-snug">
+                    <h3 className="font-display font-bold text-base text-[#0D381E] leading-snug">
                       {item.name}
                     </h3>
-                    <p className="text-xs text-[#595347] mt-0.5 line-clamp-2 font-light">
+                    <p className="text-xs text-slate-500 mt-0.5 line-clamp-2 font-normal">
                       {item.description || item.reason || 'Artisanal heritage preparation.'}
                     </p>
                   </div>
 
-                  <div className="flex sm:flex-col items-center sm:items-end justify-between gap-2 border-t sm:border-t-0 pt-3 sm:pt-0 border-[#EBE3D5]">
+                  <div className="flex sm:flex-col items-center sm:items-end justify-between gap-2 border-t sm:border-t-0 pt-3 sm:pt-0 border-slate-100">
                     <div className="text-right">
-                      <span className="font-serif font-bold text-base text-[#173E23]">
+                      <span className="font-display font-bold text-base text-[#0D381E]">
                         ₹{item.pricePerHead}
                       </span>
-                      <span className="text-[10px] text-[#7C6F5A] block">/ guest</span>
+                      <span className="text-[10px] text-slate-400 block">/ guest</span>
                     </div>
                     <button
                       type="button"
                       onClick={() => handleRemoveItem(item.dishId)}
-                      className="text-xs text-red-700 hover:underline flex items-center gap-1"
+                      className="text-xs text-red-600 hover:underline flex items-center gap-1 cursor-pointer"
                     >
                       <Trash2 className="w-3.5 h-3.5" />
                       <span>Remove</span>
@@ -392,47 +390,46 @@ export default function MenuBuilderReview() {
 
           {/* Right 4 Cols: Investment Summary Card */}
           <div className="lg:col-span-4">
-            <div className="sketch-card p-6 rounded-2xl border-2 border-[#173E23] sticky top-24 shadow-xl bg-[#FAF6EF]">
-              <span className="text-xs uppercase tracking-widest text-[#C55418] font-bold block mb-1">
+            <div className="p-6 rounded-2xl border-2 border-[#0D381E] sticky top-24 shadow-xl bg-white">
+              <span className="text-xs uppercase tracking-widest text-[#C85419] font-bold block mb-1">
                 Atelier Accounting
               </span>
-              <h3 className="font-serif font-bold text-xl text-[#173E23] mb-4 pb-3 border-b border-[#EBE3D5]">
+              <h3 className="font-display font-bold text-xl text-[#0D381E] mb-4 pb-3 border-b border-slate-100">
                 Investment Summary
               </h3>
 
               <div className="space-y-3 text-xs mb-6">
-                <div className="flex justify-between text-[#595347]">
+                <div className="flex justify-between text-slate-600">
                   <span>Per Head Total</span>
-                  <span className="font-bold text-[#173E23]">₹{calculatePerHead()}</span>
+                  <span className="font-bold text-[#0D381E]">₹{calculatePerHead()}</span>
                 </div>
-                <div className="flex justify-between text-[#595347]">
+                <div className="flex justify-between text-slate-600">
                   <span>Guest Count</span>
-                  <span className="font-bold text-[#173E23]">{guestCount} Guests</span>
+                  <span className="font-bold text-[#0D381E]">{guestCount} Guests</span>
                 </div>
-                <div className="flex justify-between text-[#595347]">
+                <div className="flex justify-between text-slate-600">
                   <span>Dishes Subtotal</span>
-                  <span className="font-bold text-[#173E23]">₹{calculateSubtotal().toLocaleString()}</span>
+                  <span className="font-bold text-[#0D381E]">₹{calculateSubtotal().toLocaleString()}</span>
                 </div>
-                <div className="flex justify-between text-[#595347]">
+                <div className="flex justify-between text-slate-600">
                   <span>Atelier Coordination (10%)</span>
-                  <span className="font-bold text-[#C55418]">₹{calculateFee().toLocaleString()}</span>
+                  <span className="font-bold text-[#C85419]">₹{calculateFee().toLocaleString()}</span>
                 </div>
 
-                <div className="pt-3 border-t border-[#EBE3D5] flex justify-between items-baseline">
-                  <span className="text-sm font-bold text-[#173E23]">Total Amount</span>
+                <div className="pt-3 border-t border-slate-100 flex justify-between items-baseline">
+                  <span className="text-sm font-bold text-[#0D381E]">Total Amount</span>
                   <div className="text-right">
-                    <span className="font-display text-3xl font-bold text-[#173E23]">
+                    <span className="font-display text-3xl font-extrabold text-[#0D381E]">
                       ₹{calculateTotal().toLocaleString()}
                     </span>
-                    <span className="text-[10px] text-[#7C6F5A] block">All taxes & synchronized transit incl.</span>
+                    <span className="text-[10px] text-slate-400 block">All taxes & synchronized transit incl.</span>
                   </div>
                 </div>
               </div>
 
-              {/* Section 30 Explicit CTA: CONTINUE TO ORDER */}
               <button
                 onClick={() => setIsCheckoutOpen(true)}
-                className="w-full py-3.5 bg-[#C55418] hover:bg-[#a33e00] text-white rounded-xl text-xs font-bold uppercase tracking-wider shadow-md active:scale-95 transition-all flex items-center justify-center gap-2 mb-3"
+                className="w-full py-3.5 bg-gradient-to-r from-[#C85419] to-[#D95D1E] hover:from-[#D95D1E] hover:to-[#E86624] text-white rounded-xl text-xs font-bold uppercase tracking-wider shadow-md shadow-orange-500/20 active:scale-95 transition-all flex items-center justify-center gap-2 mb-3 cursor-pointer"
               >
                 <span>CONTINUE TO ORDER</span>
                 <ArrowRight className="w-4 h-4" />
@@ -441,7 +438,7 @@ export default function MenuBuilderReview() {
               <button
                 onClick={handleSaveMenu}
                 disabled={savingMenu}
-                className="w-full py-2.5 bg-white text-[#173E23] rounded-xl text-xs font-bold uppercase tracking-wider border border-[#E2D8C6] hover:bg-[#FAF6EF] transition-all text-center"
+                className="w-full py-2.5 bg-slate-50 text-[#0D381E] rounded-xl text-xs font-bold uppercase tracking-wider border border-slate-200 hover:bg-slate-100 transition-all text-center cursor-pointer"
               >
                 {savingMenu ? 'Saving Folio...' : 'Save to My Tastings'}
               </button>
@@ -454,20 +451,20 @@ export default function MenuBuilderReview() {
 
       {/* Checkout & Reservation Details Modal */}
       {isCheckoutOpen && (
-        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-[#FDFBF7] rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border-2 border-[#173E23] max-h-[90vh] overflow-y-auto">
-            <div className="flex items-center justify-between pb-4 mb-4 border-b border-[#EBE3D5]">
+        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-slate-200 max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between pb-4 mb-4 border-b border-slate-100">
               <div>
-                <span className="text-[10px] uppercase font-bold tracking-widest text-[#C55418]">
+                <span className="text-[10px] uppercase font-bold tracking-widest text-[#C85419]">
                   Step 02 of Order
                 </span>
-                <h3 className="font-serif font-bold text-xl text-[#173E23]">
+                <h3 className="font-display font-bold text-xl text-[#0D381E]">
                   Host & Event Logistics
                 </h3>
               </div>
               <button
                 onClick={() => setIsCheckoutOpen(false)}
-                className="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-[#FAF6EF] text-[#7C6F5A]"
+                className="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-slate-100 text-slate-500 cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -481,7 +478,7 @@ export default function MenuBuilderReview() {
 
             <form onSubmit={handleConfirmOrder} className="space-y-4 text-xs">
               <div>
-                <label className="font-bold uppercase tracking-wider text-[#173E23] block mb-1">
+                <label className="font-bold uppercase tracking-wider text-slate-700 block mb-1">
                   Host / Primary Contact Name
                 </label>
                 <input
@@ -489,13 +486,13 @@ export default function MenuBuilderReview() {
                   required
                   value={checkoutData.contactName}
                   onChange={(e) => setCheckoutData((prev) => ({ ...prev, contactName: e.target.value }))}
-                  className="w-full px-3.5 py-2.5 bg-white rounded-xl border border-[#E2D8C6] focus:outline-none focus:border-[#173E23]"
+                  className="w-full px-3.5 py-2.5 bg-slate-50 rounded-xl border border-slate-200 focus:outline-none focus:border-[#0D381E]"
                 />
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="font-bold uppercase tracking-wider text-[#173E23] block mb-1">
+                  <label className="font-bold uppercase tracking-wider text-slate-700 block mb-1">
                     Contact Phone
                   </label>
                   <input
@@ -503,11 +500,11 @@ export default function MenuBuilderReview() {
                     required
                     value={checkoutData.contactPhone}
                     onChange={(e) => setCheckoutData((prev) => ({ ...prev, contactPhone: e.target.value }))}
-                    className="w-full px-3.5 py-2.5 bg-white rounded-xl border border-[#E2D8C6] focus:outline-none focus:border-[#173E23]"
+                    className="w-full px-3.5 py-2.5 bg-slate-50 rounded-xl border border-slate-200 focus:outline-none focus:border-[#0D381E]"
                   />
                 </div>
                 <div>
-                  <label className="font-bold uppercase tracking-wider text-[#173E23] block mb-1">
+                  <label className="font-bold uppercase tracking-wider text-slate-700 block mb-1">
                     Contact Email
                   </label>
                   <input
@@ -515,13 +512,13 @@ export default function MenuBuilderReview() {
                     required
                     value={checkoutData.contactEmail}
                     onChange={(e) => setCheckoutData((prev) => ({ ...prev, contactEmail: e.target.value }))}
-                    className="w-full px-3.5 py-2.5 bg-white rounded-xl border border-[#E2D8C6] focus:outline-none focus:border-[#173E23]"
+                    className="w-full px-3.5 py-2.5 bg-slate-50 rounded-xl border border-slate-200 focus:outline-none focus:border-[#0D381E]"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="font-bold uppercase tracking-wider text-[#173E23] block mb-1">
+                <label className="font-bold uppercase tracking-wider text-slate-700 block mb-1">
                   Event Date
                 </label>
                 <input
@@ -529,12 +526,12 @@ export default function MenuBuilderReview() {
                   required
                   value={checkoutData.eventDate}
                   onChange={(e) => setCheckoutData((prev) => ({ ...prev, eventDate: e.target.value }))}
-                  className="w-full px-3.5 py-2.5 bg-white rounded-xl border border-[#E2D8C6] focus:outline-none focus:border-[#173E23]"
+                  className="w-full px-3.5 py-2.5 bg-slate-50 rounded-xl border border-slate-200 focus:outline-none focus:border-[#0D381E]"
                 />
               </div>
 
               <div>
-                <label className="font-bold uppercase tracking-wider text-[#173E23] block mb-1">
+                <label className="font-bold uppercase tracking-wider text-slate-700 block mb-1">
                   Venue Address (Hyderabad)
                 </label>
                 <textarea
@@ -542,29 +539,28 @@ export default function MenuBuilderReview() {
                   required
                   value={checkoutData.venueAddress}
                   onChange={(e) => setCheckoutData((prev) => ({ ...prev, venueAddress: e.target.value }))}
-                  className="w-full px-3.5 py-2.5 bg-white rounded-xl border border-[#E2D8C6] focus:outline-none focus:border-[#173E23]"
+                  className="w-full px-3.5 py-2.5 bg-slate-50 rounded-xl border border-slate-200 focus:outline-none focus:border-[#0D381E]"
                 />
               </div>
 
               <div>
-                <label className="font-bold uppercase tracking-wider text-[#173E23] block mb-1">
+                <label className="font-bold uppercase tracking-wider text-slate-700 block mb-1">
                   Special Atelier Garnish / Staging Notes
                 </label>
                 <textarea
                   rows={2}
                   value={checkoutData.notes}
                   onChange={(e) => setCheckoutData((prev) => ({ ...prev, notes: e.target.value }))}
-                  className="w-full px-3.5 py-2.5 bg-white rounded-xl border border-[#E2D8C6] focus:outline-none focus:border-[#173E23]"
+                  className="w-full px-3.5 py-2.5 bg-slate-50 rounded-xl border border-slate-200 focus:outline-none focus:border-[#0D381E]"
                 />
               </div>
 
-              {/* Total Callout in Checkout */}
-              <div className="p-4 bg-[#FAF6EF] rounded-xl border border-[#EBE3D5] flex items-center justify-between">
+              <div className="p-4 bg-slate-50 rounded-xl border border-slate-200/80 flex items-center justify-between">
                 <div>
-                  <span className="text-[10px] uppercase font-bold text-[#7C6F5A] block">Total Commission</span>
-                  <span className="text-xs text-[#595347]">{guestCount} Guests • {activeItems.length} Courses</span>
+                  <span className="text-[10px] uppercase font-bold text-slate-400 block">Total Commission</span>
+                  <span className="text-xs text-slate-600">{guestCount} Guests • {activeItems.length} Courses</span>
                 </div>
-                <span className="font-display text-2xl font-bold text-[#173E23]">
+                <span className="font-display text-2xl font-bold text-[#0D381E]">
                   ₹{calculateTotal().toLocaleString()}
                 </span>
               </div>
@@ -573,14 +569,14 @@ export default function MenuBuilderReview() {
                 <button
                   type="button"
                   onClick={() => setIsCheckoutOpen(false)}
-                  className="w-1/3 py-3 text-xs font-bold uppercase tracking-wider text-[#7C6F5A] border border-[#E2D8C6] rounded-xl hover:bg-white"
+                  className="w-1/3 py-3 text-xs font-bold uppercase tracking-wider text-slate-600 border border-slate-200 rounded-xl hover:bg-slate-50 cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={submittingOrder}
-                  className="w-2/3 py-3 bg-[#C55418] hover:bg-[#a33e00] text-white rounded-xl text-xs font-bold uppercase tracking-wider shadow-md transition-all flex items-center justify-center gap-2"
+                  className="w-2/3 py-3 bg-gradient-to-r from-[#C85419] to-[#D95D1E] hover:from-[#D95D1E] hover:to-[#E86624] text-white rounded-xl text-xs font-bold uppercase tracking-wider shadow-md shadow-orange-500/20 transition-all flex items-center justify-center gap-2 cursor-pointer"
                 >
                   <span>{submittingOrder ? 'Submitting...' : 'SUBMIT & PROCEED TO PAYMENT'}</span>
                   <ArrowRight className="w-4 h-4" />

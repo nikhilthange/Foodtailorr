@@ -12,17 +12,16 @@ import {
   FestivalLampSketch,
 } from '../components/ui/svg/ExperienceSketches';
 import { ClocheSketch } from '../components/ui/svg/FoodSketches';
-import PencilUnderline from '../components/ui/svg/PencilUnderline';
-import { ArrowRight, ArrowLeft, Check, Sparkles, AlertCircle, Users } from 'lucide-react';
+import { ArrowRight, ArrowLeft, Check, Sparkles, AlertCircle, Users, ChefHat } from 'lucide-react';
 
 const OCCASION_OPTIONS = [
-  { id: 'birthday', label: 'Birthday', desc: 'Milestone years & custom gateaux', Icon: BirthdayCakeSketch, color: '#C55418' },
-  { id: 'anniversary', label: 'Anniversary', desc: 'Intimate candlelit royal dining', Icon: AnniversaryRingsSketch, color: '#173E23' },
-  { id: 'family', label: 'Family', desc: 'Generational comfort & abundance', Icon: FamilyFeastSketch, color: '#173E23' },
-  { id: 'corporate', label: 'Corporate', desc: 'Executive boardroom precision', Icon: CorporateMeetingSketch, color: '#173E23' },
-  { id: 'romantic', label: 'Romantic', desc: 'Private residence tastings', Icon: RomanticDinnerSketch, color: '#C55418' },
-  { id: 'festival', label: 'Festival', desc: 'Sanctified pure vegetarian feasts', Icon: FestivalLampSketch, color: '#C55418' },
-  { id: 'custom', label: 'Custom', desc: 'Your bespoke gathering format', Icon: ClocheSketch, color: '#C55418' },
+  { id: 'birthday', label: 'Birthday', desc: 'Milestone years & custom gateaux', Icon: BirthdayCakeSketch, color: '#C85419' },
+  { id: 'anniversary', label: 'Anniversary', desc: 'Intimate candlelit royal dining', Icon: AnniversaryRingsSketch, color: '#0D381E' },
+  { id: 'family', label: 'Family', desc: 'Generational comfort & abundance', Icon: FamilyFeastSketch, color: '#0D381E' },
+  { id: 'corporate', label: 'Corporate', desc: 'Executive boardroom precision', Icon: CorporateMeetingSketch, color: '#0D381E' },
+  { id: 'romantic', label: 'Romantic', desc: 'Private residence tastings', Icon: RomanticDinnerSketch, color: '#C85419' },
+  { id: 'festival', label: 'Festival', desc: 'Sanctified pure vegetarian feasts', Icon: FestivalLampSketch, color: '#C85419' },
+  { id: 'custom', label: 'Custom', desc: 'Your bespoke gathering format', Icon: ClocheSketch, color: '#C85419' },
 ];
 
 const MOOD_OPTIONS = [
@@ -79,7 +78,6 @@ export default function MenuBuilderIntake() {
     budgetPerHead: 850,
   });
 
-  // Load partners and restore saved state from sessionStorage
   useEffect(() => {
     let isMounted = true;
     async function init() {
@@ -93,14 +91,13 @@ export default function MenuBuilderIntake() {
         // Handled
       }
 
-      // Restore previously entered state if available
       try {
         const savedIntake = sessionStorage.getItem('ft_intake');
         if (savedIntake && isMounted) {
           setFormData((prev) => ({ ...prev, ...JSON.parse(savedIntake) }));
         }
       } catch {
-        // Ignored
+        // Handled
       }
     }
     init();
@@ -109,93 +106,96 @@ export default function MenuBuilderIntake() {
     };
   }, []);
 
-  // Save changes to sessionStorage
-  useEffect(() => {
-    try {
-      sessionStorage.setItem('ft_intake', JSON.stringify(formData));
-    } catch {
-      // Ignored
-    }
-  }, [formData]);
-
-  const toggleCuisine = (c) => {
-    setFormData((prev) => ({
-      ...prev,
-      cuisines: prev.cuisines.includes(c)
-        ? prev.cuisines.filter((item) => item !== c)
-        : [...prev.cuisines, c],
-    }));
+  const toggleCuisine = (cuisine) => {
+    setFormData((prev) => {
+      const exists = prev.cuisines.includes(cuisine);
+      if (exists) {
+        if (prev.cuisines.length === 1) return prev;
+        return { ...prev, cuisines: prev.cuisines.filter((c) => c !== cuisine) };
+      } else {
+        return { ...prev, cuisines: [...prev.cuisines, cuisine] };
+      }
+    });
   };
 
-  const togglePartner = (id) => {
-    setFormData((prev) => ({
-      ...prev,
-      selectedPartners: prev.selectedPartners.includes(id)
-        ? prev.selectedPartners.filter((item) => item !== id)
-        : [...prev.selectedPartners, id],
-    }));
+  const togglePartner = (partnerId) => {
+    setFormData((prev) => {
+      const exists = prev.selectedPartners.includes(partnerId);
+      if (exists) {
+        return { ...prev, selectedPartners: prev.selectedPartners.filter((id) => id !== partnerId) };
+      } else {
+        return { ...prev, selectedPartners: [...prev.selectedPartners, partnerId] };
+      }
+    });
   };
 
-  // Step 8: Trigger AI Menu Generation
   const handleGenerateMenu = async () => {
-    setSynthesizing(true);
-    setError(null);
     try {
+      setSynthesizing(true);
+      setError(null);
+      sessionStorage.setItem('ft_intake', JSON.stringify(formData));
+
       const payload = {
-        guestCount: parseInt(formData.guestCount, 10),
-        budgetPerHead: parseInt(formData.budgetPerHead, 10),
+        guestCount: formData.guestCount,
+        budgetPerHead: formData.budgetPerHead,
         dietaryType: formData.dietaryType,
         spiceLevel: formData.spiceLevel,
-        cuisines: formData.cuisines.length > 0 ? formData.cuisines : undefined,
+        occasion: formData.occasion,
+        cuisines: formData.cuisines,
+        selectedPartners: formData.selectedPartners,
       };
 
-      const result = await api.recommendMenu(payload);
+      const res = await api.recommendMenu(payload);
 
-      // Persist recommendation for review page
-      sessionStorage.setItem(
-        'ft_recommendation',
-        JSON.stringify({
-          packages: result.packages || (result.items ? [{ name: 'Curated Degustation', items: result.items, perHead: result.perHead, totalEstimate: result.totalEstimate }] : []),
-          raw: result,
-          intake: formData,
-        })
-      );
+      const recommendationData = {
+        packages: res.packages || [
+          {
+            name: 'Chef Curated Degustation',
+            items: res.items || [],
+            perHead: res.perHead || formData.budgetPerHead,
+            totalEstimate: (res.perHead || formData.budgetPerHead) * formData.guestCount,
+          },
+        ],
+        raw: res,
+        intake: formData,
+      };
 
-      navigate('/build-menu/review');
+      sessionStorage.setItem('ft_recommendation', JSON.stringify(recommendationData));
+
+      setTimeout(() => {
+        setSynthesizing(false);
+        navigate('/build-menu/review');
+      }, 1200);
     } catch (err) {
-      console.error('Menu recommendation error', err);
-      setError(
-        err.response?.data?.error?.message ||
-          err.response?.data?.error ||
-          'Could not synthesize menu. Please verify parameters.'
-      );
+      console.error('Synthesis failed:', err);
+      setError('Could not synthesize custom menu. Please check connection.');
       setSynthesizing(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-[#FDF9F2] text-[#1C1C18] pt-24 pb-16 px-4 md:px-8">
-      <div className="max-w-4xl mx-auto">
-        
-        {/* Header */}
-        <div className="text-center max-w-2xl mx-auto mb-8">
-          <div className="inline-flex items-center gap-2 mb-2">
-            <span className="w-2 h-2 rounded-full bg-[#C55418]"></span>
-            <span className="text-xs uppercase tracking-widest text-[#C55418] font-bold">
-              Private Concierge Wizard
-            </span>
+    <div className="min-h-screen bg-slate-50/50 text-slate-900 pb-24">
+      {/* Editorial Header */}
+      <section className="bg-gradient-to-b from-[#081810] to-[#0D381E] text-white pt-28 pb-14 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+        <div className="max-w-4xl mx-auto relative z-10 text-center">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/10 text-emerald-300 text-xs font-semibold tracking-wider uppercase mb-3 backdrop-blur-sm border border-white/10">
+            <Sparkles className="w-3.5 h-3.5 text-[#C85419]" />
+            <span>Interactive Curation Studio</span>
           </div>
-          <h1 className="font-display text-4xl sm:text-5xl uppercase tracking-wider text-[#173E23]">
-            Build My Menu
+          <h1 className="font-display text-3xl sm:text-5xl font-extrabold uppercase tracking-tight text-white leading-tight">
+            Tailor Your Gathering
           </h1>
-          <PencilUnderline className="w-44 h-3 mx-auto my-2" color="#C55418" />
-          <p className="text-xs sm:text-sm text-[#424941] font-serif italic">
-            Calibrate courses, guest dynamics, and culinary houses across 8 personalization dimensions.
+          <p className="mt-2 text-slate-200/90 text-xs sm:text-sm max-w-xl mx-auto font-normal">
+            Step {step} of 8 • Define your gathering parameters to synthesize a balanced multi-brand feast.
           </p>
         </div>
+      </section>
 
-        {/* 8-Step Progress Stepper */}
-        <div className="bg-white p-3 sm:p-4 rounded-2xl border border-[#E2D8C6] shadow-sm mb-8 overflow-x-auto">
+      {/* Main Workspace Container */}
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8">
+        
+        {/* Stepper Progress Indicator */}
+        <div className="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/90 shadow-sm mb-6 overflow-x-auto no-scrollbar">
           <div className="flex items-center justify-between min-w-[560px]">
             {[
               { num: 1, label: 'Occasion' },
@@ -213,22 +213,22 @@ export default function MenuBuilderIntake() {
                 <React.Fragment key={s.num}>
                   <button
                     onClick={() => !synthesizing && setStep(s.num)}
-                    className="flex items-center gap-1.5 focus:outline-none"
+                    className="flex items-center gap-1.5 focus:outline-none cursor-pointer"
                   >
                     <div
                       className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold transition-all ${
                         isActive
-                          ? 'bg-[#C55418] text-white shadow-sm ring-4 ring-[#C55418]/20'
+                          ? 'bg-[#C85419] text-white shadow-sm ring-4 ring-[#C85419]/20'
                           : isPast
-                          ? 'bg-[#173E23] text-white'
-                          : 'bg-[#F3EFE6] text-[#7C6F5A]'
+                          ? 'bg-[#0D381E] text-white'
+                          : 'bg-slate-100 text-slate-500'
                       }`}
                     >
                       {isPast ? '✓' : s.num}
                     </div>
                     <span
                       className={`text-xs font-semibold hidden md:inline ${
-                        isActive ? 'text-[#173E23]' : 'text-[#7C6F5A]'
+                        isActive ? 'text-[#0D381E]' : 'text-slate-500'
                       }`}
                     >
                       {s.label}
@@ -237,7 +237,7 @@ export default function MenuBuilderIntake() {
                   {idx < arr.length - 1 && (
                     <div
                       className={`flex-1 h-[2px] mx-2 transition-colors ${
-                        step > idx + 1 ? 'bg-[#173E23]' : 'bg-[#E2D8C6]'
+                        step > idx + 1 ? 'bg-[#0D381E]' : 'bg-slate-200'
                       }`}
                     />
                   )}
@@ -256,19 +256,19 @@ export default function MenuBuilderIntake() {
         )}
 
         {/* Main Wizard Form Card */}
-        <div className="sketch-card p-6 sm:p-10 rounded-2xl border border-[#EBE3D5] shadow-md min-h-[420px] flex flex-col justify-between">
+        <div className="bg-white p-6 sm:p-10 rounded-3xl border border-slate-200/90 shadow-xl shadow-slate-900/5 min-h-[420px] flex flex-col justify-between">
           
           {/* STEP 01 — OCCASION */}
           {step === 1 && (
             <div>
               <div className="mb-6">
-                <span className="text-xs font-bold uppercase tracking-widest text-[#C55418] block mb-1">
+                <span className="text-xs font-bold uppercase tracking-widest text-[#C85419] block mb-1">
                   Step 01 • The Occasion
                 </span>
-                <h2 className="font-serif font-bold text-2xl sm:text-3xl text-[#173E23]">
+                <h2 className="font-display font-bold text-2xl sm:text-3xl text-[#0D381E]">
                   What are we celebrating?
                 </h2>
-                <p className="text-xs text-[#7C6F5A] mt-1 font-light">
+                <p className="text-xs text-slate-500 mt-1 font-normal">
                   Choose the gathering format to initialize course structures and banquet tempo.
                 </p>
               </div>
@@ -282,20 +282,20 @@ export default function MenuBuilderIntake() {
                       key={occ.id}
                       type="button"
                       onClick={() => setFormData({ ...formData, occasion: occ.id })}
-                      className={`p-4 rounded-xl border text-left transition-all flex items-start gap-3 ${
+                      className={`p-4 rounded-2xl border text-left transition-all flex items-start gap-3 cursor-pointer ${
                         isSelected
-                          ? 'bg-[#173E23] text-white border-[#173E23] shadow-md'
-                          : 'bg-white text-[#1C1C18] border-[#E2D8C6] hover:border-[#173E23]/40'
+                          ? 'bg-[#0D381E] text-white border-[#0D381E] shadow-md'
+                          : 'bg-white text-slate-800 border-slate-200 hover:border-emerald-700/40 hover:bg-slate-50'
                       }`}
                     >
-                      <div className={`w-10 h-10 rounded-lg flex items-center justify-center shrink-0 ${
-                        isSelected ? 'bg-white/10 text-white' : 'bg-[#FAF6EF] text-[#173E23]'
+                      <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${
+                        isSelected ? 'bg-white/10 text-white' : 'bg-slate-100 text-[#0D381E]'
                       }`}>
                         <Icon className="w-6 h-6" color={isSelected ? '#FFFFFF' : occ.color} />
                       </div>
                       <div>
-                        <h3 className="font-serif font-bold text-base leading-snug">{occ.label}</h3>
-                        <p className={`text-[11px] mt-0.5 leading-relaxed font-light ${isSelected ? 'text-white/80' : 'text-[#7C6F5A]'}`}>
+                        <h3 className="font-display font-bold text-base leading-snug">{occ.label}</h3>
+                        <p className={`text-[11px] mt-0.5 leading-relaxed ${isSelected ? 'text-white/80' : 'text-slate-500'}`}>
                           {occ.desc}
                         </p>
                       </div>
@@ -310,32 +310,31 @@ export default function MenuBuilderIntake() {
           {step === 2 && (
             <div>
               <div className="mb-6">
-                <span className="text-xs font-bold uppercase tracking-widest text-[#C55418] block mb-1">
+                <span className="text-xs font-bold uppercase tracking-widest text-[#C85419] block mb-1">
                   Step 02 • Headcount & Scale
                 </span>
-                <h2 className="font-serif font-bold text-2xl sm:text-3xl text-[#173E23]">
+                <h2 className="font-display font-bold text-2xl sm:text-3xl text-[#0D381E]">
                   How many guests will be seated?
                 </h2>
-                <p className="text-xs text-[#7C6F5A] mt-1 font-light">
+                <p className="text-xs text-slate-500 mt-1 font-normal">
                   We portion dishes mathematically to prevent wastage while guaranteeing lavish hospitality.
                 </p>
               </div>
 
               <div className="max-w-md mx-auto py-6 text-center space-y-6">
-                <div className="w-20 h-20 rounded-full bg-[#173E23]/10 text-[#173E23] flex items-center justify-center mx-auto mb-2">
-                  <Users className="w-10 h-10 text-[#173E23]" />
+                <div className="w-20 h-20 rounded-full bg-emerald-50 text-[#0D381E] flex items-center justify-center mx-auto mb-2">
+                  <Users className="w-10 h-10 text-[#0D381E]" />
                 </div>
 
                 <div>
-                  <span className="font-display text-6xl text-[#173E23] font-bold block">
+                  <span className="font-display text-6xl text-[#0D381E] font-black block">
                     {formData.guestCount}
                   </span>
-                  <span className="text-xs uppercase tracking-widest text-[#7C6F5A] font-semibold">
+                  <span className="text-xs uppercase tracking-widest text-slate-500 font-semibold">
                     Guest Covers Expected
                   </span>
                 </div>
 
-                {/* Slider */}
                 <input
                   type="range"
                   min="10"
@@ -343,20 +342,19 @@ export default function MenuBuilderIntake() {
                   step="5"
                   value={formData.guestCount}
                   onChange={(e) => setFormData({ ...formData, guestCount: parseInt(e.target.value, 10) })}
-                  className="w-full accent-[#C55418] h-2 bg-[#E2D8C6] rounded-lg cursor-pointer"
+                  className="w-full accent-[#C85419] h-2 bg-slate-200 rounded-lg cursor-pointer"
                 />
 
-                {/* Quick Presets */}
                 <div className="flex items-center justify-center gap-2 flex-wrap">
                   {[15, 25, 50, 75, 100, 200].map((count) => (
                     <button
                       key={count}
                       type="button"
                       onClick={() => setFormData({ ...formData, guestCount: count })}
-                      className={`px-3 py-1 rounded-lg text-xs font-bold transition-colors ${
+                      className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-colors cursor-pointer ${
                         formData.guestCount === count
-                          ? 'bg-[#C55418] text-white shadow-sm'
-                          : 'bg-white border border-[#E2D8C6] text-[#7C6F5A] hover:bg-[#F3EFE6]'
+                          ? 'bg-[#C85419] text-white shadow-xs'
+                          : 'bg-slate-50 border border-slate-200 text-slate-600 hover:bg-slate-100'
                       }`}
                     >
                       {count} Guests
@@ -371,20 +369,20 @@ export default function MenuBuilderIntake() {
           {step === 3 && (
             <div>
               <div className="mb-6">
-                <span className="text-xs font-bold uppercase tracking-widest text-[#C55418] block mb-1">
+                <span className="text-xs font-bold uppercase tracking-widest text-[#C85419] block mb-1">
                   Step 03 • Palate & Taste
                 </span>
-                <h2 className="font-serif font-bold text-2xl sm:text-3xl text-[#173E23]">
+                <h2 className="font-display font-bold text-2xl sm:text-3xl text-[#0D381E]">
                   Select your preferred cuisines & spice scale.
                 </h2>
-                <p className="text-xs text-[#7C6F5A] mt-1 font-light">
+                <p className="text-xs text-slate-500 mt-1 font-normal">
                   Choose the culinary traditions you want spotlighted on the banquet line.
                 </p>
               </div>
 
               {/* Cuisine Pills */}
               <div className="mb-8">
-                <label className="text-xs font-bold uppercase tracking-wider text-[#173E23] block mb-3">
+                <label className="text-xs font-bold uppercase tracking-wider text-slate-700 block mb-3">
                   Cuisine Profiles (Select Multiple)
                 </label>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
@@ -395,10 +393,10 @@ export default function MenuBuilderIntake() {
                         key={c}
                         type="button"
                         onClick={() => toggleCuisine(c)}
-                        className={`p-3 rounded-xl border text-xs font-semibold text-center transition-all ${
+                        className={`p-3 rounded-xl border text-xs font-semibold text-center transition-all cursor-pointer ${
                           isSelected
-                            ? 'bg-[#173E23] text-white border-[#173E23] shadow-sm'
-                            : 'bg-white text-[#424941] border-[#E2D8C6] hover:bg-[#FAF6EF]'
+                            ? 'bg-[#0D381E] text-white border-[#0D381E] shadow-sm'
+                            : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
                         }`}
                       >
                         {c}
@@ -410,7 +408,7 @@ export default function MenuBuilderIntake() {
 
               {/* Spice Options */}
               <div>
-                <label className="text-xs font-bold uppercase tracking-wider text-[#173E23] block mb-3">
+                <label className="text-xs font-bold uppercase tracking-wider text-slate-700 block mb-3">
                   Spice Calibration
                 </label>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -421,14 +419,14 @@ export default function MenuBuilderIntake() {
                         key={spice.value}
                         type="button"
                         onClick={() => setFormData({ ...formData, spiceLevel: spice.value })}
-                        className={`p-3.5 rounded-xl border text-left transition-all ${
+                        className={`p-3.5 rounded-xl border text-left transition-all cursor-pointer ${
                           isSelected
-                            ? 'bg-[#C55418] text-white border-[#C55418] shadow-sm'
-                            : 'bg-white text-[#1C1C18] border-[#E2D8C6] hover:bg-[#FAF6EF]'
+                            ? 'bg-[#C85419] text-white border-[#C85419] shadow-sm'
+                            : 'bg-slate-50 text-slate-800 border-slate-200 hover:bg-slate-100'
                         }`}
                       >
-                        <h4 className="font-serif font-bold text-sm">{spice.label}</h4>
-                        <p className={`text-xs mt-0.5 font-light ${isSelected ? 'text-white/85' : 'text-[#7C6F5A]'}`}>
+                        <h4 className="font-display font-bold text-sm">{spice.label}</h4>
+                        <p className={`text-xs mt-0.5 ${isSelected ? 'text-white/85' : 'text-slate-500'}`}>
                           {spice.desc}
                         </p>
                       </button>
@@ -443,13 +441,13 @@ export default function MenuBuilderIntake() {
           {step === 4 && (
             <div>
               <div className="mb-6">
-                <span className="text-xs font-bold uppercase tracking-widest text-[#C55418] block mb-1">
+                <span className="text-xs font-bold uppercase tracking-widest text-[#C85419] block mb-1">
                   Step 04 • Dietary Guardrails
                 </span>
-                <h2 className="font-serif font-bold text-2xl sm:text-3xl text-[#173E23]">
+                <h2 className="font-display font-bold text-2xl sm:text-3xl text-[#0D381E]">
                   What are your dietary preferences?
                 </h2>
-                <p className="text-xs text-[#7C6F5A] mt-1 font-light">
+                <p className="text-xs text-slate-500 mt-1 font-normal">
                   We guarantee dedicated kitchen segregation and clear labeling for all courses.
                 </p>
               </div>
@@ -462,20 +460,20 @@ export default function MenuBuilderIntake() {
                       key={diet.value}
                       type="button"
                       onClick={() => setFormData({ ...formData, dietaryType: diet.value })}
-                      className={`w-full p-4 rounded-xl border text-left transition-all flex items-center justify-between ${
+                      className={`w-full p-4 rounded-xl border text-left transition-all flex items-center justify-between cursor-pointer ${
                         isSelected
-                          ? 'bg-[#173E23] text-white border-[#173E23] shadow-sm'
-                          : 'bg-white text-[#1C1C18] border-[#E2D8C6] hover:bg-[#FAF6EF]'
+                          ? 'bg-[#0D381E] text-white border-[#0D381E] shadow-sm'
+                          : 'bg-slate-50 text-slate-800 border-slate-200 hover:bg-slate-100'
                       }`}
                     >
                       <div>
-                        <h3 className="font-serif font-bold text-base">{diet.label}</h3>
-                        <p className={`text-xs mt-0.5 font-light ${isSelected ? 'text-white/80' : 'text-[#7C6F5A]'}`}>
+                        <h3 className="font-display font-bold text-base">{diet.label}</h3>
+                        <p className={`text-xs mt-0.5 ${isSelected ? 'text-white/80' : 'text-slate-500'}`}>
                           {diet.desc}
                         </p>
                       </div>
                       <div className={`w-6 h-6 rounded-full flex items-center justify-center border ${
-                        isSelected ? 'border-white bg-white/20' : 'border-[#E2D8C6]'
+                        isSelected ? 'border-white bg-white/20' : 'border-slate-300'
                       }`}>
                         {isSelected && <Check className="w-3.5 h-3.5 text-white" />}
                       </div>
@@ -490,13 +488,13 @@ export default function MenuBuilderIntake() {
           {step === 5 && (
             <div>
               <div className="mb-6">
-                <span className="text-xs font-bold uppercase tracking-widest text-[#C55418] block mb-1">
+                <span className="text-xs font-bold uppercase tracking-widest text-[#C85419] block mb-1">
                   Step 05 • Atmosphere & Mood
                 </span>
-                <h2 className="font-serif font-bold text-2xl sm:text-3xl text-[#173E23]">
+                <h2 className="font-display font-bold text-2xl sm:text-3xl text-[#0D381E]">
                   What is the desired atmosphere?
                 </h2>
-                <p className="text-xs text-[#7C6F5A] mt-1 font-light">
+                <p className="text-xs text-slate-500 mt-1 font-normal">
                   Atmosphere determines course presentation, serving speed, and tableside theater.
                 </p>
               </div>
@@ -509,14 +507,14 @@ export default function MenuBuilderIntake() {
                       key={m.id}
                       type="button"
                       onClick={() => setFormData({ ...formData, mood: m.id })}
-                      className={`p-4 rounded-xl border text-left transition-all ${
+                      className={`p-4 rounded-2xl border text-left transition-all cursor-pointer ${
                         isSelected
-                          ? 'bg-[#173E23] text-white border-[#173E23] shadow-sm'
-                          : 'bg-white text-[#1C1C18] border-[#E2D8C6] hover:bg-[#FAF6EF]'
+                          ? 'bg-[#0D381E] text-white border-[#0D381E] shadow-sm'
+                          : 'bg-slate-50 text-slate-800 border-slate-200 hover:bg-slate-100'
                       }`}
                     >
-                      <h3 className="font-serif font-bold text-base mb-1">{m.label}</h3>
-                      <p className={`text-xs font-light ${isSelected ? 'text-white/80' : 'text-[#7C6F5A]'}`}>
+                      <h3 className="font-display font-bold text-base mb-1">{m.label}</h3>
+                      <p className={`text-xs ${isSelected ? 'text-white/80' : 'text-slate-500'}`}>
                         {m.desc}
                       </p>
                     </button>
@@ -530,13 +528,13 @@ export default function MenuBuilderIntake() {
           {step === 6 && (
             <div>
               <div className="mb-6">
-                <span className="text-xs font-bold uppercase tracking-widest text-[#C55418] block mb-1">
+                <span className="text-xs font-bold uppercase tracking-widest text-[#C85419] block mb-1">
                   Step 06 • Atelier Guild Selection
                 </span>
-                <h2 className="font-serif font-bold text-2xl sm:text-3xl text-[#173E23]">
+                <h2 className="font-display font-bold text-2xl sm:text-3xl text-[#0D381E]">
                   Select preferred partner kitchen(s).
                 </h2>
-                <p className="text-xs text-[#7C6F5A] mt-1 font-light">
+                <p className="text-xs text-slate-500 mt-1 font-normal">
                   Pick your favorite institutions or leave empty for optimal automated curation across all 11 partners.
                 </p>
               </div>
@@ -549,20 +547,20 @@ export default function MenuBuilderIntake() {
                       key={p.id}
                       type="button"
                       onClick={() => togglePartner(p.id)}
-                      className={`p-3.5 rounded-xl border text-left transition-all flex items-start gap-3 ${
+                      className={`p-3.5 rounded-xl border text-left transition-all flex items-start gap-3 cursor-pointer ${
                         isSelected
-                          ? 'bg-[#173E23] text-white border-[#173E23] shadow-sm'
-                          : 'bg-white text-[#1C1C18] border-[#E2D8C6] hover:bg-[#FAF6EF]'
+                          ? 'bg-[#0D381E] text-white border-[#0D381E] shadow-sm'
+                          : 'bg-slate-50 text-slate-800 border-slate-200 hover:bg-slate-100'
                       }`}
                     >
                       <div className={`w-5 h-5 rounded-md flex items-center justify-center shrink-0 mt-0.5 border ${
-                        isSelected ? 'bg-[#C55418] border-[#C55418]' : 'border-[#E2D8C6]'
+                        isSelected ? 'bg-[#C85419] border-[#C85419]' : 'border-slate-300'
                       }`}>
                         {isSelected && <Check className="w-3.5 h-3.5 text-white" />}
                       </div>
                       <div>
-                        <h4 className="font-serif font-bold text-sm leading-tight">{p.businessName}</h4>
-                        <span className={`text-[10px] block mt-0.5 ${isSelected ? 'text-white/80' : 'text-[#7C6F5A]'}`}>
+                        <h4 className="font-display font-bold text-sm leading-tight">{p.businessName}</h4>
+                        <span className={`text-[10px] block mt-0.5 ${isSelected ? 'text-white/80' : 'text-slate-500'}`}>
                           {p.cuisine}
                         </span>
                       </div>
@@ -577,23 +575,23 @@ export default function MenuBuilderIntake() {
           {step === 7 && (
             <div>
               <div className="mb-6">
-                <span className="text-xs font-bold uppercase tracking-widest text-[#C55418] block mb-1">
+                <span className="text-xs font-bold uppercase tracking-widest text-[#C85419] block mb-1">
                   Step 07 • Investment Parameters
                 </span>
-                <h2 className="font-serif font-bold text-2xl sm:text-3xl text-[#173E23]">
+                <h2 className="font-display font-bold text-2xl sm:text-3xl text-[#0D381E]">
                   Define your budget range per cover.
                 </h2>
-                <p className="text-xs text-[#7C6F5A] mt-1 font-light">
+                <p className="text-xs text-slate-500 mt-1 font-normal">
                   Our system maximizes course richness and premium ingredients within your specified target.
                 </p>
               </div>
 
               <div className="max-w-md mx-auto py-6 text-center space-y-6">
                 <div>
-                  <span className="font-display text-5xl text-[#173E23] font-bold block">
+                  <span className="font-display text-5xl text-[#0D381E] font-black block">
                     ₹{formData.budgetPerHead}
                   </span>
-                  <span className="text-xs uppercase tracking-widest text-[#7C6F5A] font-semibold">
+                  <span className="text-xs uppercase tracking-widest text-slate-500 font-semibold">
                     Target Budget Per Head (Approx. ₹{(formData.budgetPerHead * formData.guestCount).toLocaleString()} total)
                   </span>
                 </div>
@@ -605,7 +603,7 @@ export default function MenuBuilderIntake() {
                   step="50"
                   value={formData.budgetPerHead}
                   onChange={(e) => setFormData({ ...formData, budgetPerHead: parseInt(e.target.value, 10) })}
-                  className="w-full accent-[#C55418] h-2 bg-[#E2D8C6] rounded-lg cursor-pointer"
+                  className="w-full accent-[#C85419] h-2 bg-slate-200 rounded-lg cursor-pointer"
                 />
 
                 <div className="flex items-center justify-center gap-2 flex-wrap">
@@ -614,10 +612,10 @@ export default function MenuBuilderIntake() {
                       key={b}
                       type="button"
                       onClick={() => setFormData({ ...formData, budgetPerHead: b })}
-                      className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-colors ${
+                      className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-colors cursor-pointer ${
                         formData.budgetPerHead === b
-                          ? 'bg-[#C55418] text-white shadow-sm'
-                          : 'bg-white border border-[#E2D8C6] text-[#7C6F5A] hover:bg-[#F3EFE6]'
+                          ? 'bg-[#C85419] text-white shadow-xs'
+                          : 'bg-slate-50 border border-slate-200 text-slate-600 hover:bg-slate-100'
                       }`}
                     >
                       ₹{b} / cover
@@ -632,49 +630,49 @@ export default function MenuBuilderIntake() {
           {step === 8 && (
             <div>
               <div className="mb-6">
-                <span className="text-xs font-bold uppercase tracking-widest text-[#C55418] block mb-1">
+                <span className="text-xs font-bold uppercase tracking-widest text-[#C85419] block mb-1">
                   Step 08 • Synthesis Profile
                 </span>
-                <h2 className="font-serif font-bold text-2xl sm:text-3xl text-[#173E23]">
+                <h2 className="font-display font-bold text-2xl sm:text-3xl text-[#0D381E]">
                   Review your personalization profile.
                 </h2>
-                <p className="text-xs text-[#7C6F5A] mt-1 font-light">
+                <p className="text-xs text-slate-500 mt-1 font-normal">
                   Ready to activate our AI curation engine and generate your tailored degustation packages.
                 </p>
               </div>
 
-              <div className="bg-[#FAF6EF] p-5 sm:p-6 rounded-2xl border border-[#EBE3D5] space-y-4 mb-8">
+              <div className="bg-slate-50 p-5 sm:p-6 rounded-2xl border border-slate-200/80 space-y-4 mb-8">
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs">
                   <div>
-                    <span className="text-[#7C6F5A] uppercase tracking-wider block font-medium">Occasion</span>
-                    <strong className="text-[#173E23] text-sm capitalize font-serif">{formData.occasion}</strong>
+                    <span className="text-slate-400 uppercase tracking-wider block font-semibold text-[10px]">Occasion</span>
+                    <strong className="text-[#0D381E] text-sm capitalize">{formData.occasion}</strong>
                   </div>
                   <div>
-                    <span className="text-[#7C6F5A] uppercase tracking-wider block font-medium">Headcount</span>
-                    <strong className="text-[#173E23] text-sm font-serif">{formData.guestCount} Guests</strong>
+                    <span className="text-slate-400 uppercase tracking-wider block font-semibold text-[10px]">Headcount</span>
+                    <strong className="text-[#0D381E] text-sm">{formData.guestCount} Guests</strong>
                   </div>
                   <div>
-                    <span className="text-[#7C6F5A] uppercase tracking-wider block font-medium">Dietary</span>
-                    <strong className="text-[#173E23] text-sm font-serif">{formData.dietaryType}</strong>
+                    <span className="text-slate-400 uppercase tracking-wider block font-semibold text-[10px]">Dietary</span>
+                    <strong className="text-[#0D381E] text-sm">{formData.dietaryType}</strong>
                   </div>
                   <div>
-                    <span className="text-[#7C6F5A] uppercase tracking-wider block font-medium">Target Budget</span>
-                    <strong className="text-[#173E23] text-sm font-serif">₹{formData.budgetPerHead} / head</strong>
+                    <span className="text-slate-400 uppercase tracking-wider block font-semibold text-[10px]">Target Budget</span>
+                    <strong className="text-[#0D381E] text-sm">₹{formData.budgetPerHead} / head</strong>
                   </div>
                 </div>
 
-                <div className="pt-3 border-t border-[#EBE3D5] grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+                <div className="pt-3 border-t border-slate-200/70 grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
                   <div>
-                    <span className="text-[#7C6F5A] uppercase tracking-wider block font-medium mb-1">Atmosphere</span>
-                    <span className="px-2.5 py-0.5 rounded bg-white text-[#173E23] border border-[#EBE3D5] font-semibold">
+                    <span className="text-slate-400 uppercase tracking-wider block font-semibold text-[10px] mb-1">Atmosphere</span>
+                    <span className="px-2.5 py-0.5 rounded-md bg-white text-[#0D381E] border border-slate-200 font-semibold">
                       {formData.mood}
                     </span>
                   </div>
                   <div>
-                    <span className="text-[#7C6F5A] uppercase tracking-wider block font-medium mb-1">Cuisines Selected</span>
+                    <span className="text-slate-400 uppercase tracking-wider block font-semibold text-[10px] mb-1">Cuisines Selected</span>
                     <div className="flex flex-wrap gap-1">
                       {formData.cuisines.map((c) => (
-                        <span key={c} className="px-2 py-0.5 rounded bg-white text-[#173E23] border border-[#EBE3D5] text-[11px]">
+                        <span key={c} className="px-2 py-0.5 rounded-md bg-white text-[#0D381E] border border-slate-200 text-[11px]">
                           {c}
                         </span>
                       ))}
@@ -686,12 +684,12 @@ export default function MenuBuilderIntake() {
           )}
 
           {/* Navigation Controls Bar */}
-          <div className="pt-6 border-t border-[#EBE3D5] flex items-center justify-between gap-4 mt-6">
+          <div className="pt-6 border-t border-slate-100 flex items-center justify-between gap-4 mt-6">
             {step > 1 ? (
               <button
                 type="button"
                 onClick={() => setStep((s) => s - 1)}
-                className="px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-[#173E23] border border-[#E2D8C6] rounded-xl hover:bg-white transition-all flex items-center gap-1.5"
+                className="px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-slate-700 border border-slate-200 rounded-xl hover:bg-slate-50 transition-all flex items-center gap-1.5 cursor-pointer"
               >
                 <ArrowLeft className="w-3.5 h-3.5" />
                 <span>Back</span>
@@ -704,7 +702,7 @@ export default function MenuBuilderIntake() {
               <button
                 type="button"
                 onClick={() => setStep((s) => s + 1)}
-                className="px-6 py-2.5 bg-[#173E23] hover:bg-[#00280f] text-white rounded-xl text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 shadow-sm"
+                className="btn-primary"
               >
                 <span>Continue</span>
                 <ArrowRight className="w-3.5 h-3.5" />
@@ -714,7 +712,7 @@ export default function MenuBuilderIntake() {
                 type="button"
                 onClick={handleGenerateMenu}
                 disabled={synthesizing}
-                className="px-8 py-3 bg-[#C55418] hover:bg-[#a33e00] text-white rounded-xl text-xs font-bold uppercase tracking-wider transition-all shadow-md flex items-center gap-2 active:scale-95 disabled:opacity-50"
+                className="btn-accent"
               >
                 <Sparkles className="w-4 h-4" />
                 <span>GENERATE MY MENU</span>
@@ -726,31 +724,29 @@ export default function MenuBuilderIntake() {
 
       </div>
 
-      {/* AI Menu Generation Sketch Modal (Section 29) */}
+      {/* AI Menu Generation Modal */}
       {synthesizing && (
-        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-md flex items-center justify-center p-4">
-          <div className="sketch-card bg-[#FDFBF7] p-8 sm:p-12 rounded-3xl border-2 border-[#173E23] max-w-md w-full text-center shadow-2xl space-y-6 animate-fade-in">
-            
-            {/* Animated Plate Sketch */}
-            <div className="relative w-28 h-28 mx-auto flex items-center justify-center">
-              <div className="absolute inset-0 rounded-full border-2 border-dashed border-[#C55418] animate-spin" style={{ animationDuration: '8s' }} />
-              <ClocheSketch className="w-14 h-14" color="#173E23" />
+        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-md flex items-center justify-center p-4">
+          <div className="bg-white p-8 sm:p-12 rounded-3xl border border-slate-200 max-w-md w-full text-center shadow-2xl space-y-6 animate-fade-in">
+            <div className="relative w-24 h-24 mx-auto flex items-center justify-center">
+              <div className="absolute inset-0 rounded-full border-3 border-dashed border-[#C85419] animate-spin" style={{ animationDuration: '6s' }} />
+              <ChefHat className="w-10 h-10 text-[#0D381E]" />
             </div>
 
             <div>
-              <span className="text-[10px] uppercase font-bold tracking-widest text-[#C55418] block mb-1">
+              <span className="text-[10px] uppercase font-bold tracking-widest text-[#C85419] block mb-1">
                 Atelier Intelligence Active
               </span>
-              <h3 className="font-serif font-bold text-2xl text-[#173E23]">
+              <h3 className="font-display font-bold text-2xl text-[#0D381E]">
                 Inking Your Bespoke Menu...
               </h3>
-              <p className="text-xs text-[#7C6F5A] mt-2 font-light leading-relaxed">
+              <p className="text-xs text-slate-500 mt-2 font-normal leading-relaxed">
                 Balancing course harmony across {formData.guestCount} covers with verified dishes from Hyderabad's premier culinary houses.
               </p>
             </div>
 
-            <div className="w-full bg-[#E2D8C6] h-1.5 rounded-full overflow-hidden">
-              <div className="bg-[#C55418] h-full animate-pulse w-3/4 rounded-full" />
+            <div className="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
+              <div className="bg-gradient-to-r from-[#C85419] to-[#D95D1E] h-full animate-pulse w-3/4 rounded-full" />
             </div>
           </div>
         </div>

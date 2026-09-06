@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from '../../lib/navigation';
 import { useAuth } from './AuthContext';
+import FoodTailorLogo from '../../components/ui/svg/FoodTailorLogo';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -28,7 +29,7 @@ export default function LoginPage() {
   };
 
   const handleSubmit = async (e) => {
-    if (e) e.preventDefault();
+    e.preventDefault();
     setIsSubmitting(true);
     setError(null);
     try {
@@ -42,34 +43,33 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-[82vh] px-4 py-14 sm:py-20 bg-[#FAFAF8]">
-      <div className="w-full max-w-md bg-[#FAFAF8] p-8 sm:p-10 rounded-2xl border border-[#E5E5E0] shadow-sm">
+    <div className="flex flex-col items-center justify-center min-h-[85vh] px-4 py-16 sm:py-24 bg-slate-50/60">
+      <div className="w-full max-w-md bg-white p-8 sm:p-10 rounded-3xl border border-slate-200/90 shadow-xl shadow-slate-900/5">
         
-        {/* Fine-Dining Header & Logo Lockup */}
-        <div className="text-center mb-7">
-          <div className="flex items-center justify-center gap-1 mb-2">
-            <span className="text-2xl sm:text-3xl font-serif font-black tracking-tight text-[#173E23]">food</span>
-            <span className="text-2xl sm:text-3xl font-serif font-black tracking-tight text-[#C65518]">tailor</span>
-          </div>
-          <span className="text-[11px] uppercase font-bold tracking-[0.2em] text-[#C65518] block mb-1">
+        {/* Header & Logo Lockup */}
+        <div className="text-center mb-8">
+          <Link to="/" className="inline-block mb-3">
+            <FoodTailorLogo className="h-9 sm:h-10 w-auto mx-auto" />
+          </Link>
+          <span className="text-[11px] uppercase font-bold tracking-[0.2em] text-[#C85419] block mb-1">
             Private Culinary Access
           </span>
-          <h1 className="font-serif text-2xl sm:text-3xl text-[#173E23] font-bold tracking-tight mb-2">
+          <h1 className="font-display text-2xl sm:text-3xl text-slate-900 font-extrabold tracking-tight mb-2">
             Welcome Back
           </h1>
-          <p className="text-xs sm:text-sm text-[#1A1A1A]/70 leading-relaxed font-sans">
+          <p className="text-xs sm:text-sm text-slate-500 leading-relaxed font-normal">
             Sign in to orchestrate bespoke catering or oversee your atelier guild.
           </p>
         </div>
 
         {/* Demo Persona Quick Fill */}
-        <div className="mb-6 p-3.5 bg-[#F2EFE6] rounded-xl border border-[#E5E5E0]">
-          <div className="text-[11px] font-bold uppercase tracking-wider text-[#173E23] mb-2.5 flex items-center justify-between">
+        <div className="mb-6 p-3.5 bg-slate-50 rounded-2xl border border-slate-200/80">
+          <div className="text-[11px] font-bold uppercase tracking-wider text-[#0D381E] mb-2.5 flex items-center justify-between">
             <span className="flex items-center gap-1.5">
-              <i className="bi bi-lightning-charge text-[#C65518] text-sm" />
+              <i className="bi bi-lightning-charge text-[#C85419] text-sm" />
               <span>Demo Quick-Fill</span>
             </span>
-            <span className="text-[10px] text-[#C65518] lowercase tracking-normal font-semibold">
+            <span className="text-[10px] text-[#C85419] lowercase tracking-normal font-semibold">
               one-click sign in
             </span>
           </div>
@@ -77,21 +77,21 @@ export default function LoginPage() {
             <button
               type="button"
               onClick={() => handleRoleQuickFill('test@foodtailor.in', 'password123')}
-              className="py-2 px-2 bg-white hover:bg-[#173E23] hover:text-white text-[#173E23] text-xs font-bold uppercase tracking-wider rounded-lg transition-all duration-200 text-center border border-[#E5E5E0] shadow-2xs"
+              className="py-2 px-2 bg-white hover:bg-[#0D381E] hover:text-white text-[#0D381E] text-xs font-bold uppercase tracking-wider rounded-xl transition-all duration-200 text-center border border-slate-200 shadow-xs"
             >
               Customer
             </button>
             <button
               type="button"
               onClick={() => handleRoleQuickFill('partner1@foodtailor.in', 'password123')}
-              className="py-2 px-2 bg-white hover:bg-[#173E23] hover:text-white text-[#173E23] text-xs font-bold uppercase tracking-wider rounded-lg transition-all duration-200 text-center border border-[#E5E5E0] shadow-2xs"
+              className="py-2 px-2 bg-white hover:bg-[#0D381E] hover:text-white text-[#0D381E] text-xs font-bold uppercase tracking-wider rounded-xl transition-all duration-200 text-center border border-slate-200 shadow-xs"
             >
               Partner
             </button>
             <button
               type="button"
               onClick={() => handleRoleQuickFill('admin@foodtailor.in', 'password123')}
-              className="py-2 px-2 bg-white hover:bg-[#173E23] hover:text-white text-[#173E23] text-xs font-bold uppercase tracking-wider rounded-lg transition-all duration-200 text-center border border-[#E5E5E0] shadow-2xs"
+              className="py-2 px-2 bg-white hover:bg-[#0D381E] hover:text-white text-[#0D381E] text-xs font-bold uppercase tracking-wider rounded-xl transition-all duration-200 text-center border border-slate-200 shadow-xs"
             >
               Admin
             </button>
@@ -100,7 +100,7 @@ export default function LoginPage() {
         
         {/* Error Notification */}
         {error && (
-          <div className="bg-[#FEF2F2] text-[#B91C1C] border border-[#FECACA] p-3.5 rounded-xl mb-5 text-xs font-medium flex items-center gap-2.5">
+          <div className="bg-red-50 text-red-700 border border-red-200 p-3.5 rounded-xl mb-5 text-xs font-medium flex items-center gap-2.5">
             <i className="bi bi-exclamation-circle text-sm shrink-0" />
             <span>{error}</span>
           </div>
@@ -109,11 +109,11 @@ export default function LoginPage() {
         {/* Form Fields */}
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div className="flex flex-col gap-1.5">
-            <label className="text-[11px] uppercase tracking-wider text-[#173E23] font-bold">
+            <label className="text-[11px] uppercase tracking-wider text-slate-700 font-bold">
               Email Address
             </label>
             <div className="relative flex items-center">
-              <span className="absolute left-3.5 text-[#1A1A1A]/40 flex items-center pointer-events-none">
+              <span className="absolute left-3.5 text-slate-400 flex items-center pointer-events-none">
                 <i className="bi bi-envelope text-sm" />
               </span>
               <input 
@@ -122,20 +122,20 @@ export default function LoginPage() {
                 value={email}
                 placeholder="e.g. test@foodtailor.in"
                 onChange={e => setEmail(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 bg-white rounded-xl border border-[#E5E5E0] focus:outline-none focus:border-[#173E23] focus:ring-1 focus:ring-[#173E23] text-[#1A1A1A] text-sm placeholder:text-[#1A1A1A]/35 transition-all"
+                className="w-full pl-10 pr-4 py-3 bg-slate-50/70 rounded-xl border border-slate-200 focus:outline-none focus:border-[#0D381E] focus:bg-white focus:ring-2 focus:ring-[#0D381E]/10 text-slate-900 text-sm placeholder:text-slate-400 transition-all"
               />
             </div>
           </div>
 
           <div className="flex flex-col gap-1.5">
             <div className="flex items-center justify-between">
-              <label className="text-[11px] uppercase tracking-wider text-[#173E23] font-bold">
+              <label className="text-[11px] uppercase tracking-wider text-slate-700 font-bold">
                 Password
               </label>
-              <span className="text-[10px] text-[#1A1A1A]/50 font-mono">Default: password123</span>
+              <span className="text-[10px] text-slate-400 font-mono">Default: password123</span>
             </div>
             <div className="relative flex items-center">
-              <span className="absolute left-3.5 text-[#1A1A1A]/40 flex items-center pointer-events-none">
+              <span className="absolute left-3.5 text-slate-400 flex items-center pointer-events-none">
                 <i className="bi bi-lock text-sm" />
               </span>
               <input 
@@ -144,12 +144,11 @@ export default function LoginPage() {
                 value={password}
                 placeholder="••••••••"
                 onChange={e => setPassword(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 bg-white rounded-xl border border-[#E5E5E0] focus:outline-none focus:border-[#173E23] focus:ring-1 focus:ring-[#173E23] text-[#1A1A1A] text-sm placeholder:text-[#1A1A1A]/35 transition-all"
+                className="w-full pl-10 pr-4 py-3 bg-slate-50/70 rounded-xl border border-slate-200 focus:outline-none focus:border-[#0D381E] focus:bg-white focus:ring-2 focus:ring-[#0D381E]/10 text-slate-900 text-sm placeholder:text-slate-400 transition-all"
               />
             </div>
           </div>
 
-          {/* Solid Primary Button */}
           <button 
             type="submit" 
             disabled={isSubmitting}
@@ -169,9 +168,9 @@ export default function LoginPage() {
           </button>
         </form>
         
-        <div className="mt-7 text-center border-t border-[#E5E5E0] pt-5">
-          <span className="text-xs text-[#1A1A1A]/70">New to Food Tailor? </span>
-          <Link to="/register" className="text-xs font-bold text-[#C65518] uppercase tracking-wider hover:underline transition-colors ml-1">
+        <div className="mt-7 text-center border-t border-slate-100 pt-5">
+          <span className="text-xs text-slate-500">New to Food Tailor? </span>
+          <Link to="/register" className="text-xs font-bold text-[#C85419] uppercase tracking-wider hover:underline transition-colors ml-1">
             Create an Account
           </Link>
         </div>

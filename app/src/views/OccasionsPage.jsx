@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { Link } from '../lib/navigation';
-import PencilUnderline from '../components/ui/svg/PencilUnderline';
 import {
   BirthdayCakeSketch,
   AnniversaryRingsSketch,
@@ -12,7 +11,7 @@ import {
   FestivalLampSketch,
   WeekendPartySketch,
 } from '../components/ui/svg/ExperienceSketches';
-import { ArrowRight, Users, Check } from 'lucide-react';
+import { ArrowRight, Users, Check, Sparkles } from 'lucide-react';
 
 export const OCCASIONS_DATA = [
   {
@@ -21,7 +20,7 @@ export const OCCASIONS_DATA = [
     title: 'Birthday Table',
     tagline: 'Milestone celebrations with high-energy starter counters and custom gateaux.',
     guestRange: '15 – 150 guests',
-    narrative: 'When marking another year of life or celebrating a milestone decade, the table should feel joyful, personal, and effortless. We blend comfort fare with showstopping live stations that delight every guest from grandchildren to elders.',
+    narrative: 'When marking another year of life or celebrating a milestone decade, the table should feel joyful, personal, and effortless. We blend comfort fare with showstopping live stations that delight every guest.',
     lineup: [
       { name: 'Maharaja Chaat', role: 'Live Interactive Chaat Counter' },
       { name: 'Sammosa Singh', role: 'Crispy Gourmet Cocktail Samosas' },
@@ -29,7 +28,7 @@ export const OCCASIONS_DATA = [
       { name: 'The Chocolate Room', role: 'Molten Belgian Chocolate Gateau' },
     ],
     IconComponent: BirthdayCakeSketch,
-    accentColor: '#C55418',
+    accentColor: '#C85419',
     image: 'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=1200&auto=format&fit=crop',
   },
   {
@@ -46,7 +45,7 @@ export const OCCASIONS_DATA = [
       { name: 'Dimmy Pan Palace', role: 'Silver-Vark Sweet Meetha Paan' },
     ],
     IconComponent: AnniversaryRingsSketch,
-    accentColor: '#173E23',
+    accentColor: '#0D381E',
     image: 'https://images.unsplash.com/photo-1519225424562-b9034d6ce255?q=80&w=1200&auto=format&fit=crop',
   },
   {
@@ -63,7 +62,7 @@ export const OCCASIONS_DATA = [
       { name: 'Ice Berg', role: 'Handcrafted Sitaphal & Tender Coconut Scoops' },
     ],
     IconComponent: FamilyFeastSketch,
-    accentColor: '#173E23',
+    accentColor: '#0D381E',
     image: 'https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=1200&auto=format&fit=crop',
   },
   {
@@ -80,7 +79,7 @@ export const OCCASIONS_DATA = [
       { name: 'Karachi Bakery', role: 'Artisanal Cashew Pista Bakes' },
     ],
     IconComponent: CorporateMeetingSketch,
-    accentColor: '#173E23',
+    accentColor: '#0D381E',
     image: 'https://images.unsplash.com/photo-1511578314322-379afb476865?q=80&w=1200&auto=format&fit=crop',
   },
   {
@@ -97,61 +96,63 @@ export const OCCASIONS_DATA = [
       { name: 'Dimmy Pan Palace', role: 'Handcrafted Meetha Paan' },
     ],
     IconComponent: RomanticDinnerSketch,
-    accentColor: '#C55418',
-    image: 'https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=1200&auto=format&fit=crop',
+    accentColor: '#C85419',
+    image: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=1200&auto=format&fit=crop',
   },
   {
     id: 'occ_festival',
     slug: 'festival-celebration',
-    title: 'Festival Celebration',
-    tagline: 'Sanctified pure vegetarian spreads, Eid Haleem, and ceremonial festive gifting.',
-    guestRange: '25 – 1,000 guests',
-    narrative: 'Celebrate festive milestones with revered culinary guardians. Pure ghee festive platters, verified kitchen segregation for auspicious poojas, and legendary Hyderabadi culinary gifts.',
+    title: 'Festive Banquet',
+    tagline: 'Ceremonial holiday feasts with pure ghee sweets and certified dietary segregation.',
+    guestRange: '25 – 300 guests',
+    narrative: 'Celebrate Diwali, Eid, Sankranti, or holiday reunions with traditional sanctity and royal splendor. We isolate preparation vessels and offer pure ghee mithai counters.',
     lineup: [
-      { name: 'Almond House', role: 'Pure Ghee Shahi Mithai & Platters' },
-      { name: 'Hotel Shadab', role: 'Authentic Festive Dum Feast' },
-      { name: 'Karachi Bakery', role: 'Heritage Bakes & Gift Hampers' },
-      { name: 'Cafe Niloufer', role: 'Morning & Evening Chai Counter' },
+      { name: 'Almond House', role: 'Dry Fruit Kaju Rolls & Badam Halwa' },
+      { name: 'Hotel Shadab', role: 'Festive Dum Biryani & Haleem' },
+      { name: 'Maharaja Chaat', role: 'Interactive Royal Pani Puri' },
+      { name: 'Ice Berg', role: 'Festive Malai Kulfi & Cassata' },
     ],
     IconComponent: FestivalLampSketch,
-    accentColor: '#C55418',
-    image: 'https://images.unsplash.com/photo-1541544741938-0af808871cc0?q=80&w=1200&auto=format&fit=crop',
+    accentColor: '#C85419',
+    image: 'https://images.unsplash.com/photo-1532712938310-34cb3982ef74?q=80&w=1200&auto=format&fit=crop',
   },
   {
     id: 'occ_weekend',
-    slug: 'weekend-celebration',
-    title: 'Weekend Celebration',
-    tagline: 'Casual high-energy house gatherings with live skewers, crunchy starters, and coolers.',
-    guestRange: '15 – 80 guests',
-    narrative: 'Skip the chaos of coordinating multiple takeout apps. One synchronized delivery brings crispy samosas, spicy chicken 65, rich shakes, and rolls hot to your doorstep.',
+    slug: 'weekend-house-party',
+    title: 'Weekend House Party',
+    tagline: 'High-energy weekend bashes with live charcoal grills and artisanal street bakes.',
+    guestRange: '15 – 60 guests',
+    narrative: 'Turn your weekend living room or terrace into a buzzing gourmet lounge with piping hot finger food, artisanal coolers, and late-night biryani pots.',
     lineup: [
-      { name: 'Sammosa Singh', role: 'Party Samosas & Gourmet Dips' },
-      { name: 'Maharaja Chaat', role: 'Live Sev Puri & Pav Bhaji' },
-      { name: 'Thick Shake Factory', role: 'Decadent Thick Shakes' },
-      { name: 'Ice Berg', role: 'Real Fruit Rolled Scoops' },
+      { name: 'Sammosa Singh', role: 'Crispy Snack Buckets' },
+      { name: 'Hotel Shadab', role: 'Tandoori Kebabs & Dum Pot' },
+      { name: 'Ice Berg', role: 'Live Roll Ice Cream Scoops' },
+      { name: 'Cafe Niloufer', role: 'Midnight Tea Kettle Staging' },
     ],
     IconComponent: WeekendPartySketch,
-    accentColor: '#173E23',
-    image: 'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?q=80&w=1200&auto=format&fit=crop',
+    accentColor: '#0D381E',
+    image: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=1200&auto=format&fit=crop',
   },
 ];
 
 export default function OccasionsPage() {
   return (
-    <div className="min-h-screen bg-[#FDF9F2] text-[#1C1C18]">
-      
-      {/* Editorial Header */}
-      <section className="bg-[#173E23] text-[#FDF9F2] pt-24 pb-14 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+    <div className="min-h-screen bg-slate-50 text-slate-900">
+      {/* Luxury Porcelain Editorial Header */}
+      <section className="relative bg-gradient-to-b from-white via-slate-50 to-slate-100/60 pt-28 pb-12 sm:pb-16 px-4 sm:px-6 lg:px-8 border-b border-slate-200/80 overflow-hidden">
+        {/* Subtle Ambient Glows */}
+        <div className="absolute top-10 left-1/4 w-96 h-96 bg-brand-forest/5 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-brand-terracotta/5 rounded-full blur-3xl pointer-events-none" />
+
         <div className="max-w-7xl mx-auto relative z-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-emerald-300 text-xs font-semibold tracking-wider uppercase mb-4 backdrop-blur-sm border border-white/10">
-            <span className="w-2 h-2 rounded-full bg-[#C55418]" />
-            Bespoke Banqueting Formats
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-terracotta/10 text-brand-terracotta border border-brand-terracotta/20 text-xs font-bold uppercase tracking-widest mb-4">
+            <Sparkles className="w-3.5 h-3.5 text-brand-terracotta" />
+            <span>Bespoke Banqueting Formats • Multi-Brand Calibration</span>
           </div>
-          <h1 className="font-display text-4xl sm:text-5xl md:text-6xl uppercase tracking-wider text-white max-w-3xl leading-none">
+          <h1 className="font-serif text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight text-slate-900 max-w-3xl leading-tight">
             Occasions Tailored To Perfection
           </h1>
-          <PencilUnderline className="w-56 h-3 my-3" color="#C55418" />
-          <p className="mt-2 text-[#FDF9F2]/80 text-sm sm:text-base max-w-2xl font-serif italic font-light leading-relaxed">
+          <p className="mt-3 text-slate-600 text-sm sm:text-base max-w-2xl font-normal leading-relaxed">
             Every gathering has its own tempo. Explore calibrated multi-brand lineups engineered for Hyderabad's most cherished celebratory milestones.
           </p>
         </div>
@@ -159,29 +160,29 @@ export default function OccasionsPage() {
 
       {/* Occasions Editorial Grid */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {OCCASIONS_DATA.map((occ) => {
             const Icon = occ.IconComponent;
             return (
               <div
                 key={occ.id}
-                className="sketch-card rounded-2xl overflow-hidden flex flex-col group border border-[#EBE3D5] hover:border-[#173E23]/40 shadow-sm"
+                className="bg-white rounded-2xl overflow-hidden flex flex-col group border border-slate-200/80 hover:border-brand-forest/40 shadow-card-soft hover:shadow-card-hover hover:-translate-y-1 transition-all duration-300"
               >
                 {/* Visual Header Image */}
-                <div className="relative h-60 w-full overflow-hidden bg-[#0A0D0B]">
+                <div className="relative h-60 w-full overflow-hidden bg-slate-950">
                   <img
                     src={occ.image}
                     alt={occ.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/30 to-transparent" />
                   
                   {/* Top Left: Icon & Guest Range */}
                   <div className="absolute top-4 left-4 flex items-center gap-2">
-                    <div className="w-10 h-10 rounded-xl bg-white/90 backdrop-blur-md flex items-center justify-center shadow">
+                    <div className="w-10 h-10 rounded-xl bg-white/95 backdrop-blur-md flex items-center justify-center shadow-md">
                       <Icon className="w-6 h-6" color={occ.accentColor} />
                     </div>
-                    <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-[#173E23]/90 text-white backdrop-blur-md border border-white/10 flex items-center gap-1.5">
+                    <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-slate-900/80 text-white backdrop-blur-md border border-white/15 flex items-center gap-1.5">
                       <Users className="w-3.5 h-3.5" />
                       <span>{occ.guestRange}</span>
                     </span>
@@ -189,7 +190,7 @@ export default function OccasionsPage() {
 
                   {/* Bottom Title */}
                   <div className="absolute bottom-4 left-4 right-4">
-                    <h2 className="font-display text-3xl sm:text-4xl uppercase tracking-wider text-white leading-none drop-shadow-md">
+                    <h2 className="font-serif text-2xl sm:text-3xl font-bold text-white leading-tight drop-shadow-md">
                       {occ.title}
                     </h2>
                   </div>
@@ -198,25 +199,25 @@ export default function OccasionsPage() {
                 {/* Content Details */}
                 <div className="p-6 flex-1 flex flex-col justify-between">
                   <div>
-                    <p className="text-xs italic text-[#7C6F5A] font-serif font-medium mb-3">
+                    <p className="text-xs italic text-slate-500 font-medium mb-3">
                       &ldquo;{occ.tagline}&rdquo;
                     </p>
-                    <p className="text-xs sm:text-sm text-[#4A453A] leading-relaxed font-light mb-6">
+                    <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal mb-6">
                       {occ.narrative}
                     </p>
 
                     {/* Curated Partner Lineup */}
-                    <div className="mb-6 p-4 bg-[#FAF6EF] rounded-xl border border-[#EBE3D5]">
-                      <span className="text-[10px] uppercase font-bold tracking-widest text-[#C55418] block mb-2.5">
+                    <div className="mb-6 p-4 bg-slate-50 rounded-xl border border-slate-200/80">
+                      <span className="text-[10px] uppercase font-bold tracking-widest text-brand-terracotta block mb-2.5">
                         Curated Partner Lineup
                       </span>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                         {occ.lineup.map((item, idx) => (
                           <div key={idx} className="flex items-start gap-2">
-                            <Check className="w-3.5 h-3.5 text-[#173E23] shrink-0 mt-0.5" />
+                            <Check className="w-3.5 h-3.5 text-brand-forest shrink-0 mt-0.5" />
                             <div className="text-xs">
-                              <span className="font-bold text-[#173E23]">{item.name}: </span>
-                              <span className="text-[#595347]">{item.role}</span>
+                              <span className="font-bold text-brand-forest">{item.name}: </span>
+                              <span className="text-slate-600">{item.role}</span>
                             </div>
                           </div>
                         ))}
@@ -225,31 +226,28 @@ export default function OccasionsPage() {
                   </div>
 
                   {/* Action CTAs */}
-                  <div className="pt-4 border-t border-[#EBE3D5] flex items-center justify-between gap-4">
+                  <div className="pt-4 border-t border-slate-100 flex items-center justify-between gap-4">
                     <Link
                       to={`/occasions/${occ.slug}`}
-                      className="text-xs font-bold uppercase tracking-wider text-[#173E23] hover:text-[#C55418] transition-colors"
+                      className="text-xs font-bold uppercase tracking-wider text-brand-forest hover:text-brand-terracotta transition-colors"
                     >
                       Explore Occasion Folio
                     </Link>
 
                     <Link
                       to={`/build-menu?occasion=${encodeURIComponent(occ.id)}`}
-                      className="px-5 py-2.5 bg-[#C55418] hover:bg-[#a33e00] text-white rounded-xl text-xs font-bold uppercase tracking-wider transition-all shadow-sm flex items-center gap-1.5"
+                      className="btn-accent px-5 py-2.5 rounded-xl text-xs uppercase tracking-wider font-bold shadow-md flex items-center gap-1.5"
                     >
                       <span>Tailor This Feast</span>
                       <ArrowRight className="w-3.5 h-3.5" />
                     </Link>
                   </div>
-
                 </div>
-
               </div>
             );
           })}
         </div>
       </div>
-
     </div>
   );
 }

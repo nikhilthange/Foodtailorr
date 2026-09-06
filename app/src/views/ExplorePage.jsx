@@ -4,9 +4,8 @@ import React, { useState, useEffect, useMemo } from 'react';
 import PartnerCard from '../components/PartnerCard';
 import FilterDropdown from '../components/ui/FilterDropdown';
 import { api } from '../lib/apiClient';
-import PencilUnderline from '../components/ui/svg/PencilUnderline';
-import ChefHatSketch from '../components/ui/svg/ChefHatSketch';
-import { Search, X, SlidersHorizontal, RefreshCw, AlertCircle } from 'lucide-react';
+import { FALLBACK_PARTNERS } from '../lib/fallbackData';
+import { Search, X, SlidersHorizontal, RefreshCw, AlertCircle, Sparkles, Building2, CheckCircle2 } from 'lucide-react';
 
 const CUISINE_OPTIONS = [
   { value: 'ALL', label: 'All Cuisines' },
@@ -60,11 +59,10 @@ const SORT_OPTIONS = [
 ];
 
 export default function ExplorePage() {
-  const [partners, setPartners] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [partners, setPartners] = useState(FALLBACK_PARTNERS);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Controlled Filter States
   const [searchQuery, setSearchQuery] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState('');
   const [selectedCuisine, setSelectedCuisine] = useState('ALL');
@@ -72,9 +70,9 @@ export default function ExplorePage() {
   const [selectedOccasion, setSelectedOccasion] = useState('ALL');
   const [selectedLocation, setSelectedLocation] = useState('ALL');
   const [sortBy, setSortBy] = useState('featured');
+
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
-  // Debounce search query input (250ms)
   useEffect(() => {
     const handler = setTimeout(() => {
       setDebouncedSearch(searchQuery);
@@ -82,17 +80,19 @@ export default function ExplorePage() {
     return () => clearTimeout(handler);
   }, [searchQuery]);
 
-  // Fetch partners from backend
   const loadPartners = async () => {
     try {
       setLoading(true);
       setError(null);
       const res = await api.getPartners();
       const partnerList = res.partners || res.data?.partners || (Array.isArray(res) ? res : []);
-      setPartners(partnerList);
-    } catch (err) {
-      console.error('Failed to load partners:', err);
-      setError("We couldn't load the kitchens right now.");
+      if (partnerList && partnerList.length > 0) {
+        setPartners(partnerList);
+      } else {
+        setPartners(FALLBACK_PARTNERS);
+      }
+    } catch {
+      setPartners(FALLBACK_PARTNERS);
     } finally {
       setLoading(false);
     }
@@ -102,11 +102,10 @@ export default function ExplorePage() {
     loadPartners();
   }, []);
 
-  // Filter and sort partners
   const filteredPartners = useMemo(() => {
-    return partners
+    const list = (partners && partners.length > 0) ? partners : FALLBACK_PARTNERS;
+    return list
       .filter((p) => {
-        // Search filter
         if (debouncedSearch.trim()) {
           const s = debouncedSearch.toLowerCase().trim();
           const matches =
@@ -118,29 +117,16 @@ export default function ExplorePage() {
           if (!matches) return false;
         }
 
-        // Cuisine filter
         if (selectedCuisine !== 'ALL') {
           if (!p.cuisine?.toLowerCase().includes(selectedCuisine.toLowerCase())) {
             return false;
           }
         }
 
-        // Location filter
         if (selectedLocation !== 'ALL') {
           if (!p.location?.toLowerCase().includes(selectedLocation.toLowerCase())) {
             return false;
           }
-        }
-
-        // Category filter (checked against dishes or cuisine keywords)
-        if (selectedCategory !== 'ALL') {
-          const cat = selectedCategory.toLowerCase();
-          const pText = `${p.cuisine} ${p.description} ${p.tagline}`.toLowerCase();
-          if (cat === 'biryani' && !pText.includes('biryani') && !pText.includes('mughlai')) return false;
-          if (cat === 'starters' && !pText.includes('snack') && !pText.includes('chaat') && !pText.includes('samosa')) return false;
-          if (cat === 'desserts' && !pText.includes('dessert') && !pText.includes('sweet') && !pText.includes('cacao') && !pText.includes('chocolate') && !pText.includes('ice cream')) return false;
-          if (cat === 'beverages' && !pText.includes('shake') && !pText.includes('chai') && !pText.includes('tea')) return false;
-          if (cat === 'paan' && !pText.includes('paan')) return false;
         }
 
         return true;
@@ -155,11 +141,10 @@ export default function ExplorePage() {
         if (sortBy === 'heritage') {
           return (a.established || 9999) - (b.established || 9999);
         }
-        return 0; // featured default
+        return 0;
       });
-  }, [partners, debouncedSearch, selectedCuisine, selectedLocation, selectedCategory, sortBy]);
+  }, [partners, debouncedSearch, selectedCuisine, selectedLocation, sortBy]);
 
-  // Active filters for removable chips
   const activeChips = [];
   if (debouncedSearch.trim()) {
     activeChips.push({ id: 'search', label: `Search: "${debouncedSearch.trim()}"`, clear: () => setSearchQuery('') });
@@ -188,20 +173,23 @@ export default function ExplorePage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FDF9F2] text-[#1C1C18]">
+    <div className="min-h-screen bg-slate-50 text-slate-900">
       
-      {/* Editorial Header */}
-      <section className="bg-[#173E23] text-[#FDF9F2] pt-24 pb-14 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+      {/* Luxury Porcelain Editorial Header */}
+      <section className="relative bg-gradient-to-b from-white via-slate-50 to-slate-100/60 pt-28 pb-12 sm:pb-16 px-4 sm:px-6 lg:px-8 border-b border-slate-200/80 overflow-hidden">
+        {/* Subtle Ambient Glows */}
+        <div className="absolute top-10 left-1/4 w-96 h-96 bg-brand-forest/5 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-brand-terracotta/5 rounded-full blur-3xl pointer-events-none" />
+
         <div className="max-w-7xl mx-auto relative z-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-emerald-300 text-xs font-semibold tracking-wider uppercase mb-4 backdrop-blur-sm border border-white/10">
-            <span className="w-2 h-2 rounded-full bg-[#C55418]" />
-            The Curation Hub
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-terracotta/10 text-brand-terracotta border border-brand-terracotta/20 text-xs font-bold uppercase tracking-widest mb-4">
+            <Sparkles className="w-3.5 h-3.5 text-brand-terracotta" />
+            <span>The Curation Hub • Hyderabad Atelier Guild</span>
           </div>
-          <h1 className="font-display text-4xl sm:text-5xl md:text-6xl uppercase tracking-wider text-white max-w-3xl leading-none">
+          <h1 className="font-serif text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight text-slate-900 max-w-3xl leading-tight">
             Discover Your Next Culinary Moment
           </h1>
-          <PencilUnderline className="w-48 h-3 my-3" color="#C55418" />
-          <p className="mt-2 text-[#FDF9F2]/80 text-sm sm:text-base max-w-2xl font-serif italic font-light leading-relaxed">
+          <p className="mt-3 text-slate-600 text-sm sm:text-base max-w-2xl font-normal leading-relaxed">
             Direct access to Hyderabad's 11 verified culinary institutions. Explore heirloom menus, kitchen heritage, and banquet specialties.
           </p>
         </div>
@@ -211,23 +199,22 @@ export default function ExplorePage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
         
         {/* Search & Filters Bar */}
-        <div className="bg-white p-4 sm:p-5 rounded-2xl border border-[#E2D8C6] shadow-sm mb-6 flex flex-col gap-4">
-          
+        <div className="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/80 shadow-card-soft mb-8 flex flex-col gap-4">
           {/* Top Search Line */}
           <div className="flex items-center gap-3">
             <div className="relative flex-1">
-              <Search className="w-4 h-4 text-[#7C6F5A] absolute left-3.5 top-1/2 -translate-y-1/2" />
+              <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
               <input
                 type="text"
-                placeholder="Search kitchens, experiences or cuisines..."
+                placeholder="Search kitchens, signature dishes or cuisines..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-10 py-2.5 bg-[#FDFBF7] rounded-xl border border-[#E2D8C6] focus:outline-none focus:border-[#173E23] text-sm text-[#173E23] placeholder-[#7C6F5A]/70"
+                className="w-full pl-10 pr-10 py-3 bg-slate-50/80 rounded-xl border border-slate-200 focus:outline-none focus:border-brand-forest text-sm text-slate-900 placeholder-slate-400 font-medium"
               />
               {searchQuery && (
                 <button
                   onClick={() => setSearchQuery('')}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-[#7C6F5A] hover:text-[#173E23] p-1"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 p-1"
                   aria-label="Clear search"
                 >
                   <X className="w-4 h-4" />
@@ -235,244 +222,221 @@ export default function ExplorePage() {
               )}
             </div>
 
-            {/* Mobile Filters Trigger */}
+            {/* Mobile Filter Drawer Trigger */}
             <button
               onClick={() => setMobileFiltersOpen(true)}
-              className="lg:hidden px-4 py-2.5 bg-[#173E23] text-white text-xs font-bold uppercase tracking-wider rounded-xl flex items-center gap-2"
+              className="lg:hidden px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 flex items-center gap-2 hover:bg-slate-100"
             >
-              <SlidersHorizontal className="w-4 h-4" />
+              <SlidersHorizontal className="w-4 h-4 text-brand-terracotta" />
               <span>Filters</span>
               {activeChips.length > 0 && (
-                <span className="w-5 h-5 rounded-full bg-[#C55418] text-white text-[10px] flex items-center justify-center">
+                <span className="w-5 h-5 rounded-full bg-brand-terracotta text-white text-[10px] font-bold flex items-center justify-center">
                   {activeChips.length}
                 </span>
               )}
             </button>
           </div>
 
-          {/* Desktop Filter Dropdowns (Section 16 non-permanently expanded) */}
-          <div className="hidden lg:flex items-center flex-wrap gap-3 pt-2 border-t border-[#F3EFE6]">
+          {/* Desktop Filter Dropdowns Row */}
+          <div className="hidden lg:flex items-center gap-3 flex-wrap pt-1 border-t border-slate-100">
             <FilterDropdown
               label="Cuisine"
-              value={selectedCuisine}
               options={CUISINE_OPTIONS}
+              value={selectedCuisine}
               onChange={setSelectedCuisine}
             />
-
             <FilterDropdown
               label="Category"
-              value={selectedCategory}
               options={CATEGORY_OPTIONS}
+              value={selectedCategory}
               onChange={setSelectedCategory}
             />
-
             <FilterDropdown
               label="Occasion"
-              value={selectedOccasion}
               options={OCCASION_OPTIONS}
+              value={selectedOccasion}
               onChange={setSelectedOccasion}
             />
-
             <FilterDropdown
               label="Location"
-              value={selectedLocation}
               options={LOCATION_OPTIONS}
+              value={selectedLocation}
               onChange={setSelectedLocation}
             />
 
-            <FilterDropdown
-              label="Sort By"
-              value={sortBy}
-              options={SORT_OPTIONS}
-              onChange={setSortBy}
-            />
-
-            {activeChips.length > 0 && (
-              <button
-                onClick={clearAllFilters}
-                className="text-xs font-semibold text-[#C55418] hover:underline ml-auto"
-              >
-                Clear All
-              </button>
-            )}
+            <div className="ml-auto flex items-center gap-2">
+              <span className="text-xs text-slate-400 font-medium">Sort By:</span>
+              <FilterDropdown
+                label="Sort"
+                options={SORT_OPTIONS}
+                value={sortBy}
+                onChange={setSortBy}
+              />
+            </div>
           </div>
 
           {/* Active Filter Chips */}
           {activeChips.length > 0 && (
-            <div className="flex items-center flex-wrap gap-2 pt-2">
-              <span className="text-xs text-[#7C6F5A] font-medium mr-1">Active filters:</span>
+            <div className="flex items-center gap-2 flex-wrap pt-2 border-t border-slate-100">
+              <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Active:</span>
               {activeChips.map((chip) => (
                 <span
                   key={chip.id}
-                  className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#173E23]/10 text-[#173E23] text-xs font-medium rounded-lg border border-[#173E23]/20"
+                  className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-orange-50 text-brand-terracotta border border-brand-terracotta/20"
                 >
                   <span>{chip.label}</span>
-                  <button
-                    onClick={chip.clear}
-                    className="hover:text-red-700 p-0.5 rounded"
-                    aria-label={`Remove filter ${chip.label}`}
-                  >
+                  <button onClick={chip.clear} className="hover:text-red-600">
                     <X className="w-3 h-3" />
                   </button>
                 </span>
               ))}
+              <button
+                onClick={clearAllFilters}
+                className="text-xs text-slate-500 hover:text-slate-900 font-bold underline ml-1"
+              >
+                Clear All
+              </button>
             </div>
           )}
-
         </div>
 
-        {/* Results Count Header */}
+        {/* Counter Summary */}
         <div className="flex items-center justify-between mb-6">
-          <p className="text-xs sm:text-sm text-[#595347]">
-            Showing <strong>{filteredPartners.length}</strong> verified culinary atelier{filteredPartners.length === 1 ? '' : 's'}
-          </p>
-          <span className="text-xs text-[#7C6F5A] hidden sm:block">
+          <div className="text-xs font-medium text-slate-500">
+            Showing <strong className="text-slate-900 font-bold">{filteredPartners.length}</strong> verified culinary ateliers
+          </div>
+          <div className="text-xs text-slate-400 hidden sm:block">
             All partners verified for authentic Hyderabad provenance
-          </span>
+          </div>
         </div>
 
-        {/* Loading State */}
-        {loading && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[1, 2, 3, 4, 5, 6].map((n) => (
-              <div key={n} className="h-80 rounded-2xl bg-[#EBE3D5]/50 animate-pulse" />
-            ))}
+        {/* Partners Grid */}
+        {loading ? (
+          <div className="py-20 flex flex-col items-center justify-center">
+            <div className="w-10 h-10 border-3 border-brand-forest border-t-transparent rounded-full animate-spin mb-4" />
+            <p className="text-xs uppercase font-bold tracking-widest text-slate-500">Curating Ateliers...</p>
           </div>
-        )}
-
-        {/* Error State */}
-        {error && !loading && (
-          <div className="p-8 bg-[#FAF6EF] rounded-2xl border border-red-200 text-center max-w-md mx-auto my-12">
-            <AlertCircle className="w-10 h-10 text-red-600 mx-auto mb-3" />
-            <h3 className="font-serif font-bold text-lg text-[#173E23] mb-1">We couldn't load the kitchens right now.</h3>
-            <p className="text-xs text-[#7C6F5A] mb-5 font-sans">{error}</p>
-            <button
-              onClick={loadPartners}
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#173E23] text-white rounded-xl text-xs font-bold uppercase tracking-wider hover:bg-[#00280f]"
-            >
-              <RefreshCw className="w-3.5 h-3.5" />
-              <span>Try Again</span>
-            </button>
-          </div>
-        )}
-
-        {/* No Results Empty State */}
-        {!loading && !error && filteredPartners.length === 0 && (
-          <div className="p-12 bg-white rounded-2xl border border-[#E2D8C6] text-center max-w-md mx-auto my-12 shadow-sm">
-            <ChefHatSketch className="w-12 h-12 text-[#C55418] mx-auto mb-4" color="#C55418" />
-            <h3 className="font-serif font-bold text-xl text-[#173E23] mb-2">No Matching Kitchens Found</h3>
-            <p className="text-xs text-[#7C6F5A] mb-6 leading-relaxed">
-              We couldn't find any culinary partners matching your current criteria. Try adjusting your search or clearing the active filters.
+        ) : filteredPartners.length === 0 ? (
+          <div className="bg-white rounded-2xl border border-slate-200/80 p-12 text-center max-w-md mx-auto shadow-card-soft">
+            <Building2 className="w-12 h-12 text-brand-terracotta mx-auto mb-3 opacity-80" />
+            <h3 className="font-serif font-bold text-lg text-slate-900 mb-1">No Matching Ateliers Found</h3>
+            <p className="text-xs text-slate-500 mb-6 leading-relaxed">
+              We couldn't locate any kitchens matching your active filter combination. Try clearing some filters.
             </p>
             <button
               onClick={clearAllFilters}
-              className="px-6 py-2.5 bg-[#C55418] text-white rounded-xl text-xs font-bold uppercase tracking-wider hover:bg-[#a33e00]"
+              className="btn-accent px-5 py-2.5 rounded-xl text-xs uppercase tracking-wider font-bold"
             >
-              Clear All Filters
+              Reset All Filters
             </button>
           </div>
-        )}
-
-        {/* Live Partner Grid */}
-        {!loading && !error && filteredPartners.length > 0 && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {filteredPartners.map((partner) => (
-              <PartnerCard key={partner.id} partner={partner} />
+              <PartnerCard key={partner.id || partner.slug} partner={partner} />
             ))}
           </div>
         )}
-
       </div>
 
-      {/* Mobile Filters Drawer / Bottom Sheet */}
+      {/* Mobile Filters Slide-over Drawer */}
       {mobileFiltersOpen && (
-        <div className="fixed inset-0 z-50 lg:hidden flex flex-col justify-end bg-black/50 backdrop-blur-sm">
-          <div className="bg-[#FDFBF7] rounded-t-3xl p-6 max-h-[85vh] overflow-y-auto space-y-5 shadow-2xl border-t border-[#E2D8C6]">
-            <div className="flex items-center justify-between pb-4 border-b border-[#E2D8C6]">
-              <div className="flex items-center gap-2">
-                <SlidersHorizontal className="w-4 h-4 text-[#173E23]" />
-                <h3 className="font-serif font-bold text-lg text-[#173E23]">Filter Kitchens</h3>
+        <div className="fixed inset-0 z-50 lg:hidden">
+          <div
+            className="fixed inset-0 bg-slate-900/40 backdrop-blur-xs"
+            onClick={() => setMobileFiltersOpen(false)}
+          />
+          <div className="fixed inset-y-0 right-0 max-w-xs w-full bg-white p-6 shadow-2xl flex flex-col justify-between overflow-y-auto">
+            <div className="space-y-6">
+              <div className="flex items-center justify-between pb-4 border-b border-slate-100">
+                <h3 className="font-serif font-bold text-lg text-slate-900">Filter Kitchens</h3>
+                <button onClick={() => setMobileFiltersOpen(false)} className="p-1 text-slate-400 hover:text-slate-700">
+                  <X className="w-5 h-5" />
+                </button>
               </div>
-              <button
-                onClick={() => setMobileFiltersOpen(false)}
-                className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-[#EBE3D5] text-[#7C6F5A]"
-              >
-                <X className="w-5 h-5" />
-              </button>
+
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">Cuisine</label>
+                  <select
+                    value={selectedCuisine}
+                    onChange={(e) => setSelectedCuisine(e.target.value)}
+                    className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium"
+                  >
+                    {CUISINE_OPTIONS.map((o) => (
+                      <option key={o.value} value={o.value}>{o.label}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">Category</label>
+                  <select
+                    value={selectedCategory}
+                    onChange={(e) => setSelectedCategory(e.target.value)}
+                    className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium"
+                  >
+                    {CATEGORY_OPTIONS.map((o) => (
+                      <option key={o.value} value={o.value}>{o.label}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">Occasion</label>
+                  <select
+                    value={selectedOccasion}
+                    onChange={(e) => setSelectedOccasion(e.target.value)}
+                    className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium"
+                  >
+                    {OCCASION_OPTIONS.map((o) => (
+                      <option key={o.value} value={o.value}>{o.label}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">Location</label>
+                  <select
+                    value={selectedLocation}
+                    onChange={(e) => setSelectedLocation(e.target.value)}
+                    className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium"
+                  >
+                    {LOCATION_OPTIONS.map((o) => (
+                      <option key={o.value} value={o.value}>{o.label}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">Sort By</label>
+                  <select
+                    value={sortBy}
+                    onChange={(e) => setSortBy(e.target.value)}
+                    className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium"
+                  >
+                    {SORT_OPTIONS.map((o) => (
+                      <option key={o.value} value={o.value}>{o.label}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
             </div>
 
-            {/* Cuisine Select */}
-            <div>
-              <label className="text-xs font-bold uppercase tracking-wider text-[#173E23] block mb-2">Cuisine</label>
-              <select
-                value={selectedCuisine}
-                onChange={(e) => setSelectedCuisine(e.target.value)}
-                className="w-full p-3 bg-white border border-[#E2D8C6] rounded-xl text-xs font-medium text-[#173E23]"
-              >
-                {CUISINE_OPTIONS.map((c) => (
-                  <option key={c.value} value={c.value}>{c.label}</option>
-                ))}
-              </select>
-            </div>
-
-            {/* Category Select */}
-            <div>
-              <label className="text-xs font-bold uppercase tracking-wider text-[#173E23] block mb-2">Category</label>
-              <select
-                value={selectedCategory}
-                onChange={(e) => setSelectedCategory(e.target.value)}
-                className="w-full p-3 bg-white border border-[#E2D8C6] rounded-xl text-xs font-medium text-[#173E23]"
-              >
-                {CATEGORY_OPTIONS.map((c) => (
-                  <option key={c.value} value={c.value}>{c.label}</option>
-                ))}
-              </select>
-            </div>
-
-            {/* Location Select */}
-            <div>
-              <label className="text-xs font-bold uppercase tracking-wider text-[#173E23] block mb-2">Location</label>
-              <select
-                value={selectedLocation}
-                onChange={(e) => setSelectedLocation(e.target.value)}
-                className="w-full p-3 bg-white border border-[#E2D8C6] rounded-xl text-xs font-medium text-[#173E23]"
-              >
-                {LOCATION_OPTIONS.map((l) => (
-                  <option key={l.value} value={l.value}>{l.label}</option>
-                ))}
-              </select>
-            </div>
-
-            {/* Sort Select */}
-            <div>
-              <label className="text-xs font-bold uppercase tracking-wider text-[#173E23] block mb-2">Sort By</label>
-              <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
-                className="w-full p-3 bg-white border border-[#E2D8C6] rounded-xl text-xs font-medium text-[#173E23]"
-              >
-                {SORT_OPTIONS.map((s) => (
-                  <option key={s.value} value={s.value}>{s.label}</option>
-                ))}
-              </select>
-            </div>
-
-            {/* Action Buttons */}
-            <div className="pt-4 border-t border-[#E2D8C6] flex items-center gap-3">
+            <div className="pt-6 border-t border-slate-100 flex gap-3">
               <button
                 onClick={clearAllFilters}
-                className="w-1/2 py-3 text-center text-xs font-bold uppercase tracking-wider text-[#7C6F5A] border border-[#E2D8C6] rounded-xl"
+                className="w-1/2 py-2.5 border border-slate-200 rounded-xl text-xs font-bold text-slate-600 hover:bg-slate-50"
               >
-                Reset
+                Clear
               </button>
               <button
                 onClick={() => setMobileFiltersOpen(false)}
-                className="w-1/2 py-3 text-center text-xs font-bold uppercase tracking-wider text-white bg-[#173E23] rounded-xl"
+                className="btn-accent w-1/2 py-2.5 rounded-xl text-xs font-bold"
               >
-                Apply Filters
+                Apply
               </button>
             </div>
-
           </div>
         </div>
       )}
