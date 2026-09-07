@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from '../lib/navigation';
 import { api } from '../lib/apiClient';
 import { useAuth } from '../features/auth/AuthContext';
-import { CheckCircle2, Bookmark, ArrowRight, X, Trash2, Edit3, Sparkles, ShieldCheck, Clock } from 'lucide-react';
+import { CheckCircle2, Bookmark, ArrowRight, X, Trash2, Edit3, Sparkles, ShieldCheck, Clock, Award, Flame, Utensils } from 'lucide-react';
 
 const getDefaultEventDate = () => {
   const target = new Date();
@@ -182,19 +182,18 @@ export default function MenuBuilderReview() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50/50 text-slate-900 pt-24 pb-16 px-4 md:px-8">
+    <div className="min-h-screen bg-[#FCFBF7] text-slate-900 pt-24 pb-16 px-4 md:px-8">
       <div className="max-w-6xl mx-auto">
-        
-        {/* Toast */}
+        {/* Toast Notification */}
         {toastMessage && (
-          <div className="fixed top-20 right-4 z-50 bg-[#0D381E] text-white px-5 py-3 rounded-xl shadow-xl flex items-center gap-2 border border-white/20 text-xs font-semibold animate-fade-in">
-            <CheckCircle2 className="w-4 h-4 text-emerald-300" />
+          <div className="fixed top-20 right-4 z-50 bg-[#0D381E] text-white px-5 py-3 rounded-xl shadow-xl flex items-center gap-2 border border-amber-400/40 text-xs font-semibold animate-fade-in">
+            <Sparkles className="w-4 h-4 text-amber-300" />
             <span>{toastMessage}</span>
           </div>
         )}
 
         {/* Header Chapter */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 mb-8 border-b border-slate-200/90">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 mb-8 border-b border-[#EDE8DF]">
           <div>
             <div className="inline-flex items-center gap-2 mb-1">
               <span className="w-2 h-2 rounded-full bg-[#C85419]" />
@@ -202,11 +201,12 @@ export default function MenuBuilderReview() {
                 Degustation Review
               </span>
             </div>
-            <h1 className="font-display text-3xl sm:text-4xl md:text-5xl font-extrabold uppercase tracking-tight text-[#0D381E]">
+            <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl font-extrabold uppercase tracking-tight text-[#0D381E]">
               Your Tailored Banquet Folio
             </h1>
             <p className="text-xs sm:text-sm text-slate-500 mt-1">
-              Carefully calibrated for <strong className="text-[#0D381E]">{guestCount} Guests</strong> • Occasion: <strong className="text-[#0D381E] capitalize">{intake.occasion || 'Gathering'}</strong>
+              Carefully calibrated for <strong className="text-[#0D381E]">{guestCount} Guests</strong> • Occasion:{' '}
+              <strong className="text-[#0D381E] capitalize">{intake.occasion || 'Gathering'}</strong>
             </p>
           </div>
 
@@ -214,15 +214,13 @@ export default function MenuBuilderReview() {
             <button
               onClick={handleSaveMenu}
               disabled={savingMenu}
-              className="px-4 py-2.5 bg-white border border-slate-200 hover:border-[#0D381E] text-[#0D381E] rounded-xl text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 shadow-xs cursor-pointer"
+              className="px-4 py-2.5 bg-white border border-[#EDE8DF] hover:border-[#0D381E] text-[#0D381E] rounded-xl text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 shadow-xs cursor-pointer hover:bg-[#F6F4EE]"
             >
               <Bookmark className="w-4 h-4 text-[#C85419]" />
               <span>{savingMenu ? 'Saving...' : 'Save Folio'}</span>
             </button>
-            <button
-              onClick={() => setIsCheckoutOpen(true)}
-              className="btn-accent"
-            >
+            <button onClick={() => setIsCheckoutOpen(true)} className="btn-accent">
+              <Sparkles className="w-3.5 h-3.5 text-amber-200" />
               <span>CONTINUE TO ORDER</span>
               <ArrowRight className="w-4 h-4" />
             </button>
@@ -230,10 +228,10 @@ export default function MenuBuilderReview() {
         </div>
 
         {/* Personalization Profile Summary */}
-        <div className="bg-white p-5 sm:p-6 rounded-2xl border border-slate-200/90 mb-8 shadow-sm">
+        <div className="bg-white p-5 sm:p-6 rounded-2xl border border-[#EDE8DF] mb-8 shadow-sm">
           <div className="flex items-center justify-between pb-3 mb-4 border-b border-slate-100">
             <div className="flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-[#0D381E]" />
+              <Sparkles className="w-4 h-4 text-[#C85419]" />
               <span className="text-xs uppercase font-bold tracking-widest text-[#0D381E]">
                 Intake Parameters Summary
               </span>
@@ -266,7 +264,7 @@ export default function MenuBuilderReview() {
             </div>
             <div>
               <span className="text-slate-400 uppercase tracking-wider block text-[10px] font-bold">Atmosphere</span>
-              <strong className="text-[#0D381E] text-sm">{intake.mood || 'Elegant'}</strong>
+              <strong className="text-[#0D381E] text-sm">{intake.mood || 'Quiet Luxury'}</strong>
             </div>
             <div>
               <span className="text-slate-400 uppercase tracking-wider block text-[10px] font-bold">Target Budget</span>
@@ -293,15 +291,15 @@ export default function MenuBuilderReview() {
                   onClick={() => handleSelectPackage(idx)}
                   className={`p-4 rounded-2xl text-left border transition-all flex flex-col justify-between cursor-pointer ${
                     isSelected
-                      ? 'bg-white border-[#0D381E] shadow-md ring-2 ring-[#0D381E]/20'
-                      : 'bg-slate-50 border-slate-200 hover:bg-white'
+                      ? 'bg-[#FDF6F0] border-2 border-[#C85419] shadow-md ring-2 ring-[#C85419]/20'
+                      : 'bg-[#F6F4EE] border-[#EDE8DF] hover:bg-white'
                   }`}
                 >
                   <div>
                     <span className="text-[10px] uppercase font-bold tracking-widest text-[#C85419] block mb-1">
                       Option 0{idx + 1}
                     </span>
-                    <h3 className="font-display font-bold text-base text-[#0D381E] mb-1">{pkg.name}</h3>
+                    <h3 className="font-serif font-bold text-base text-[#0D381E] mb-1">{pkg.name}</h3>
                     <p className="text-xs text-slate-500 line-clamp-2 mb-3">{pkg.description}</p>
                   </div>
                   <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-xs">
@@ -316,16 +314,13 @@ export default function MenuBuilderReview() {
 
         {/* Main Review Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-          
           {/* Left 8 Cols: Course List */}
           <div className="lg:col-span-8 space-y-4">
             <div className="flex items-center justify-between mb-2">
-              <h2 className="font-display font-bold text-xl text-[#0D381E]">
+              <h2 className="font-serif font-bold text-xl text-[#0D381E]">
                 Recommended Menu ({activeItems.length} Selections)
               </h2>
-              <span className="text-xs text-slate-500">
-                You can remove or modify dishes below
-              </span>
+              <span className="text-xs text-slate-500">You can customize or remove dishes below</span>
             </div>
 
             {activeItems.length === 0 ? (
@@ -339,27 +334,25 @@ export default function MenuBuilderReview() {
               activeItems.map((item, idx) => (
                 <div
                   key={item.dishId || idx}
-                  className="p-5 rounded-2xl border border-slate-200/90 hover:border-emerald-700/40 transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4 group shadow-sm bg-white"
+                  className="p-5 rounded-2xl border border-[#EDE8DF] hover:border-amber-500/50 transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4 group shadow-sm bg-white"
                 >
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-1.5 flex-wrap">
-                      <span className={`w-2 h-2 rounded-full ${item.isVeg ? 'bg-emerald-600' : 'bg-red-600'}`} />
+                      <span className={`w-2.5 h-2.5 rounded-full ${item.isVeg ? 'bg-emerald-600' : 'bg-red-600'}`} />
                       <span className="text-[10px] uppercase font-bold tracking-wider text-[#C85419]">
                         {(typeof item.category === 'object' ? item.category?.name : item.category) ||
                           item.categoryName ||
                           `Course 0${idx + 1}`}
                       </span>
                       {item.isSignature && (
-                        <span className="px-1.5 py-0.5 text-[9px] bg-[#C85419]/10 text-[#C85419] rounded font-bold">
-                          Signature
+                        <span className="px-1.5 py-0.5 text-[9px] bg-amber-100 text-amber-900 border border-amber-300/60 rounded font-bold">
+                          ★ Signature
                         </span>
                       )}
-                      <span className="text-[11px] font-bold text-[#0D381E]">
-                        • {item.partnerName}
-                      </span>
+                      <span className="text-[11px] font-bold text-[#0D381E]">• {item.partnerName}</span>
                     </div>
 
-                    <h3 className="font-display font-bold text-base text-[#0D381E] leading-snug">
+                    <h3 className="font-serif font-bold text-base text-[#0D381E] leading-snug">
                       {item.name}
                     </h3>
                     <p className="text-xs text-slate-500 mt-0.5 line-clamp-2 font-normal">
@@ -369,7 +362,7 @@ export default function MenuBuilderReview() {
 
                   <div className="flex sm:flex-col items-center sm:items-end justify-between gap-2 border-t sm:border-t-0 pt-3 sm:pt-0 border-slate-100">
                     <div className="text-right">
-                      <span className="font-display font-bold text-base text-[#0D381E]">
+                      <span className="font-serif font-bold text-base text-[#0D381E]">
                         ₹{item.pricePerHead}
                       </span>
                       <span className="text-[10px] text-slate-400 block">/ guest</span>
@@ -390,11 +383,11 @@ export default function MenuBuilderReview() {
 
           {/* Right 4 Cols: Investment Summary Card */}
           <div className="lg:col-span-4">
-            <div className="p-6 rounded-2xl border-2 border-[#0D381E] sticky top-24 shadow-xl bg-white">
+            <div className="p-6 rounded-3xl border-2 border-[#0D381E] sticky top-24 shadow-xl bg-white">
               <span className="text-xs uppercase tracking-widest text-[#C85419] font-bold block mb-1">
                 Atelier Accounting
               </span>
-              <h3 className="font-display font-bold text-xl text-[#0D381E] mb-4 pb-3 border-b border-slate-100">
+              <h3 className="font-serif font-bold text-xl text-[#0D381E] mb-4 pb-3 border-b border-slate-100">
                 Investment Summary
               </h3>
 
@@ -409,18 +402,18 @@ export default function MenuBuilderReview() {
                 </div>
                 <div className="flex justify-between text-slate-600">
                   <span>Dishes Subtotal</span>
-                  <span className="font-bold text-[#0D381E]">₹{calculateSubtotal().toLocaleString()}</span>
+                  <span className="font-bold text-[#0D381E]">₹{calculateSubtotal().toLocaleString('en-IN')}</span>
                 </div>
                 <div className="flex justify-between text-slate-600">
                   <span>Atelier Coordination (10%)</span>
-                  <span className="font-bold text-[#C85419]">₹{calculateFee().toLocaleString()}</span>
+                  <span className="font-bold text-[#C85419]">₹{calculateFee().toLocaleString('en-IN')}</span>
                 </div>
 
                 <div className="pt-3 border-t border-slate-100 flex justify-between items-baseline">
                   <span className="text-sm font-bold text-[#0D381E]">Total Amount</span>
                   <div className="text-right">
-                    <span className="font-display text-3xl font-extrabold text-[#0D381E]">
-                      ₹{calculateTotal().toLocaleString()}
+                    <span className="font-serif text-3xl font-extrabold text-[#0D381E]">
+                      ₹{calculateTotal().toLocaleString('en-IN')}
                     </span>
                     <span className="text-[10px] text-slate-400 block">All taxes & synchronized transit incl.</span>
                   </div>
@@ -431,6 +424,7 @@ export default function MenuBuilderReview() {
                 onClick={() => setIsCheckoutOpen(true)}
                 className="w-full py-3.5 bg-gradient-to-r from-[#C85419] to-[#D95D1E] hover:from-[#D95D1E] hover:to-[#E86624] text-white rounded-xl text-xs font-bold uppercase tracking-wider shadow-md shadow-orange-500/20 active:scale-95 transition-all flex items-center justify-center gap-2 mb-3 cursor-pointer"
               >
+                <Sparkles className="w-4 h-4 text-amber-200" />
                 <span>CONTINUE TO ORDER</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
@@ -438,27 +432,25 @@ export default function MenuBuilderReview() {
               <button
                 onClick={handleSaveMenu}
                 disabled={savingMenu}
-                className="w-full py-2.5 bg-slate-50 text-[#0D381E] rounded-xl text-xs font-bold uppercase tracking-wider border border-slate-200 hover:bg-slate-100 transition-all text-center cursor-pointer"
+                className="w-full py-2.5 bg-[#F6F4EE] text-[#0D381E] rounded-xl text-xs font-bold uppercase tracking-wider border border-[#EDE8DF] hover:bg-slate-100 transition-all text-center cursor-pointer"
               >
                 {savingMenu ? 'Saving Folio...' : 'Save to My Tastings'}
               </button>
             </div>
           </div>
-
         </div>
-
       </div>
 
       {/* Checkout & Reservation Details Modal */}
       {isCheckoutOpen && (
-        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-slate-200 max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-amber-400/40 max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between pb-4 mb-4 border-b border-slate-100">
               <div>
                 <span className="text-[10px] uppercase font-bold tracking-widest text-[#C85419]">
                   Step 02 of Order
                 </span>
-                <h3 className="font-display font-bold text-xl text-[#0D381E]">
+                <h3 className="font-serif font-bold text-xl text-[#0D381E]">
                   Host & Event Logistics
                 </h3>
               </div>
@@ -555,13 +547,13 @@ export default function MenuBuilderReview() {
                 />
               </div>
 
-              <div className="p-4 bg-slate-50 rounded-xl border border-slate-200/80 flex items-center justify-between">
+              <div className="p-4 bg-[#F6F4EE] rounded-xl border border-[#EDE8DF] flex items-center justify-between">
                 <div>
-                  <span className="text-[10px] uppercase font-bold text-slate-400 block">Total Commission</span>
-                  <span className="text-xs text-slate-600">{guestCount} Guests • {activeItems.length} Courses</span>
+                  <span className="text-[10px] uppercase font-bold text-slate-500 block">Total Commission</span>
+                  <span className="text-xs text-slate-700">{guestCount} Guests • {activeItems.length} Courses</span>
                 </div>
-                <span className="font-display text-2xl font-bold text-[#0D381E]">
-                  ₹{calculateTotal().toLocaleString()}
+                <span className="font-serif text-2xl font-bold text-[#0D381E]">
+                  ₹{calculateTotal().toLocaleString('en-IN')}
                 </span>
               </div>
 
@@ -586,7 +578,7 @@ export default function MenuBuilderReview() {
           </div>
         </div>
       )}
-
     </div>
   );
 }
+

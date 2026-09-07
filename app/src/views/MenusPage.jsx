@@ -100,24 +100,23 @@ export default function MenusPage() {
   }, [dishes, searchQuery, selectedCategory, selectedDiet, selectedPartner, partnerMap]);
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900">
-      
-      {/* Luxury Porcelain Editorial Header */}
-      <section className="relative bg-gradient-to-b from-white via-slate-50 to-slate-100/60 pt-28 pb-12 sm:pb-16 px-4 sm:px-6 lg:px-8 border-b border-slate-200/80 overflow-hidden">
+    <div className="min-h-screen bg-[#FCFBF7] text-slate-900">
+      {/* Luxury Editorial Header */}
+      <section className="relative bg-gradient-to-b from-[#081810] via-[#0D381E] to-[#0A2615] text-white pt-28 pb-14 sm:pb-16 px-4 sm:px-6 lg:px-8 border-b border-amber-900/20 overflow-hidden">
         {/* Subtle Ambient Glows */}
-        <div className="absolute top-10 left-1/4 w-96 h-96 bg-brand-forest/5 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-brand-terracotta/5 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute top-10 left-1/4 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-emerald-600/10 rounded-full blur-3xl pointer-events-none" />
 
-        <div className="max-w-7xl mx-auto relative z-10">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-terracotta/10 text-brand-terracotta border border-brand-terracotta/20 text-xs font-bold uppercase tracking-widest mb-4">
-            <Sparkles className="w-3.5 h-3.5 text-brand-terracotta" />
+        <div className="max-w-7xl mx-auto relative z-10 text-center sm:text-left">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/10 text-amber-300 border border-amber-400/30 text-xs font-bold uppercase tracking-widest mb-4">
+            <Sparkles className="w-3.5 h-3.5 text-amber-400" />
             <span>Curated Atelier Catalog • Approved Banquet Repertoires</span>
           </div>
-          <h1 className="font-serif text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight text-slate-900 max-w-3xl leading-tight">
+          <h1 className="font-serif text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight text-white max-w-3xl leading-tight">
             Menus Tailored Around Your Moment
           </h1>
-          <p className="mt-3 text-slate-600 text-sm sm:text-base max-w-2xl font-normal leading-relaxed">
-            Every dish is an authenticated heirloom creation from Hyderabad's verified culinary institutions, portioned and staged for celebratory banquets.
+          <p className="mt-3 text-slate-200/90 text-sm sm:text-base max-w-2xl font-normal leading-relaxed">
+            Every dish is an authenticated heirloom creation from Hyderabad&apos;s verified culinary institutions, portioned and staged for celebratory banquets.
           </p>
         </div>
       </section>
@@ -126,12 +125,12 @@ export default function MenusPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
         {/* Curated Collections Highlights Row */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-          <div className="p-6 bg-white rounded-2xl border border-slate-200/80 flex items-start gap-4 shadow-card-soft hover:shadow-card-hover hover:-translate-y-1 transition-all duration-300 group">
-            <div className="w-12 h-12 rounded-xl bg-emerald-50 text-brand-forest flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+          <div className="p-6 bg-white rounded-3xl border border-[#EDE8DF] flex items-start gap-4 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
+            <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-[#0D381E] border border-emerald-100 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
               <ChefHat className="w-6 h-6" />
             </div>
             <div>
-              <span className="text-[10px] uppercase font-bold tracking-widest text-brand-terracotta block mb-1">
+              <span className="text-[10px] uppercase font-bold tracking-widest text-[#C85419] block mb-1">
                 Signature Collection
               </span>
               <h3 className="font-serif font-bold text-base text-slate-900">Royal Nizami Dum Feast</h3>
@@ -141,12 +140,12 @@ export default function MenusPage() {
             </div>
           </div>
 
-          <div className="p-6 bg-white rounded-2xl border border-slate-200/80 flex items-start gap-4 shadow-card-soft hover:shadow-card-hover hover:-translate-y-1 transition-all duration-300 group">
-            <div className="w-12 h-12 rounded-xl bg-orange-50 text-brand-terracotta flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+          <div className="p-6 bg-white rounded-3xl border border-[#EDE8DF] flex items-start gap-4 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
+            <div className="w-12 h-12 rounded-2xl bg-orange-50 text-[#C85419] border border-orange-100 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
               <Flame className="w-6 h-6" />
             </div>
             <div>
-              <span className="text-[10px] uppercase font-bold tracking-widest text-brand-terracotta block mb-1">
+              <span className="text-[10px] uppercase font-bold tracking-widest text-[#C85419] block mb-1">
                 Cocktail Soiree
               </span>
               <h3 className="font-serif font-bold text-base text-slate-900">Artisanal Starters & Chaat</h3>
@@ -156,12 +155,12 @@ export default function MenusPage() {
             </div>
           </div>
 
-          <div className="p-6 bg-white rounded-2xl border border-slate-200/80 flex items-start gap-4 shadow-card-soft hover:shadow-card-hover hover:-translate-y-1 transition-all duration-300 group">
-            <div className="w-12 h-12 rounded-xl bg-emerald-50 text-brand-forest flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+          <div className="p-6 bg-white rounded-3xl border border-[#EDE8DF] flex items-start gap-4 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
+            <div className="w-12 h-12 rounded-2xl bg-amber-50 text-[#C85419] border border-amber-100 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
               <Cake className="w-6 h-6" />
             </div>
             <div>
-              <span className="text-[10px] uppercase font-bold tracking-widest text-brand-terracotta block mb-1">
+              <span className="text-[10px] uppercase font-bold tracking-widest text-[#C85419] block mb-1">
                 Grand Finale
               </span>
               <h3 className="font-serif font-bold text-base text-slate-900">Desserts & Godavari Cacao</h3>
@@ -183,9 +182,9 @@ export default function MenusPage() {
                 <button
                   key={cat.value}
                   onClick={() => setSelectedCategory(cat.value)}
-                  className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider whitespace-nowrap transition-all flex items-center gap-2 ${
+                  className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider whitespace-nowrap transition-all flex items-center gap-2 cursor-pointer ${
                     isSelected
-                      ? 'bg-brand-forest text-white shadow-sm'
+                      ? 'bg-[#C85419] text-white shadow-sm'
                       : 'bg-slate-50 text-slate-600 hover:bg-slate-100 hover:text-slate-900'
                   }`}
                 >

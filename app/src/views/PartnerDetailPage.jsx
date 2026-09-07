@@ -86,7 +86,7 @@ export default function PartnerDetailPage() {
   const heroImg = partner.coverImageUrl || partner.imageUrl || FALLBACK_HERO;
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900">
+    <div className="min-h-screen bg-[#FCFBF7] text-slate-900">
       {/* Editorial Hero Banner */}
       <section className="relative h-[52vh] min-h-[420px] bg-slate-950 text-white flex items-end pb-12 px-4 sm:px-6 lg:px-8 overflow-hidden">
         <img

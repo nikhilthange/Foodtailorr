@@ -173,33 +173,31 @@ export default function ExplorePage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900">
-      
-      {/* Luxury Porcelain Editorial Header */}
-      <section className="relative bg-gradient-to-b from-white via-slate-50 to-slate-100/60 pt-28 pb-12 sm:pb-16 px-4 sm:px-6 lg:px-8 border-b border-slate-200/80 overflow-hidden">
+    <div className="min-h-screen bg-[#FCFBF7] text-slate-900">
+      {/* Luxury Editorial Header */}
+      <section className="relative bg-gradient-to-b from-[#081810] via-[#0D381E] to-[#0A2615] text-white pt-28 pb-14 sm:pb-16 px-4 sm:px-6 lg:px-8 border-b border-amber-900/20 overflow-hidden">
         {/* Subtle Ambient Glows */}
-        <div className="absolute top-10 left-1/4 w-96 h-96 bg-brand-forest/5 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-brand-terracotta/5 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute top-10 left-1/4 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-emerald-600/10 rounded-full blur-3xl pointer-events-none" />
 
-        <div className="max-w-7xl mx-auto relative z-10">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-terracotta/10 text-brand-terracotta border border-brand-terracotta/20 text-xs font-bold uppercase tracking-widest mb-4">
-            <Sparkles className="w-3.5 h-3.5 text-brand-terracotta" />
+        <div className="max-w-7xl mx-auto relative z-10 text-center sm:text-left">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 text-amber-300 border border-amber-400/30 text-xs font-bold uppercase tracking-widest mb-4">
+            <Sparkles className="w-3.5 h-3.5 text-amber-400" />
             <span>The Curation Hub • Hyderabad Atelier Guild</span>
           </div>
-          <h1 className="font-serif text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight text-slate-900 max-w-3xl leading-tight">
+          <h1 className="font-serif text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight text-white max-w-3xl leading-tight">
             Discover Your Next Culinary Moment
           </h1>
-          <p className="mt-3 text-slate-600 text-sm sm:text-base max-w-2xl font-normal leading-relaxed">
-            Direct access to Hyderabad's 11 verified culinary institutions. Explore heirloom menus, kitchen heritage, and banquet specialties.
+          <p className="mt-3 text-slate-200/90 text-sm sm:text-base max-w-2xl font-normal leading-relaxed">
+            Direct access to Hyderabad&apos;s 11 verified culinary institutions. Explore heirloom menus, kitchen heritage, and banquet specialties.
           </p>
         </div>
       </section>
 
       {/* Main Content Area */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
-        
         {/* Search & Filters Bar */}
-        <div className="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/80 shadow-card-soft mb-8 flex flex-col gap-4">
+        <div className="bg-white p-4 sm:p-5 rounded-3xl border border-[#EDE8DF] shadow-sm mb-8 flex flex-col gap-4">
           {/* Top Search Line */}
           <div className="flex items-center gap-3">
             <div className="relative flex-1">

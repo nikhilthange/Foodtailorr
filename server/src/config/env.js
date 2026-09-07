@@ -37,10 +37,10 @@ export const env = {
 
   // DynamoDB Configuration
   DYNAMODB_TABLE_NAME: process.env.DYNAMODB_TABLE_NAME || 'food_tailor',
-  DYNAMODB_ENDPOINT: process.env.DYNAMODB_ENDPOINT || (process.env.NODE_ENV === 'production' ? undefined : 'http://localhost:8000'),
-  AWS_REGION: process.env.AWS_REGION || process.env.AWS_DEFAULT_REGION || 'us-east-1',
-  AWS_ACCESS_KEY_ID: process.env.AWS_ACCESS_KEY_ID || (process.env.NODE_ENV === 'production' ? undefined : 'localKey'),
-  AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY || (process.env.NODE_ENV === 'production' ? undefined : 'localSecret'),
+  DYNAMODB_ENDPOINT: process.env.DYNAMODB_ENDPOINT || undefined,
+  AWS_REGION: process.env.AWS_REGION || process.env.AWS_DEFAULT_REGION || 'ap-south-1',
+  AWS_ACCESS_KEY_ID: process.env.AWS_ACCESS_KEY_ID || undefined,
+  AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY || undefined,
 
   JWT_ACCESS_SECRET: process.env.JWT_ACCESS_SECRET || 'dev-access-secret-change-in-production-1234567890abcdef',
   JWT_REFRESH_SECRET: process.env.JWT_REFRESH_SECRET || 'dev-refresh-secret-change-in-production-fedcba0987654321',

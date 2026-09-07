@@ -1,10 +1,25 @@
 'use client';
 
 import React, { useState, useEffect, useMemo } from 'react';
-import { Link } from '../lib/navigation';
+import { Link, useNavigate } from '../lib/navigation';
 import { api } from '../lib/apiClient';
 import PartnerCard from '../components/PartnerCard';
-import { ArrowRight, Sparkles, ShieldCheck, Clock, Users, Flame, Compass, UtensilsCrossed, Award, ChefHat, CheckCircle2 } from 'lucide-react';
+import {
+  ArrowRight,
+  Sparkles,
+  ShieldCheck,
+  Clock,
+  Users,
+  Flame,
+  Compass,
+  UtensilsCrossed,
+  Award,
+  ChefHat,
+  CheckCircle2,
+  Star,
+  Zap,
+  Sliders,
+} from 'lucide-react';
 
 export default function HomePage() {
   const [partners, setPartners] = useState([]);
@@ -41,6 +56,7 @@ export default function HomePage() {
         iconName: 'bi-cake2',
         color: '#C85419',
         badge: 'Top Pick',
+        sampleCourses: '6 Courses • Live Chaat • Gateaux',
       },
       {
         id: 'anniversary',
@@ -50,6 +66,7 @@ export default function HomePage() {
         iconName: 'bi-gem',
         color: '#0D381E',
         badge: 'Fine Dining',
+        sampleCourses: '7 Courses • Silver-Vark • Cacao',
       },
       {
         id: 'family',
@@ -59,6 +76,7 @@ export default function HomePage() {
         iconName: 'bi-people',
         color: '#0D381E',
         badge: 'Popular',
+        sampleCourses: '8 Courses • Pure Ghee • Sweets',
       },
       {
         id: 'corporate',
@@ -68,6 +86,7 @@ export default function HomePage() {
         iconName: 'bi-briefcase',
         color: '#0D381E',
         badge: 'Executive',
+        sampleCourses: 'Executive Boxes • Thermal Chafers',
       },
       {
         id: 'romantic',
@@ -77,6 +96,7 @@ export default function HomePage() {
         iconName: 'bi-heart',
         color: '#C85419',
         badge: 'Bespoke',
+        sampleCourses: '5 Courses • Butler Pairing',
       },
       {
         id: 'festival',
@@ -86,6 +106,7 @@ export default function HomePage() {
         iconName: 'bi-sun',
         color: '#C85419',
         badge: 'Heritage',
+        sampleCourses: '100% Pure Veg / Jain • Sanctified',
       },
       {
         id: 'weekend',
@@ -95,6 +116,7 @@ export default function HomePage() {
         iconName: 'bi-music-note-beamed',
         color: '#0D381E',
         badge: 'Vibrant',
+        sampleCourses: 'Skewers • Chaat • Mocktails',
       },
       {
         id: 'custom',
@@ -104,6 +126,7 @@ export default function HomePage() {
         iconName: 'bi-compass',
         color: '#C85419',
         badge: 'Tailored',
+        sampleCourses: 'Bespoke Architecture • Concierge',
       },
     ],
     []
@@ -173,40 +196,35 @@ export default function HomePage() {
   ];
 
   return (
-    <div className="flex flex-col w-full bg-white text-slate-900 selection:bg-[#C85419] selection:text-white overflow-x-hidden">
-      
+    <div className="flex flex-col w-full bg-[#FAF8F5] text-slate-900 selection:bg-[#C85419] selection:text-white overflow-x-hidden">
       {/* ============================================================ */}
       {/* SECTION 1 — HERO                                             */}
       {/* ============================================================ */}
-      <section className="relative w-full min-h-[90vh] flex flex-col items-center justify-center bg-slate-950 text-white pt-28 pb-20 px-4 md:px-8 overflow-hidden">
-        {/* Cinematic Background Image & Lighting */}
-        <div className="absolute inset-0 z-0">
+      <section className="relative w-full min-h-[92vh] flex flex-col items-center justify-center bg-[#0B1E13] text-white pt-28 pb-20 px-4 md:px-8 overflow-hidden">
+        {/* Vibrant Fresh Background Image & Luminous Fresh Lighting */}
+        <div className="absolute inset-0 z-0 overflow-hidden">
           <img
-            src="/hero-culinary-feast.jpg"
-            alt="Royal Hyderabadi Culinary Banquet"
-            className="w-full h-full object-cover object-center brightness-75 scale-105 transition-transform duration-1000"
+            src="/hero-fresh-banquet.jpg"
+            alt="Fresh Gourmet Indian Culinary Feast"
+            className="w-full h-full object-cover object-center brightness-[0.88] contrast-[1.06] saturate-[1.12] scale-100"
           />
-          {/* Multi-layered Vignette & Brand Gradient Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/60 to-slate-950/30" />
-          <div className="absolute inset-0 bg-radial-gradient from-transparent via-slate-950/40 to-slate-950/80" />
+          {/* Luminous Gradient Overlay for Freshness and High Legibility */}
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0B1E13] via-[#0B1E13]/40 to-[#0B1E13]/60" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_transparent_30%,_rgba(11,30,19,0.7)_100%)]" />
         </div>
-
-        {/* Ambient Glows */}
-        <div className="absolute top-1/4 -left-32 w-96 h-96 bg-brand-forest/30 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-10 -right-32 w-96 h-96 bg-brand-terracotta/25 rounded-full blur-3xl pointer-events-none" />
 
         {/* Hero Content */}
         <div className="relative z-10 max-w-5xl mx-auto text-center flex flex-col items-center">
           {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-emerald-300 text-xs font-semibold uppercase tracking-widest mb-6 shadow-sm">
-            <Sparkles className="w-3.5 h-3.5 text-brand-terracotta" />
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-amber-400/25 text-amber-200 text-xs font-semibold uppercase tracking-widest mb-6 shadow-sm">
+            <Sparkles className="w-3.5 h-3.5 text-[#C85419]" />
             <span>Hyderabad Atelier Guild • 11 Curated Masters</span>
           </div>
 
           {/* Master Headline */}
           <h1 className="font-serif text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight text-white leading-[1.08] mb-6 drop-shadow-lg">
             Your Favorite Food, <br className="hidden sm:block" />
-            <span className="bg-gradient-to-r from-emerald-200 via-white to-orange-200 bg-clip-text text-transparent">
+            <span className="text-amber-100">
               Tailored For Every Moment.
             </span>
           </h1>
@@ -219,29 +237,29 @@ export default function HomePage() {
           {/* Luxury Action CTAs */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full max-w-md mb-12">
             <Link
-              to="/partners"
-              className="btn-accent w-full sm:w-auto px-8 py-4 rounded-xl text-xs sm:text-sm uppercase tracking-wider font-bold shadow-xl shadow-orange-950/40 flex items-center justify-center gap-2.5 group"
+              to="/build-menu"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-3.5 rounded-xl bg-[#C85419] hover:bg-[#A33E00] text-white text-sm font-bold tracking-wide shadow-xl shadow-black/30 border border-amber-400/20 hover:-translate-y-0.5 active:translate-y-0 transition-all"
             >
-              <span>Explore Master Kitchens</span>
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              <span>Build My Menu</span>
+              <ArrowRight className="w-4 h-4" />
             </Link>
 
             <Link
-              to="/menus"
-              className="w-full sm:w-auto px-8 py-4 rounded-xl text-xs sm:text-sm uppercase tracking-wider font-bold text-white bg-white/10 hover:bg-white/20 border border-white/25 backdrop-blur-md transition-all flex items-center justify-center gap-2 hover:scale-[1.02]"
+              to="/partners"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-3.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-sm font-bold tracking-wide backdrop-blur-md border border-white/25 shadow-lg hover:-translate-y-0.5 active:translate-y-0 transition-all"
             >
-              <span>View Curated Menus</span>
+              <span>Explore Partners</span>
             </Link>
           </div>
 
           {/* Social Proof Trust Highlights */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-8 text-center text-xs font-medium text-slate-300 backdrop-blur-sm bg-black/20 px-6 py-3.5 rounded-2xl border border-white/10">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-8 text-center text-xs font-medium text-slate-300 backdrop-blur-sm bg-black/30 px-6 py-3.5 rounded-2xl border border-white/10">
             <div className="flex items-center justify-center gap-2">
               <ShieldCheck className="w-4 h-4 text-emerald-400" />
               <span>100% FSSAI Audited</span>
             </div>
             <div className="flex items-center justify-center gap-2">
-              <Clock className="w-4 h-4 text-brand-terracotta" />
+              <Clock className="w-4 h-4 text-amber-400" />
               <span>Minute-Accurate Delivery</span>
             </div>
             <div className="flex items-center justify-center gap-2">
@@ -249,7 +267,7 @@ export default function HomePage() {
               <span>Zero Ghost Kitchens</span>
             </div>
             <div className="flex items-center justify-center gap-2">
-              <Users className="w-4 h-4 text-brand-terracotta" />
+              <Users className="w-4 h-4 text-amber-400" />
               <span>Dedicated Concierge</span>
             </div>
           </div>
@@ -257,15 +275,15 @@ export default function HomePage() {
       </section>
 
       {/* ============================================================ */}
-      {/* SECTION 2 — HOW IT WORKS                                     */}
+      {/* SECTION 2 — HOW IT WORKS (FOUR-STAGE CURATION)                */}
       {/* ============================================================ */}
-      <section className="py-20 md:py-28 bg-slate-50/70 border-b border-slate-200/80">
+      <section className="py-20 md:py-28 bg-[#F6F4EE] border-b border-[#E8E5DD]">
         <div className="max-w-7xl mx-auto px-4 md:px-8">
           <div className="text-center max-w-2xl mx-auto mb-16">
             <span className="text-xs uppercase font-bold tracking-[0.2em] text-[#C85419] block mb-2">
               The Four-Stage Curation
             </span>
-            <h2 className="font-display text-3xl sm:text-5xl font-extrabold text-[#0D381E] tracking-tight">
+            <h2 className="font-serif text-3xl sm:text-5xl font-extrabold text-[#0D381E] tracking-tight">
               How Food Tailor Works
             </h2>
             <div className="w-12 h-1 bg-[#C85419] rounded-full my-4 mx-auto" />
@@ -277,14 +295,14 @@ export default function HomePage() {
           {/* 4-Step Illustrated Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {/* STEP 01 */}
-            <div className="bg-white p-7 rounded-2xl border border-slate-200/80 hover:border-emerald-700/30 shadow-[0_2px_10px_rgba(15,23,42,0.03)] hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col items-center text-center group">
-              <div className="w-14 h-14 rounded-2xl bg-orange-50 text-[#C85419] flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+            <div className="bg-white p-7 rounded-2xl border border-[#EDE8DF] hover:border-emerald-700/40 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col items-center text-center group">
+              <div className="w-14 h-14 rounded-2xl bg-orange-50 text-[#C85419] flex items-center justify-center mb-5 group-hover:scale-110 transition-transform shadow-xs">
                 <i className="bi bi-calendar-event text-2xl" />
               </div>
               <span className="text-[11px] font-bold text-[#C85419] tracking-widest uppercase mb-1">
                 STEP 01
               </span>
-              <h3 className="font-display text-lg font-bold text-[#0D381E] mb-2">
+              <h3 className="font-serif text-lg font-bold text-[#0D381E] mb-2">
                 Tell us your moment.
               </h3>
               <p className="text-xs text-slate-500 leading-relaxed">
@@ -293,11 +311,11 @@ export default function HomePage() {
             </div>
 
             {/* STEP 02 */}
-            <div className="bg-white p-7 rounded-2xl border border-slate-200/80 hover:border-brand-forest/30 shadow-card-soft hover:shadow-card-hover hover:-translate-y-1 transition-all duration-300 flex flex-col items-center text-center group">
-              <div className="w-14 h-14 rounded-2xl bg-emerald-50 text-brand-forest flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+            <div className="bg-white p-7 rounded-2xl border border-[#EDE8DF] hover:border-emerald-700/40 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col items-center text-center group">
+              <div className="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-800 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform shadow-xs">
                 <Compass className="w-6 h-6" />
               </div>
-              <span className="text-[11px] font-bold text-brand-forest tracking-widest uppercase mb-1">
+              <span className="text-[11px] font-bold text-emerald-800 tracking-widest uppercase mb-1">
                 STEP 02
               </span>
               <h3 className="font-serif text-lg font-bold text-slate-900 mb-2">
@@ -309,11 +327,11 @@ export default function HomePage() {
             </div>
 
             {/* STEP 03 */}
-            <div className="bg-white p-7 rounded-2xl border border-slate-200/80 hover:border-brand-forest/30 shadow-card-soft hover:shadow-card-hover hover:-translate-y-1 transition-all duration-300 flex flex-col items-center text-center group">
-              <div className="w-14 h-14 rounded-2xl bg-orange-50 text-brand-terracotta flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+            <div className="bg-white p-7 rounded-2xl border border-[#EDE8DF] hover:border-emerald-700/40 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col items-center text-center group">
+              <div className="w-14 h-14 rounded-2xl bg-amber-50 text-[#C85419] flex items-center justify-center mb-5 group-hover:scale-110 transition-transform shadow-xs">
                 <Sparkles className="w-6 h-6" />
               </div>
-              <span className="text-[11px] font-bold text-brand-terracotta tracking-widest uppercase mb-1">
+              <span className="text-[11px] font-bold text-[#C85419] tracking-widest uppercase mb-1">
                 STEP 03
               </span>
               <h3 className="font-serif text-lg font-bold text-slate-900 mb-2">
@@ -325,11 +343,11 @@ export default function HomePage() {
             </div>
 
             {/* STEP 04 */}
-            <div className="bg-white p-7 rounded-2xl border border-slate-200/80 hover:border-brand-forest/30 shadow-card-soft hover:shadow-card-hover hover:-translate-y-1 transition-all duration-300 flex flex-col items-center text-center group">
-              <div className="w-14 h-14 rounded-2xl bg-emerald-50 text-brand-forest flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+            <div className="bg-white p-7 rounded-2xl border border-[#EDE8DF] hover:border-emerald-700/40 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col items-center text-center group">
+              <div className="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-800 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform shadow-xs">
                 <ChefHat className="w-6 h-6" />
               </div>
-              <span className="text-[11px] font-bold text-brand-forest tracking-widest uppercase mb-1">
+              <span className="text-[11px] font-bold text-emerald-800 tracking-widest uppercase mb-1">
                 STEP 04
               </span>
               <h3 className="font-serif text-lg font-bold text-slate-900 mb-2">
@@ -344,7 +362,7 @@ export default function HomePage() {
           <div className="mt-12 text-center">
             <Link
               to="/how-it-works"
-              className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-brand-forest hover:text-brand-terracotta transition-colors"
+              className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-emerald-900 hover:text-[#C85419] transition-colors"
             >
               <span>Explore The Complete Curation Story</span>
               <ArrowRight className="w-4 h-4" />
@@ -356,7 +374,7 @@ export default function HomePage() {
       {/* ============================================================ */}
       {/* SECTION 3 — PERSONALIZATION & 6 DIMENSIONS                   */}
       {/* ============================================================ */}
-      <section className="py-20 md:py-28 bg-white border-b border-slate-200/80">
+      <section className="py-20 md:py-28 bg-[#FCFBF7] border-b border-[#E8E5DD]">
         <div className="max-w-7xl mx-auto px-4 md:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             {/* Left Narrative */}
@@ -364,7 +382,7 @@ export default function HomePage() {
               <span className="text-xs uppercase font-bold tracking-[0.2em] text-[#C85419] block mb-2">
                 Bespoke Dimensions
               </span>
-              <h2 className="font-display text-3xl sm:text-5xl font-extrabold text-[#0D381E] tracking-tight leading-tight mb-4">
+              <h2 className="font-serif text-3xl sm:text-5xl font-extrabold text-[#0D381E] tracking-tight leading-tight mb-4">
                 Food should fit the moment.
               </h2>
               <div className="w-12 h-1 bg-[#C85419] rounded-full mb-6" />
@@ -384,62 +402,62 @@ export default function HomePage() {
 
             {/* Right Dimension Badges Grid */}
             <div className="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="p-5 bg-slate-50 rounded-2xl border border-slate-200/80 flex items-start gap-3.5 shadow-sm hover:shadow-md transition-shadow">
-                <div className="w-10 h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center flex-shrink-0 text-[#0D381E] shadow-xs">
+              <div className="p-5 bg-white rounded-2xl border border-[#EDE8DF] flex items-start gap-3.5 shadow-sm hover:shadow-md transition-shadow">
+                <div className="w-10 h-10 rounded-xl bg-emerald-50 border border-emerald-100 flex items-center justify-center flex-shrink-0 text-[#0D381E] shadow-xs">
                   <UtensilsCrossed className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="font-display font-bold text-sm text-[#0D381E]">Cuisine Harmony</h3>
+                  <h3 className="font-serif font-bold text-sm text-[#0D381E]">Cuisine Harmony</h3>
                   <p className="text-xs text-slate-500 mt-0.5 leading-relaxed">Mughlai, Irani, Andhra, Street Chaat & Artisanal Bakes.</p>
                 </div>
               </div>
 
-              <div className="p-5 bg-slate-50 rounded-2xl border border-slate-200/80 flex items-start gap-3.5 shadow-sm hover:shadow-md transition-shadow">
-                <div className="w-10 h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center flex-shrink-0 text-[#C85419] shadow-xs">
+              <div className="p-5 bg-white rounded-2xl border border-[#EDE8DF] flex items-start gap-3.5 shadow-sm hover:shadow-md transition-shadow">
+                <div className="w-10 h-10 rounded-xl bg-orange-50 border border-orange-100 flex items-center justify-center flex-shrink-0 text-[#C85419] shadow-xs">
                   <Flame className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="font-display font-bold text-sm text-[#0D381E]">Taste & Spice Scale</h3>
+                  <h3 className="font-serif font-bold text-sm text-[#0D381E]">Taste & Spice Scale</h3>
                   <p className="text-xs text-slate-500 mt-0.5 leading-relaxed">Mild aromatics to fiery Rayalaseema heat levels.</p>
                 </div>
               </div>
 
-              <div className="p-5 bg-slate-50 rounded-2xl border border-slate-200/80 flex items-start gap-3.5 shadow-sm hover:shadow-md transition-shadow">
-                <div className="w-10 h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center flex-shrink-0 text-[#0D381E] shadow-xs">
+              <div className="p-5 bg-white rounded-2xl border border-[#EDE8DF] flex items-start gap-3.5 shadow-sm hover:shadow-md transition-shadow">
+                <div className="w-10 h-10 rounded-xl bg-emerald-50 border border-emerald-100 flex items-center justify-center flex-shrink-0 text-[#0D381E] shadow-xs">
                   <ShieldCheck className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="font-display font-bold text-sm text-[#0D381E]">Dietary Segregation</h3>
+                  <h3 className="font-serif font-bold text-sm text-[#0D381E]">Dietary Segregation</h3>
                   <p className="text-xs text-slate-500 mt-0.5 leading-relaxed">100% segregated Pure Veg, Jain, Halal, or All-inclusive.</p>
                 </div>
               </div>
 
-              <div className="p-5 bg-slate-50 rounded-2xl border border-slate-200/80 flex items-start gap-3.5 shadow-sm hover:shadow-md transition-shadow">
-                <div className="w-10 h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center flex-shrink-0 text-[#C85419] shadow-xs">
+              <div className="p-5 bg-white rounded-2xl border border-[#EDE8DF] flex items-start gap-3.5 shadow-sm hover:shadow-md transition-shadow">
+                <div className="w-10 h-10 rounded-xl bg-amber-50 border border-amber-100 flex items-center justify-center flex-shrink-0 text-[#C85419] shadow-xs">
                   <Sparkles className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="font-display font-bold text-sm text-[#0D381E]">Occasion Format</h3>
+                  <h3 className="font-serif font-bold text-sm text-[#0D381E]">Occasion Format</h3>
                   <p className="text-xs text-slate-500 mt-0.5 leading-relaxed">Seated banquet, high-tea lounge, or cocktail soiree.</p>
                 </div>
               </div>
 
-              <div className="p-5 bg-slate-50 rounded-2xl border border-slate-200/80 flex items-start gap-3.5 shadow-sm hover:shadow-md transition-shadow">
-                <div className="w-10 h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center flex-shrink-0 text-[#0D381E] shadow-xs">
+              <div className="p-5 bg-white rounded-2xl border border-[#EDE8DF] flex items-start gap-3.5 shadow-sm hover:shadow-md transition-shadow">
+                <div className="w-10 h-10 rounded-xl bg-emerald-50 border border-emerald-100 flex items-center justify-center flex-shrink-0 text-[#0D381E] shadow-xs">
                   <Users className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="font-display font-bold text-sm text-[#0D381E]">Guest Count Precision</h3>
+                  <h3 className="font-serif font-bold text-sm text-[#0D381E]">Guest Count Precision</h3>
                   <p className="text-xs text-slate-500 mt-0.5 leading-relaxed">Calibrated portions for 10 to 1,000+ banquet covers.</p>
                 </div>
               </div>
 
-              <div className="p-5 bg-slate-50 rounded-2xl border border-slate-200/80 flex items-start gap-3.5 shadow-sm hover:shadow-md transition-shadow">
-                <div className="w-10 h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center flex-shrink-0 text-[#C85419] shadow-xs">
+              <div className="p-5 bg-white rounded-2xl border border-[#EDE8DF] flex items-start gap-3.5 shadow-sm hover:shadow-md transition-shadow">
+                <div className="w-10 h-10 rounded-xl bg-orange-50 border border-orange-100 flex items-center justify-center flex-shrink-0 text-[#C85419] shadow-xs">
                   <ChefHat className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="font-display font-bold text-sm text-[#0D381E]">Preferred Brands</h3>
+                  <h3 className="font-serif font-bold text-sm text-[#0D381E]">Preferred Brands</h3>
                   <p className="text-xs text-slate-500 mt-0.5 leading-relaxed">Dishes from 11 verified institutions on one single bill.</p>
                 </div>
               </div>
@@ -449,20 +467,20 @@ export default function HomePage() {
       </section>
 
       {/* ============================================================ */}
-      {/* SECTION 4 — CURATED OCCASIONS                                 */}
+      {/* SECTION 4 — OCCASIONS                                        */}
       {/* ============================================================ */}
-      <section className="py-20 md:py-28 bg-slate-50/70 border-b border-slate-200/80">
+      <section className="py-20 md:py-28 bg-[#F6F4EE] border-b border-[#E8E5DD]">
         <div className="max-w-7xl mx-auto px-4 md:px-8">
           <div className="text-center max-w-2xl mx-auto mb-16">
             <span className="text-xs uppercase font-bold tracking-[0.2em] text-[#C85419] block mb-2">
-              Tailored For Every Format
+              Bespoke Banqueting Formats
             </span>
-            <h2 className="font-display text-3xl sm:text-5xl font-extrabold text-[#0D381E] tracking-tight">
+            <h2 className="font-serif text-3xl sm:text-5xl font-extrabold text-[#0D381E] tracking-tight">
               Curated Occasions
             </h2>
             <div className="w-12 h-1 bg-[#C85419] rounded-full my-4 mx-auto" />
-            <p className="text-sm sm:text-base text-slate-600">
-              Select an occasion to explore pre-calibrated culinary line-ups and signature courses.
+            <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
+              Every gathering has its own tempo. Explore calibrated multi-brand lineups engineered for Hyderabad&apos;s most cherished milestones.
             </p>
           </div>
 
@@ -472,18 +490,19 @@ export default function HomePage() {
               <Link
                 key={occ.id}
                 to={`/occasions/${occ.slug}`}
-                className="bg-white p-6 rounded-2xl border border-slate-200/80 hover:border-emerald-700/40 shadow-[0_2px_10px_rgba(15,23,42,0.03)] hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group"
+                className="bg-white p-6 rounded-2xl border border-[#EDE8DF] hover:border-[#0D381E]/40 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group"
               >
                 <div>
                   <div className="flex items-center justify-between mb-4">
-                    <div className="w-12 h-12 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <div className="w-12 h-12 rounded-xl bg-[#F6F4EE] border border-[#E8E5DD] flex items-center justify-center group-hover:scale-105 transition-transform">
                       <i className={`bi ${occ.iconName} text-xl`} style={{ color: occ.color }} />
                     </div>
-                    <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-slate-100 text-slate-600">
+                    <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-[#F6F4EE] text-slate-700 border border-[#EDE8DF]">
                       {occ.badge}
                     </span>
                   </div>
-                  <h3 className="font-display font-bold text-lg text-[#0D381E] group-hover:text-[#C85419] transition-colors mb-2">
+
+                  <h3 className="font-serif font-bold text-lg text-slate-900 group-hover:text-[#C85419] transition-colors mb-1.5">
                     {occ.title}
                   </h3>
                   <p className="text-xs text-slate-500 leading-relaxed mb-4">
@@ -491,9 +510,9 @@ export default function HomePage() {
                   </p>
                 </div>
 
-                <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold uppercase tracking-wider text-[#0D381E] group-hover:text-[#C85419]">
-                  <span>View Lineup</span>
-                  <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
+                <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold uppercase tracking-wider text-[#0D381E] group-hover:text-[#C85419] transition-colors">
+                  <span>Explore Folio</span>
+                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                 </div>
               </Link>
             ))}
@@ -502,24 +521,27 @@ export default function HomePage() {
       </section>
 
       {/* ============================================================ */}
-      {/* SECTION 5 — PARTNERS SHOWCASE                                */}
+      {/* SECTION 5 — HERITAGE INSTITUTIONS                            */}
       {/* ============================================================ */}
-      <section className="py-20 md:py-28 bg-white border-b border-slate-200/80">
+      <section className="py-20 md:py-28 bg-[#FCFBF7] border-b border-[#E8E5DD]">
         <div className="max-w-7xl mx-auto px-4 md:px-8">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14">
             <div>
               <span className="text-xs uppercase font-bold tracking-[0.2em] text-[#C85419] block mb-2">
-                The Approved Atelier Guild
+                The Verified Atelier Guild
               </span>
-              <h2 className="font-display text-3xl sm:text-5xl font-extrabold text-[#0D381E] tracking-tight">
+              <h2 className="font-serif text-3xl sm:text-5xl font-extrabold text-[#0D381E] tracking-tight">
                 Hyderabad&apos;s Culinary Icons
               </h2>
-              <p className="text-sm sm:text-base text-slate-600 mt-2">
-                Direct commissions with the city&apos;s officially verified heritage institutions. Zero ghost kitchens.
+              <p className="text-sm sm:text-base text-slate-600 mt-2 max-w-xl">
+                Direct commissions with the city&apos;s verified heritage institutions. Zero ghost kitchens, audited banquet capacity.
               </p>
             </div>
 
-            <Link to="/partners" className="btn-primary self-start md:self-auto">
+            <Link
+              to="/partners"
+              className="btn-primary shrink-0"
+            >
               <span>View All 11 Partners</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </Link>
@@ -535,127 +557,87 @@ export default function HomePage() {
       </section>
 
       {/* ============================================================ */}
-      {/* SECTION 6 — WHY FOOD TAILOR                                  */}
+      {/* SECTION 6 — WHY FOOD TAILOR (ATELIER STANDARDS)              */}
       {/* ============================================================ */}
-      <section className="py-20 md:py-28 bg-slate-50/70 border-b border-slate-200/80">
+      <section className="py-20 md:py-28 bg-[#F6F4EE] border-b border-[#E8E5DD]">
         <div className="max-w-7xl mx-auto px-4 md:px-8">
           <div className="text-center max-w-2xl mx-auto mb-16">
             <span className="text-xs uppercase font-bold tracking-[0.2em] text-[#C85419] block mb-2">
-              The Four Atelier Standards
+              Four Atelier Commitments
             </span>
-            <h2 className="font-display text-3xl sm:text-5xl font-extrabold text-[#0D381E] tracking-tight">
+            <h2 className="font-serif text-3xl sm:text-5xl font-extrabold text-[#0D381E] tracking-tight">
               Why Food Tailor
             </h2>
             <div className="w-12 h-1 bg-[#C85419] rounded-full my-4 mx-auto" />
-            <p className="text-sm sm:text-base text-slate-600">
-              Elevating gathering gastronomy beyond fragmented restaurant apps and rigid banquet packages.
+            <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
+              Elevating gathering gastronomy beyond fragmented food delivery and rigid banquet halls.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {/* Feature 1: CURATED */}
-            <div className="bg-white p-7 rounded-2xl border border-slate-200/80 hover:border-emerald-700/30 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col items-center text-center group">
-              <div className="w-14 h-14 rounded-2xl bg-emerald-50 text-[#0D381E] flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
-                <Award className="w-7 h-7" />
+            {/* Standard 01 */}
+            <div className="bg-white p-7 rounded-2xl border border-[#EDE8DF] hover:border-[#0D381E]/30 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col items-center text-center group">
+              <div className="w-14 h-14 rounded-2xl bg-emerald-50 text-[#0D381E] flex items-center justify-center mb-5 group-hover:scale-110 transition-transform shadow-xs">
+                <Award className="w-6 h-6" />
               </div>
               <span className="text-[11px] font-bold text-[#C85419] tracking-widest uppercase mb-1">
                 STANDARD 01
               </span>
-              <h3 className="font-display text-lg font-bold text-[#0D381E] mb-2">
-                Curated
+              <h3 className="font-serif text-lg font-bold text-slate-900 mb-2">
+                Curated Provenance
               </h3>
               <p className="text-xs text-slate-500 leading-relaxed">
-                Only selected culinary partners. Every kitchen is audited for banquet capacity, FSSAI hygiene, and authentic heritage provenance.
+                Only authenticated culinary houses. Every kitchen is audited for banquet batch consistency, FSSAI hygiene, and heritage recipe fidelity.
               </p>
             </div>
 
-            {/* Feature 2: PERSONALIZED */}
-            <div className="bg-white p-7 rounded-2xl border border-slate-200/80 hover:border-emerald-700/30 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col items-center text-center group">
-              <div className="w-14 h-14 rounded-2xl bg-orange-50 text-[#C85419] flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
-                <i className="bi bi-sliders2 text-2xl" />
+            {/* Standard 02 */}
+            <div className="bg-white p-7 rounded-2xl border border-[#EDE8DF] hover:border-[#0D381E]/30 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col items-center text-center group">
+              <div className="w-14 h-14 rounded-2xl bg-orange-50 text-[#C85419] flex items-center justify-center mb-5 group-hover:scale-110 transition-transform shadow-xs">
+                <Sliders className="w-6 h-6" />
               </div>
               <span className="text-[11px] font-bold text-[#C85419] tracking-widest uppercase mb-1">
                 STANDARD 02
               </span>
-              <h3 className="font-display text-lg font-bold text-[#0D381E] mb-2">
-                Personalized
+              <h3 className="font-serif text-lg font-bold text-slate-900 mb-2">
+                Personalized Balancing
               </h3>
               <p className="text-xs text-slate-500 leading-relaxed">
-                Menus built around your moment. No locked bundles. Courses are balanced to your headcount, dietary splits, and taste preferences.
+                No rigid packages. Courses are balanced to your headcount, dietary splits (Pure Veg, Jain, Halal), and course pacing preferences.
               </p>
             </div>
 
-            {/* Feature 3: AUTHENTIC */}
-            <div className="bg-white p-7 rounded-2xl border border-slate-200/80 hover:border-emerald-700/30 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col items-center text-center group">
-              <div className="w-14 h-14 rounded-2xl bg-emerald-50 text-[#0D381E] flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
-                <CheckCircle2 className="w-7 h-7" />
+            {/* Standard 03 */}
+            <div className="bg-white p-7 rounded-2xl border border-[#EDE8DF] hover:border-[#0D381E]/30 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col items-center text-center group">
+              <div className="w-14 h-14 rounded-2xl bg-emerald-50 text-[#0D381E] flex items-center justify-center mb-5 group-hover:scale-110 transition-transform shadow-xs">
+                <CheckCircle2 className="w-6 h-6" />
               </div>
               <span className="text-[11px] font-bold text-[#C85419] tracking-widest uppercase mb-1">
                 STANDARD 03
               </span>
-              <h3 className="font-display text-lg font-bold text-[#0D381E] mb-2">
-                Authentic
+              <h3 className="font-serif text-lg font-bold text-slate-900 mb-2">
+                Sanctified Segregation
               </h3>
               <p className="text-xs text-slate-500 leading-relaxed">
-                Real culinary heritage. From Old City dum pots to artisanal single-origin chocolate. Original recipes your guests cherish.
+                Guaranteed segregated preparation vessels, separate thermal packaging, and dedicated chafers for pure vegetarian and Jain guests.
               </p>
             </div>
 
-            {/* Feature 4: EFFORTLESS */}
-            <div className="bg-white p-7 rounded-2xl border border-slate-200/80 hover:border-emerald-700/30 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col items-center text-center group">
-              <div className="w-14 h-14 rounded-2xl bg-orange-50 text-[#C85419] flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
-                <Clock className="w-7 h-7" />
+            {/* Standard 04 */}
+            <div className="bg-white p-7 rounded-2xl border border-[#EDE8DF] hover:border-[#0D381E]/30 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col items-center text-center group">
+              <div className="w-14 h-14 rounded-2xl bg-orange-50 text-[#C85419] flex items-center justify-center mb-5 group-hover:scale-110 transition-transform shadow-xs">
+                <Clock className="w-6 h-6" />
               </div>
               <span className="text-[11px] font-bold text-[#C85419] tracking-widest uppercase mb-1">
                 STANDARD 04
               </span>
-              <h3 className="font-display text-lg font-bold text-[#0D381E] mb-2">
-                Effortless
+              <h3 className="font-serif text-lg font-bold text-slate-900 mb-2">
+                Clockwork Staging
               </h3>
               <p className="text-xs text-slate-500 leading-relaxed">
-                One experience from discovery to celebration. Synchronized arrival from multiple kitchens, single consolidated bill, and dedicated concierge.
+                Synchronized simultaneous arrival from multiple kitchens, consolidated GST invoicing, and a dedicated Food Tailor event concierge.
               </p>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ============================================================ */}
-      {/* SECTION 7 — FINAL CTA                                        */}
-      {/* ============================================================ */}
-      <section className="relative py-24 md:py-32 bg-gradient-to-b from-[#0D381E] to-[#081810] text-white px-4 md:px-8 text-center overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-emerald-500/10 via-transparent to-transparent pointer-events-none" />
-
-        <div className="relative z-10 max-w-4xl mx-auto flex flex-col items-center">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/10 text-emerald-300 text-xs font-semibold uppercase tracking-widest mb-4 border border-white/15">
-            <Sparkles className="w-3.5 h-3.5 text-[#C85419]" />
-            <span>The Private Atelier Desk</span>
-          </div>
-
-          <h2 className="font-display text-4xl sm:text-6xl md:text-7xl font-extrabold text-white mb-5 leading-tight tracking-tight">
-            Let&apos;s tailor your next moment.
-          </h2>
-
-          <p className="text-base sm:text-lg text-slate-200/90 max-w-xl mx-auto mb-10 font-normal leading-relaxed">
-            Direct commissions from Hyderabad&apos;s premier culinary institutions, calibrated to your exact guest count and dietary harmony.
-          </p>
-
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link
-              to="/build-menu"
-              className="px-9 py-4 bg-gradient-to-r from-[#C85419] to-[#D95D1E] hover:from-[#D95D1E] hover:to-[#E86624] text-white rounded-xl text-xs font-bold uppercase tracking-wider shadow-xl shadow-orange-500/25 transition-all duration-200 flex items-center gap-2.5 active:scale-[0.98]"
-            >
-              <span>Build My Menu</span>
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-
-            <Link
-              to="/partners"
-              className="px-8 py-4 bg-white/10 hover:bg-white/20 border border-white/30 text-white rounded-xl text-xs font-bold uppercase tracking-wider backdrop-blur-sm transition-all duration-200 flex items-center gap-2"
-            >
-              <span>Explore Partners</span>
-              <Compass className="w-4 h-4" />
-            </Link>
           </div>
         </div>
       </section>
@@ -663,3 +645,5 @@ export default function HomePage() {
     </div>
   );
 }
+
+

@@ -137,9 +137,9 @@ export const OCCASIONS_DATA = [
 
 export default function OccasionsPage() {
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900">
+    <div className="min-h-screen bg-[#FCFBF7] text-slate-900">
       {/* Luxury Porcelain Editorial Header */}
-      <section className="relative bg-gradient-to-b from-white via-slate-50 to-slate-100/60 pt-28 pb-12 sm:pb-16 px-4 sm:px-6 lg:px-8 border-b border-slate-200/80 overflow-hidden">
+      <section className="relative bg-gradient-to-b from-white via-[#FCFBF7] to-[#F6F4EE] pt-28 pb-12 sm:pb-16 px-4 sm:px-6 lg:px-8 border-b border-[#E8E5DD] overflow-hidden">
         {/* Subtle Ambient Glows */}
         <div className="absolute top-10 left-1/4 w-96 h-96 bg-brand-forest/5 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-brand-terracotta/5 rounded-full blur-3xl pointer-events-none" />
@@ -153,7 +153,7 @@ export default function OccasionsPage() {
             Occasions Tailored To Perfection
           </h1>
           <p className="mt-3 text-slate-600 text-sm sm:text-base max-w-2xl font-normal leading-relaxed">
-            Every gathering has its own tempo. Explore calibrated multi-brand lineups engineered for Hyderabad's most cherished celebratory milestones.
+            Every gathering has its own tempo. Explore calibrated multi-brand lineups engineered for Hyderabad&apos;s most cherished celebratory milestones.
           </p>
         </div>
       </section>

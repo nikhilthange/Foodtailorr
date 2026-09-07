@@ -54,4 +54,6 @@ export function useLocation() {
   };
 }
 
+export { usePathname, useSearchParams };
+
 export default Link;

@@ -28,7 +28,7 @@ const STAGES = [
     title: 'Tailor Your Menu',
     tag: 'CURATION INTELLIGENCE',
     narrative:
-      'Our AI curation engine cross-references your dietary requirements against hundreds of authenticated recipes from approved institutions, synthesizing balanced multi-course degustation options with zero palate fatigue.',
+      'Our culinary curation engine cross-references your dietary requirements against authenticated recipes from approved institutions, synthesizing balanced multi-course degustation options with harmonious course pacing.',
     icon: Sliders,
     highlights: ['Multi-Brand Course Balancing', 'Course Pacing Architecture', 'Transparent Per-Head Costing'],
   },
@@ -63,10 +63,10 @@ const STAGES = [
 
 export default function HowItWorksPage() {
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900">
+    <div className="min-h-screen bg-[#FCFBF7] text-slate-900">
       
       {/* Luxury Porcelain Editorial Header */}
-      <section className="relative bg-gradient-to-b from-white via-slate-50 to-slate-100/60 pt-28 pb-12 sm:pb-16 px-4 sm:px-6 lg:px-8 border-b border-slate-200/80 overflow-hidden">
+      <section className="relative bg-gradient-to-b from-white via-[#FCFBF7] to-[#F6F4EE] pt-28 pb-12 sm:pb-16 px-4 sm:px-6 lg:px-8 border-b border-[#E8E5DD] overflow-hidden">
         {/* Subtle Ambient Glows */}
         <div className="absolute top-10 left-1/3 w-96 h-96 bg-brand-forest/5 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-brand-terracotta/5 rounded-full blur-3xl pointer-events-none" />
