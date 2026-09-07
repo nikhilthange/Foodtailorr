@@ -46,11 +46,22 @@ export default function PartnerCard({ partner }) {
           )}
         </div>
 
-        {/* Bottom Cuisine Pill & Rating */}
+        {/* Bottom Cuisine Pill, Rating & Brand Logo */}
         <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-xs">
-          <span className="px-2.5 py-1 rounded-lg font-bold uppercase tracking-wider bg-[#C85419] text-white shadow-sm text-[11px]">
-            {cuisine}
-          </span>
+          <div className="flex items-center gap-2">
+            {(partner.logoUrl || partner.slug === 'cafe-niloufer') && (
+              <div className="w-9 h-9 rounded-xl bg-white p-0.5 shadow-md border border-white/40 flex items-center justify-center overflow-hidden shrink-0">
+                <img
+                  src={partner.logoUrl || '/brands/cafe-niloufer.png'}
+                  alt={name}
+                  className="w-full h-full object-contain"
+                />
+              </div>
+            )}
+            <span className="px-2.5 py-1 rounded-lg font-bold uppercase tracking-wider bg-[#C85419] text-white shadow-sm text-[11px]">
+              {cuisine}
+            </span>
+          </div>
           <div className="flex items-center gap-1 bg-black/60 text-amber-300 px-2 py-0.5 rounded-lg backdrop-blur-md border border-white/10 text-[11px] font-bold">
             <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
             <span>4.9</span>

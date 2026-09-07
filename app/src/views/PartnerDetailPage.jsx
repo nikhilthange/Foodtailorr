@@ -120,9 +120,22 @@ export default function PartnerDetailPage() {
             </span>
           </div>
 
-          <h1 className="font-serif text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight text-white leading-tight mb-2">
-            {name}
-          </h1>
+          <div className="flex items-center gap-4 mb-3">
+            {(partner.logoUrl || partner.slug === 'cafe-niloufer') && (
+              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-white p-1.5 shadow-xl border border-white/40 flex items-center justify-center shrink-0">
+                <img
+                  src={partner.logoUrl || '/brands/cafe-niloufer.png'}
+                  alt={name}
+                  className="w-full h-full object-contain"
+                />
+              </div>
+            )}
+            <div>
+              <h1 className="font-serif text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight text-white leading-tight">
+                {name}
+              </h1>
+            </div>
+          </div>
 
           {partner.tagline && (
             <p className="text-base sm:text-xl text-slate-200/90 max-w-2xl font-normal">
