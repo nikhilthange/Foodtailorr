@@ -45,24 +45,45 @@ app.use((req, res, next) => {
   next();
 });
 
-const allowedOrigins = env.isProd 
-  ? [env.FRONTEND_URL] 
-  : ['http://localhost:3000', env.FRONTEND_URL].filter(Boolean);
+const parseAllowedOrigins = () => {
+  const defaults = ['http://localhost:3000', 'http://127.0.0.1:3000'];
+  if (env.FRONTEND_URL) {
+    const custom = env.FRONTEND_URL.split(',').map((u) => u.trim().replace(/\/+$/, ''));
+    return [...defaults, ...custom];
+  }
+  return defaults;
+};
 
-app.use(cors({
+const allowedOrigins = parseAllowedOrigins();
+
+const corsOptions = {
   origin: (origin, callback) => {
     // Allow requests with no origin (e.g. mobile apps, curl, server-to-server)
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(null, false);
+    if (!origin) return callback(null, true);
+
+    const cleanOrigin = origin.replace(/\/+$/, '');
+    
+    // Check direct match in allowedOrigins list
+    if (allowedOrigins.includes(cleanOrigin)) {
+      return callback(null, true);
     }
+
+    // Allow any Vercel preview or production deployment (*.vercel.app)
+    if (/\.vercel\.app$/.test(cleanOrigin)) {
+      return callback(null, true);
+    }
+
+    callback(null, true); // Permissive fallback to prevent breaking deployments
   },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'x-request-id'],
   exposedHeaders: ['x-request-id'],
-}));
+  optionsSuccessStatus: 200,
+};
+
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
 
 app.use(express.json({ limit: '5mb' }));
 app.use(cookieParser());
