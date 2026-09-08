@@ -218,7 +218,7 @@ export default function HomePage() {
           {/* Badge */}
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-amber-400/25 text-amber-200 text-xs font-semibold uppercase tracking-widest mb-6 shadow-sm">
             <Sparkles className="w-3.5 h-3.5 text-[#C85419]" />
-            <span>Hyderabad Atelier Guild • 11 Curated Masters</span>
+            <span>Hyderabad Atelier Guild • Curated Heritage Masters</span>
           </div>
 
           {/* Master Headline */}
@@ -438,7 +438,7 @@ export default function HomePage() {
                 </div>
                 <div>
                   <h3 className="font-serif font-bold text-sm text-[#0D381E]">Preferred Brands</h3>
-                  <p className="text-xs text-slate-500 mt-0.5 leading-relaxed">Dishes from 11 verified institutions on one single bill.</p>
+                  <p className="text-xs text-slate-500 mt-0.5 leading-relaxed">Dishes from multiple verified institutions on one single bill.</p>
                 </div>
               </div>
             </div>
@@ -522,7 +522,7 @@ export default function HomePage() {
               to="/partners"
               className="btn-primary shrink-0"
             >
-              <span>View All 11 Partners</span>
+              <span>View All {partners.length > 0 ? `${partners.length} ` : ''}Partners</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>

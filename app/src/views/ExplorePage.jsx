@@ -189,7 +189,7 @@ export default function ExplorePage() {
             Discover Your Next Culinary Moment
           </h1>
           <p className="mt-3 text-slate-600 text-sm sm:text-base max-w-2xl font-normal leading-relaxed">
-            Direct access to Hyderabad&apos;s 11 verified culinary institutions. Explore heirloom menus, kitchen heritage, and banquet specialties.
+            Direct access to Hyderabad&apos;s verified culinary institutions. Explore heirloom menus, kitchen heritage, and banquet specialties.
           </p>
         </div>
       </section>

@@ -12,7 +12,7 @@ const STAGES = [
     narrative:
       "Explore Hyderabad's most venerated culinary houses in one curated atelier directory. From the 1953 Old City copper-pot biryanis of Hotel Shadab to the single-origin craft chocolate of Manam, browse verified provenance and approved banquet repertoires.",
     icon: Compass,
-    highlights: ['11 Verified Culinary Institutions', 'Iconic Heritage Brands', 'Bespoke Banquet Menus'],
+    highlights: ['Verified Culinary Institutions', 'Iconic Heritage Brands', 'Bespoke Banquet Menus'],
   },
   {
     number: '02',

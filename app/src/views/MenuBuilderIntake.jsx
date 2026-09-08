@@ -543,7 +543,7 @@ export default function MenuBuilderIntake() {
                   Select preferred partner kitchen(s).
                 </h2>
                 <p className="text-xs text-slate-500 mt-1 font-normal">
-                  Pick your favorite institutions or leave empty for optimal automated curation across all 11 partners.
+                  Pick your favorite institutions or leave empty for optimal automated curation across all partner kitchens.
                 </p>
               </div>
 
