@@ -42,7 +42,6 @@ export default function Navbar() {
     { label: 'Menus', path: '/menus', icon: UtensilsCrossed },
     { label: 'Occasions', path: '/occasions', icon: Calendar },
     { label: 'Partners', path: '/partners', icon: Award },
-    { label: 'My Tastings', path: '/dashboard', icon: User },
   ];
 
   return (
@@ -51,7 +50,7 @@ export default function Navbar() {
         className={`fixed top-0 w-full z-50 transition-all duration-300 ${
           scrolled
             ? 'bg-[#0B1E13]/95 backdrop-blur-xl border-b border-white/15 shadow-[0_8px_30px_rgba(0,0,0,0.35)] py-2.5'
-            : 'bg-[#0B1E13]/75 backdrop-blur-md border-b border-white/10 py-3.5'
+            : 'bg-[#0B1E13]/80 backdrop-blur-md border-b border-white/10 py-3.5'
         }`}
       >
         <div className="max-w-7xl mx-auto px-6 md:px-10 flex items-center justify-between">
@@ -67,7 +66,7 @@ export default function Navbar() {
           </div>
 
           {/* Desktop Navigation Links */}
-          <nav className="hidden lg:flex items-center gap-7 xl:gap-8">
+          <nav className="hidden lg:flex items-center gap-6 xl:gap-8">
             {navLinks.map((item) => {
               const isActive = pathname === item.path;
               return (
@@ -84,38 +83,49 @@ export default function Navbar() {
                 </Link>
               );
             })}
-
-            {roleLink && user?.role !== 'CUSTOMER' && (
-              <Link
-                to={roleLink.path}
-                className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-amber-300 hover:text-white transition-colors px-2.5 py-1 rounded-md bg-white/5 border border-amber-400/20"
-              >
-                <span>{roleLink.label}</span>
-                {roleLink.badge && (
-                  <span className="px-1.5 py-0.5 text-[8px] bg-[#C85419] text-white rounded font-extrabold shadow-sm">
-                    {roleLink.badge}
-                  </span>
-                )}
-              </Link>
-            )}
           </nav>
 
           {/* Right Actions */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3 md:gap-4">
             {user ? (
               <div className="hidden sm:flex items-center gap-3">
-                <Link
-                  to="/dashboard"
-                  className="flex items-center gap-2 text-xs text-white font-medium hover:text-amber-300 transition-colors"
-                >
-                  <div className="w-6 h-6 rounded-full bg-[#C85419] text-white flex items-center justify-center text-[10px] font-bold shadow-xs">
-                    {(user.firstName?.[0] || user.email?.[0] || 'U').toUpperCase()}
-                  </div>
-                  <span className="max-w-[120px] truncate text-xs">{user.firstName || user.email?.split('@')[0]}</span>
-                </Link>
+                {/* Role specific primary workspace link */}
+                {user.role === 'PARTNER' ? (
+                  <Link
+                    to="/partner"
+                    className="flex items-center gap-2.5 px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/15 border border-amber-400/30 text-amber-200 transition-all shadow-xs group"
+                  >
+                    <div className="w-5 h-5 rounded-full bg-[#C85419] text-white flex items-center justify-center text-[10px] font-bold">
+                      {(user.firstName?.[0] || 'P').toUpperCase()}
+                    </div>
+                    <span className="text-xs font-bold tracking-wide group-hover:text-white transition-colors max-w-[120px] truncate">
+                      {user.firstName || 'Partner Atelier'}
+                    </span>
+                    <span className="text-[9px] font-extrabold uppercase px-1.5 py-0.5 rounded bg-emerald-900/60 text-emerald-300 border border-emerald-500/30">
+                      Atelier
+                    </span>
+                  </Link>
+                ) : user.role === 'ADMIN' ? (
+                  <Link
+                    to="/admin"
+                    className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-purple-950/40 hover:bg-purple-900/50 border border-purple-400/30 text-purple-200 transition-all"
+                  >
+                    <span className="text-xs font-bold tracking-wide">Admin Console</span>
+                  </Link>
+                ) : (
+                  <Link
+                    to="/dashboard"
+                    className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/15 text-slate-200 hover:text-white transition-all text-xs font-medium"
+                  >
+                    <User className="w-3.5 h-3.5 text-amber-300" />
+                    <span>My Tastings</span>
+                  </Link>
+                )}
+
+                {/* Sign Out Button */}
                 <button
                   onClick={handleLogout}
-                  className="text-xs text-slate-400 hover:text-rose-400 transition-colors cursor-pointer px-2 py-1"
+                  className="text-xs font-medium text-slate-400 hover:text-rose-400 hover:bg-white/5 px-2.5 py-1.5 rounded-lg transition-colors cursor-pointer"
                 >
                   Sign Out
                 </button>
@@ -123,19 +133,22 @@ export default function Navbar() {
             ) : (
               <Link
                 to="/login"
-                className="hidden sm:inline-block text-sm font-medium text-slate-300 hover:text-white transition-colors px-2 py-1"
+                className="hidden sm:inline-block text-sm font-medium text-slate-300 hover:text-white transition-colors px-2.5 py-1"
               >
                 Sign In
               </Link>
             )}
 
-            <Link
-              to="/build-menu"
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#C85419] hover:bg-[#A33E00] text-white text-xs font-bold tracking-wide shadow-md shadow-black/20 hover:-translate-y-0.5 active:translate-y-0 transition-all"
-            >
-              <span>Build My Menu</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </Link>
+            {/* Build My Menu CTA button */}
+            {user?.role !== 'PARTNER' && (
+              <Link
+                to="/build-menu"
+                className="inline-flex items-center gap-2 px-4 md:px-5 py-2 md:py-2.5 rounded-xl bg-[#C85419] hover:bg-[#A33E00] text-white text-xs font-bold tracking-wide shadow-md shadow-black/20 hover:-translate-y-0.5 active:translate-y-0 transition-all"
+              >
+                <span>Build My Menu</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+            )}
 
             {/* Mobile menu trigger */}
             <button
@@ -248,14 +261,25 @@ export default function Navbar() {
             </div>
           )}
 
-          <Link
-            to="/build-menu"
-            onClick={() => setDrawerOpen(false)}
-            className="w-full py-3.5 rounded-xl bg-[#C85419] hover:bg-[#a33e00] text-xs uppercase tracking-wider font-bold shadow-lg flex items-center justify-center gap-2 text-white"
-          >
-            <span>Build My Menu</span>
-            <ArrowRight className="w-4 h-4" />
-          </Link>
+          {user?.role === 'PARTNER' ? (
+            <Link
+              to="/partner"
+              onClick={() => setDrawerOpen(false)}
+              className="w-full py-3.5 rounded-xl bg-emerald-800 hover:bg-emerald-700 text-xs uppercase tracking-wider font-bold shadow-lg flex items-center justify-center gap-2 text-white border border-emerald-500/40"
+            >
+              <span>Go to Atelier Workspace</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          ) : (
+            <Link
+              to="/build-menu"
+              onClick={() => setDrawerOpen(false)}
+              className="w-full py-3.5 rounded-xl bg-[#C85419] hover:bg-[#a33e00] text-xs uppercase tracking-wider font-bold shadow-lg flex items-center justify-center gap-2 text-white"
+            >
+              <span>Build My Menu</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          )}
         </div>
       </div>
     </>
