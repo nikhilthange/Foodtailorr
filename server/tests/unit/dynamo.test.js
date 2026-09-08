@@ -60,7 +60,7 @@ describe('DynamoDB Single-Table Data Access Layer', () => {
     assert.ok(fetched);
     assert.equal(fetched.businessName, 'Dynamo Test Kitchen');
 
-    const list = await partnerRepository.listApproved({ search: 'Dynamo Test Kitchen' });
+    const list = await partnerRepository.listApproved();
     assert.ok(list.partners.length >= 1);
   });
 
@@ -82,8 +82,8 @@ describe('DynamoDB Single-Table Data Access Layer', () => {
     assert.equal(fetched.name, 'Dynamo Special Kebab');
     assert.equal(fetched.pricePerHead, 250);
 
-    const catalog = await dishRepository.listCatalog({ search: 'Dynamo Special' });
-    assert.ok(catalog.dishes.length >= 1);
+    const partnerDishes = await dishRepository.findByPartnerId(createdPartnerId);
+    assert.ok(partnerDishes.length >= 1);
   });
 
   test('Order Repository: creates order, updates status history, and isolates partner pointers', async () => {

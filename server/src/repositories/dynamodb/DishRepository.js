@@ -184,6 +184,22 @@ export class DishRepository {
       items = res.Items || [];
     }
 
+    const APPROVED_POSTER_BRANDS = new Set([
+      'ptr_niloufer',
+      'ptr_shadab',
+      'ptr_samosasingh',
+      'ptr_thickshake',
+      'ptr_iceberg',
+      'ptr_maharaja',
+      'ptr_dimmy',
+      'ptr_chocolateroom',
+      'ptr_almondhouse',
+      'ptr_manam',
+      'ptr_karachi'
+    ]);
+
+    items = items.filter(d => APPROVED_POSTER_BRANDS.has(d.partnerId));
+
     if (availableOnly) {
       items = items.filter(d => d.isAvailable !== false);
     }

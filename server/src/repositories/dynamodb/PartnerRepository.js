@@ -182,7 +182,21 @@ export class PartnerRepository {
       },
     }));
 
-    let items = (res.Items || []).filter(p => p.isActive !== false && p.isApproved === true);
+    const APPROVED_POSTER_BRANDS = new Set([
+      'ptr_niloufer',
+      'ptr_shadab',
+      'ptr_samosasingh',
+      'ptr_thickshake',
+      'ptr_iceberg',
+      'ptr_maharaja',
+      'ptr_dimmy',
+      'ptr_chocolateroom',
+      'ptr_almondhouse',
+      'ptr_manam',
+      'ptr_karachi'
+    ]);
+
+    let items = (res.Items || []).filter(p => APPROVED_POSTER_BRANDS.has(p.id) && p.isActive !== false);
 
     if (search) {
       const s = search.toLowerCase();
