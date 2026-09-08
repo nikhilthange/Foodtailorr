@@ -235,7 +235,7 @@ export default function HomePage() {
           </p>
 
           {/* Luxury Action CTAs */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full max-w-md mb-12">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full max-w-md">
             <Link
               to="/build-menu"
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-3.5 rounded-xl bg-[#C85419] hover:bg-[#A33E00] text-white text-sm font-bold tracking-wide shadow-xl shadow-black/30 border border-amber-400/20 hover:-translate-y-0.5 active:translate-y-0 transition-all"
@@ -250,26 +250,6 @@ export default function HomePage() {
             >
               <span>Explore Partners</span>
             </Link>
-          </div>
-
-          {/* Social Proof Trust Highlights */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-8 text-center text-xs font-medium text-slate-300 backdrop-blur-sm bg-black/30 px-6 py-3.5 rounded-2xl border border-white/10">
-            <div className="flex items-center justify-center gap-2">
-              <ShieldCheck className="w-4 h-4 text-emerald-400" />
-              <span>100% FSSAI Audited</span>
-            </div>
-            <div className="flex items-center justify-center gap-2">
-              <Clock className="w-4 h-4 text-amber-400" />
-              <span>Minute-Accurate Delivery</span>
-            </div>
-            <div className="flex items-center justify-center gap-2">
-              <UtensilsCrossed className="w-4 h-4 text-emerald-400" />
-              <span>Zero Ghost Kitchens</span>
-            </div>
-            <div className="flex items-center justify-center gap-2">
-              <Users className="w-4 h-4 text-amber-400" />
-              <span>Dedicated Concierge</span>
-            </div>
           </div>
         </div>
       </section>
