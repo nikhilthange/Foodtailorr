@@ -113,7 +113,7 @@ export default function Footer() {
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
           <p>© {new Date().getFullYear()} Food Tailor. All rights reserved. Registered Culinary Atelier Platform.</p>
           <div className="flex items-center gap-3">
-            <span>FSSAI Certified Partner Guild</span>
+            <span>Verified Culinary Partner Guild</span>
             <span>•</span>
             <span>Hyderabad, Telangana</span>
           </div>

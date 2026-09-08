@@ -54,14 +54,14 @@ export default function DashboardPage() {
           <div className="inline-flex items-center gap-2 mb-1">
             <span className="w-2 h-2 rounded-full bg-brand-terracotta"></span>
             <span className="text-xs uppercase tracking-widest text-brand-terracotta font-bold">
-              Private Concierge Desk
+              Guest Tasting Hub
             </span>
           </div>
           <h1 className="font-serif text-2xl md:text-3xl text-slate-900 font-bold tracking-tight">
             Welcome, {user?.firstName || user?.email?.split('@')[0] || 'Host'}
           </h1>
           <p className="text-xs text-slate-500 mt-0.5 font-sans">
-            Your private culinary concierge.
+            Manage your tailored banquets, tasting folios, and past orders.
           </p>
         </div>
 

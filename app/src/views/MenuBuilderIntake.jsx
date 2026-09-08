@@ -20,13 +20,13 @@ const OCCASION_OPTIONS = [
   { id: 'family', label: 'Family Gathering', desc: 'Generational comfort & abundance', Icon: FamilyFeastSketch, color: '#0D381E' },
   { id: 'corporate', label: 'Corporate Feast', desc: 'Executive boardroom precision', Icon: CorporateMeetingSketch, color: '#0D381E' },
   { id: 'romantic', label: 'Romantic Degustation', desc: 'Private residence tastings', Icon: RomanticDinnerSketch, color: '#C85419' },
-  { id: 'festival', label: 'Festive Banquet', desc: 'Sanctified pure vegetarian feasts', Icon: FestivalLampSketch, color: '#C85419' },
+  { id: 'festival', label: 'Festive Banquet', desc: 'Traditional pure vegetarian feasts', Icon: FestivalLampSketch, color: '#C85419' },
   { id: 'custom', label: 'Custom Experience', desc: 'Your bespoke gathering format', Icon: ClocheSketch, color: '#C85419' },
 ];
 
 const MOOD_OPTIONS = [
   { id: 'Casual', label: 'Casual & Social', desc: 'Easygoing street eats and finger foods' },
-  { id: 'Elegant', label: 'Quiet Luxury', desc: 'Silver-vark delicacies & white glove staging' },
+  { id: 'Elegant', label: 'Quiet Luxury', desc: 'Silver-vark delicacies & elegant staging' },
   { id: 'Festive', label: 'Festive & Vibrant', desc: 'High-energy celebration & live chaat counters' },
   { id: 'Comforting', label: 'Generational Soul', desc: 'Warm comfort fare uniting all ages' },
   { id: 'Adventurous', label: 'Artisanal & Modern', desc: 'Single-origin cacao & contemporary pairings' },
@@ -36,8 +36,8 @@ const MOOD_OPTIONS = [
 const DIETARY_OPTIONS = [
   { value: 'ALL', label: 'All Inclusive (Veg & Non-Veg)', desc: 'Balanced selection for diverse palates' },
   { value: 'NON_VEG', label: 'Curated Non-Veg Focus', desc: 'Slow-cooked mutton dum biryani & kebabs' },
-  { value: 'VEG', label: 'Pure Vegetarian', desc: '100% pure veg segregated prep' },
-  { value: 'JAIN', label: 'Strict Jain Preparation', desc: 'Sanctified kitchen, no root vegetables' },
+  { value: 'VEG', label: 'Pure Vegetarian', desc: 'Pure vegetarian menu selection' },
+  { value: 'JAIN', label: 'Strict Jain Preparation', desc: 'Traditional Jain preparation, no root vegetables' },
   { value: 'VEGAN', label: 'Plant-Based / Vegan', desc: 'Wholesome dairy-free specialties' },
 ];
 

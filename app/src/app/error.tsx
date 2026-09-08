@@ -26,13 +26,13 @@ export default function GlobalError({
         An Unanticipated Exception Occurred
       </h1>
       <p className="text-xs text-on-surface-variant mb-6 leading-relaxed">
-        {error?.message || 'Our atelier concierges have been alerted and are resolving the matter.'}
+        {error?.message || 'Our technical team has been notified and is looking into this.'}
       </p>
       <button
         onClick={() => reset()}
         className="px-6 py-2.5 bg-primary-container hover:bg-primary-container/90 text-on-primary rounded-xl text-xs font-bold uppercase tracking-wider transition-all shadow-sm"
       >
-        Re-attempt Commission
+        Try Again
       </button>
     </div>
   );

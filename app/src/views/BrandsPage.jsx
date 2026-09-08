@@ -72,7 +72,7 @@ export default function BrandsPage() {
             Hyderabad's Culinary Heritage, Curated For You
           </h1>
           <p className="mt-3 text-slate-600 text-sm sm:text-base max-w-2xl font-normal leading-relaxed">
-            Every culinary partner is an authenticated institution with verified Hyderabadi provenance, audited banquet kitchens, and uncompromising recipe fidelity.
+            Every culinary partner is an authenticated institution with verified Hyderabadi provenance, proven culinary mastery, and uncompromising recipe fidelity.
           </p>
         </div>
       </section>

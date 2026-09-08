@@ -82,11 +82,11 @@ export default function HomePage() {
         id: 'corporate',
         slug: 'corporate-feast',
         title: 'Corporate Feast',
-        description: 'Minute-accurate boardroom catering and executive galas backed by certified temperature logs.',
+        description: 'Refined boardroom catering and executive galas with freshly staged culinary setups.',
         iconName: 'bi-briefcase',
         color: '#0D381E',
         badge: 'Executive',
-        sampleCourses: 'Executive Boxes • Thermal Chafers',
+        sampleCourses: 'Executive Boxes • Curated Menus',
       },
       {
         id: 'romantic',
@@ -102,11 +102,11 @@ export default function HomePage() {
         id: 'festival',
         slug: 'festival-celebration',
         title: 'Festive Banquet',
-        description: 'Time-honored pure ghee sweets, sanctified kitchen segregation, and ceremonial holiday feasts.',
+        description: 'Time-honored pure ghee sweets, traditional pure vegetarian options, and ceremonial holiday feasts.',
         iconName: 'bi-sun',
         color: '#C85419',
         badge: 'Heritage',
-        sampleCourses: '100% Pure Veg / Jain • Sanctified',
+        sampleCourses: 'Pure Veg / Jain • Heritage Sweets',
       },
       {
         id: 'weekend',
@@ -122,11 +122,11 @@ export default function HomePage() {
         id: 'custom',
         slug: 'custom-occasion',
         title: 'Custom Experience',
-        description: 'Your unique vision, architected course-by-course with personalized pairings and dedicated concierge.',
+        description: 'Your unique vision, architected course-by-course with personalized pairings and seamless coordination.',
         iconName: 'bi-compass',
         color: '#C85419',
         badge: 'Tailored',
-        sampleCourses: 'Bespoke Architecture • Concierge',
+        sampleCourses: 'Bespoke Menu • Multi-Kitchen Curation',
       },
     ],
     []
@@ -334,7 +334,7 @@ export default function HomePage() {
                 Enjoy the moment.
               </h3>
               <p className="text-xs text-slate-500 leading-relaxed">
-                Relax as our concierge orchestrates synchronized multi-brand delivery, thermal chafers, and audited banquet staging.
+                Relax as we coordinate multi-brand delivery and elegant banquet staging right to your table.
               </p>
             </div>
           </div>
@@ -371,7 +371,7 @@ export default function HomePage() {
                 No two celebrations share the same pulse. Standard catering forces compromise; Food Tailor tailors every course along 6 precise dimensions.
               </p>
               <p className="text-xs sm:text-sm text-slate-500 leading-relaxed mb-8 max-w-xl">
-                Whether you need 60% Nizami mutton dum biryani and 40% sanctified pure vegetarian Jain courses, or an interactive live chaat counter paired with single-origin craft chocolate, our system balances the table flawlessly.
+                Whether you need Nizami mutton dum biryani alongside pure vegetarian Jain courses, or an interactive live chaat counter paired with artisanal desserts, our system balances the table flawlessly.
               </p>
 
               <Link to="/build-menu" className="btn-primary">
@@ -407,8 +407,8 @@ export default function HomePage() {
                   <ShieldCheck className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="font-serif font-bold text-sm text-[#0D381E]">Dietary Segregation</h3>
-                  <p className="text-xs text-slate-500 mt-0.5 leading-relaxed">100% segregated Pure Veg, Jain, Halal, or All-inclusive.</p>
+                  <h3 className="font-serif font-bold text-sm text-[#0D381E]">Dietary Preferences</h3>
+                  <p className="text-xs text-slate-500 mt-0.5 leading-relaxed">Thoughtful options for Pure Veg, Jain, Halal, or All-inclusive.</p>
                 </div>
               </div>
 
@@ -514,7 +514,7 @@ export default function HomePage() {
                 Hyderabad&apos;s Culinary Icons
               </h2>
               <p className="text-sm sm:text-base text-slate-600 mt-2 max-w-xl">
-                Direct commissions with the city&apos;s verified heritage institutions. Zero ghost kitchens, audited banquet capacity.
+                Direct selections from the city&apos;s verified heritage institutions and iconic local kitchens.
               </p>
             </div>
 
@@ -567,7 +567,7 @@ export default function HomePage() {
                 Curated Provenance
               </h3>
               <p className="text-xs text-slate-500 leading-relaxed">
-                Only authenticated culinary houses. Every kitchen is audited for banquet batch consistency, FSSAI hygiene, and heritage recipe fidelity.
+                Only authenticated culinary houses. Every kitchen is selected for signature flavor, preparation standards, and heritage recipe fidelity.
               </p>
             </div>
 
@@ -583,7 +583,7 @@ export default function HomePage() {
                 Personalized Balancing
               </h3>
               <p className="text-xs text-slate-500 leading-relaxed">
-                No rigid packages. Courses are balanced to your headcount, dietary splits (Pure Veg, Jain, Halal), and course pacing preferences.
+                No rigid packages. Courses are balanced to your headcount, dietary preferences (Pure Veg, Jain, Halal), and course pacing.
               </p>
             </div>
 
@@ -596,10 +596,10 @@ export default function HomePage() {
                 STANDARD 03
               </span>
               <h3 className="font-serif text-lg font-bold text-slate-900 mb-2">
-                Sanctified Segregation
+                Dietary Segregation
               </h3>
               <p className="text-xs text-slate-500 leading-relaxed">
-                Guaranteed segregated preparation vessels, separate thermal packaging, and dedicated chafers for pure vegetarian and Jain guests.
+                Thoughtful separation and dedicated packaging for pure vegetarian and Jain guest preferences.
               </p>
             </div>
 
@@ -612,10 +612,10 @@ export default function HomePage() {
                 STANDARD 04
               </span>
               <h3 className="font-serif text-lg font-bold text-slate-900 mb-2">
-                Clockwork Staging
+                Seamless Staging
               </h3>
               <p className="text-xs text-slate-500 leading-relaxed">
-                Synchronized simultaneous arrival from multiple kitchens, consolidated GST invoicing, and a dedicated Food Tailor event concierge.
+                Synchronized simultaneous arrival from multiple kitchens, consolidated invoicing, and end-to-end event support.
               </p>
             </div>
           </div>

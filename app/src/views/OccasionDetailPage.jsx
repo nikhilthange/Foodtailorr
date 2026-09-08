@@ -70,7 +70,7 @@ export default function OccasionDetailPage() {
                 {occasion.narrative}
               </p>
               <p className="text-xs sm:text-sm text-slate-500 leading-relaxed font-normal">
-                Every Food Tailor commission includes dedicated staging logistics, dietary segregation guarantees, minute-accurate timing, and our signature presentation chafers.
+                Every Food Tailor experience includes coordinated multi-kitchen delivery, dietary accommodations, and our signature presentation setup.
               </p>
             </div>
 
@@ -111,15 +111,15 @@ export default function OccasionDetailPage() {
               <div className="space-y-3 pb-6 border-b border-slate-100 text-xs text-slate-600">
                 <div className="flex items-center gap-2">
                   <ShieldCheck className="w-4 h-4 text-brand-forest" />
-                  <span>100% Dietary Segregation Guarantee</span>
+                  <span>Dietary Separation Accommodations</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Clock className="w-4 h-4 text-brand-terracotta" />
-                  <span>Minute-Accurate Multi-Brand Logistics</span>
+                  <span>Synchronized Multi-Brand Logistics</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Award className="w-4 h-4 text-brand-forest" />
-                  <span>Dedicated Event Concierge Manager</span>
+                  <span>Dedicated Event Support</span>
                 </div>
               </div>
 

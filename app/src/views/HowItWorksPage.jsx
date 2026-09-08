@@ -12,7 +12,7 @@ const STAGES = [
     narrative:
       "Explore Hyderabad's most venerated culinary houses in one curated atelier directory. From the 1953 Old City copper-pot biryanis of Hotel Shadab to the single-origin craft chocolate of Manam, browse verified provenance and approved banquet repertoires.",
     icon: Compass,
-    highlights: ['11 Verified Culinary Institutions', 'Zero Ghost Kitchens', 'Audited Banquet Staging'],
+    highlights: ['11 Verified Culinary Institutions', 'Iconic Heritage Brands', 'Bespoke Banquet Menus'],
   },
   {
     number: '02',
@@ -43,10 +43,10 @@ const STAGES = [
   },
   {
     number: '05',
-    title: 'Commission With One Payment',
+    title: 'Confirm With One Payment',
     tag: 'SECURE COMMISSION',
     narrative:
-      'Commission your feast with one consolidated payment. Behind the scenes, our platform issues synchronized kitchen tickets, reserves banquet production slots, and assigns a dedicated Food Tailor event concierge.',
+      'Confirm your feast with one consolidated checkout. Behind the scenes, our platform coordinates kitchen orders, production timing, and end-to-end event arrangements.',
     icon: CreditCard,
     highlights: ['Instant Payment Verification', 'Direct Kitchen Confirmation', 'Consolidated Event Invoicing'],
   },
@@ -55,9 +55,9 @@ const STAGES = [
     title: 'Enjoy The Flawless Feast',
     tag: 'FLAWLESS FEAST',
     narrative:
-      'On celebration day, multiple kitchens deliver simultaneously in temperature-calibrated transit ware with tamper-evident seals. Your guests enjoy an unrivaled multi-brand feast without logistical chaos.',
+      'On celebration day, multiple kitchens deliver synchronized courses fresh and ready to serve. Your guests enjoy an unrivaled multi-brand feast without logistical hassle.',
     icon: PartyPopper,
-    highlights: ['Synchronized Warm Arrival', 'Signature Presentation Staging', 'Dedicated Concierge On Call'],
+    highlights: ['Synchronized Delivery', 'Signature Presentation', 'Dedicated Event Support'],
   },
 ];
 

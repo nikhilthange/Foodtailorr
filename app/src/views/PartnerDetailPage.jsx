@@ -191,7 +191,7 @@ export default function PartnerDetailPage() {
 
               <div className="flex items-center gap-2 text-xs text-emerald-800 bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-200">
                 <ShieldCheck className="w-4 h-4 text-emerald-600" />
-                <span className="font-semibold">FSSAI Certified • Temperature Controlled Transit</span>
+                <span className="font-semibold">Verified Heritage Kitchen • Curated Quality Standards</span>
               </div>
             </div>
 

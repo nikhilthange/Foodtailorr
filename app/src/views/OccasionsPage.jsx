@@ -69,9 +69,9 @@ export const OCCASIONS_DATA = [
     id: 'occ_corporate',
     slug: 'corporate-gathering',
     title: 'Corporate Gathering',
-    tagline: 'Minute-accurate executive banquets, tamper-evident bento boxes, and boardroom tea lounges.',
+    tagline: 'Refined executive banquets, curated corporate dining, and boardroom tea lounges.',
     guestRange: '20 – 500 guests',
-    narrative: 'Impress distinguished clients and reward high-performing teams with fine-dining sophistication. We guarantee clockwork delivery, temperature telemetry, segregated diets, and consolidated corporate GST invoicing.',
+    narrative: 'Impress distinguished clients and reward high-performing teams with fine-dining sophistication. Enjoy timely delivery, diverse dietary accommodations, and consolidated corporate GST invoicing.',
     lineup: [
       { name: 'Hotel Shadab', role: 'Executive Luncheon & Biryani Buffets' },
       { name: 'The Chocolate Room', role: 'Belgian Dessert Degustation' },
