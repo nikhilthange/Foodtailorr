@@ -182,7 +182,7 @@ export class PartnerRepository {
       },
     }));
 
-    let items = (res.Items || []).filter(p => p.isActive !== false);
+    let items = (res.Items || []).filter(p => p.isActive !== false && p.isApproved === true);
 
     if (search) {
       const s = search.toLowerCase();

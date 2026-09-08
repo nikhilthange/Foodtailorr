@@ -116,5 +116,17 @@ describe('DynamoDB Single-Table Data Access Layer', () => {
     const updated = await orderRepository.updateStatus(order.id, 'ACCEPTED', createdUserId, 'Chef accepted order');
     assert.equal(updated.status, 'ACCEPTED');
     assert.ok(updated.statusHistory.length >= 2);
+
+    // Cleanup test records so DynamoDB stays clean
+    try {
+      if (createdDishId && createdPartnerId) {
+        await dishRepository.delete(createdDishId, createdPartnerId);
+      }
+      if (createdPartnerId) {
+        await partnerRepository.delete(createdPartnerId);
+      }
+    } catch {}
   });
 });
+
+

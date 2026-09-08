@@ -94,5 +94,14 @@ describe('Partner Onboarding Flow', () => {
 
     const partner = await partnerRepository.findByUserId(testUserId);
     assert.equal(partner.isApproved, true);
+
+    // Cleanup test partner
+    try {
+      if (partner && partner.id) {
+        await partnerRepository.delete(partner.id);
+      }
+    } catch {}
   });
 });
+
+
