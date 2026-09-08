@@ -155,6 +155,21 @@ export class PartnerRepository {
   }
 
   /**
+   * Delete partner profile
+   */
+  async delete(id) {
+    if (!id) return false;
+    await docClient.send(new DeleteCommand({
+      TableName: TABLE_NAME,
+      Key: {
+        PK: `PARTNER#${id}`,
+        SK: 'PROFILE',
+      },
+    }));
+    return true;
+  }
+
+  /**
    * List approved and active partners for the public catalog
    */
   async listApproved({ page = 1, limit = 50, search, cuisine, location } = {}) {

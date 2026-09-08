@@ -273,18 +273,24 @@ export async function seedDynamo() {
     },
   ];
 
-  // Clean up legacy unapproved partners and dishes from DynamoDB
-  const unapprovedPartnerIds = ['ptr_paradise', 'ptr_kritunga', 'ptr_samosaking'];
-  for (const upId of unapprovedPartnerIds) {
-    try {
-      const oldDishes = await dishRepository.findByPartnerId(upId);
-      for (const od of oldDishes) {
-        await dishRepository.delete(od.id, upId);
+  // Clean up legacy unapproved partners and mock dishes from DynamoDB
+  const validPartnerIdSet = new Set(partnerData.map(p => p.id));
+  try {
+    const { partners: allPartners } = await partnerRepository.listAll({ limit: 100 });
+    if (Array.isArray(allPartners)) {
+      for (const p of allPartners) {
+        if (!validPartnerIdSet.has(p.id)) {
+          logger.info(`Purging stray/mock partner from DynamoDB: ${p.id} (${p.businessName})`);
+          const strayDishes = await dishRepository.findByPartnerId(p.id);
+          for (const sd of strayDishes) {
+            await dishRepository.delete(sd.id, p.id);
+          }
+          await partnerRepository.delete(p.id);
+        }
       }
-      await partnerRepository.delete(upId);
-    } catch {
-      // Ignore if already absent
     }
+  } catch (err) {
+    logger.warn('Error during partner/dish cleanup in seed:', err.message);
   }
 
   const partners = {};
