@@ -39,12 +39,12 @@ export const FALLBACK_PARTNERS = [
   },
   {
     id: 'ptr_samosasingh',
-    slug: 'sammosa-singh',
+    slug: 'samosa-king',
     businessName: 'Samosa King',
     cuisine: 'Appetizers & Snacks',
     location: 'Hitec City / Gachibowli, Hyderabad',
     description: "Reinventing India's favorite snack with golden handcrafted cocktail samosas, signature mint chutney, and seasonal fillings.",
-    coverImageUrl: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?q=80&w=1200&auto=format&fit=crop',
+    coverImageUrl: '/dishes/samosa-king-gourmet.jpg',
     established: 2016,
     isApproved: true,
     rating: 4.8,
@@ -108,7 +108,7 @@ export const FALLBACK_PARTNERS = [
     cuisine: 'Paan & After-Mints',
     location: 'Road No. 36, Jubilee Hills, Hyderabad',
     description: 'Hyderabad’s celebrated paan and chaat institution since 1995, crafting Meetha Paan, Belgian Chocolate Paan, and fresh seasonal juices.',
-    coverImageUrl: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=1200&auto=format&fit=crop',
+    coverImageUrl: '/dishes/dimmy-meetha-paan.jpg',
     established: 1995,
     isApproved: true,
     rating: 4.9,
@@ -140,7 +140,7 @@ export const FALLBACK_PARTNERS = [
     cuisine: 'Royal Indian Sweets',
     location: 'Himayatnagar / Jubilee Hills, Hyderabad',
     description: 'Master confectioners since 1989, renowned for proprietary pure ghee Bisticks, saffron Badam Halwa, dry-fruit Kaju rolls, and Shahi sweets.',
-    coverImageUrl: 'https://images.unsplash.com/photo-1599488615731-7e5c2823ff28?q=80&w=1200&auto=format&fit=crop',
+    coverImageUrl: '/dishes/almond-house-mithai.jpg',
     established: 1989,
     isApproved: true,
     rating: 4.9,
@@ -279,7 +279,7 @@ export const FALLBACK_DISHES = [
     imageUrl: 'https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=800&auto=format&fit=crop',
   },
 
-  // 3. Samosa King / Sammosa Singh
+  // 3. Samosa King
   {
     id: 'd_samosa_corn_cheese',
     partnerId: 'ptr_samosasingh',
@@ -291,7 +291,7 @@ export const FALLBACK_DISHES = [
     isVeg: true,
     isSignature: true,
     isAvailable: true,
-    imageUrl: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?q=80&w=800&auto=format&fit=crop',
+    imageUrl: '/dishes/samosa-king-gourmet.jpg',
   },
   {
     id: 'd_samosa_kheema',
@@ -304,7 +304,7 @@ export const FALLBACK_DISHES = [
     isVeg: false,
     isSignature: true,
     isAvailable: true,
-    imageUrl: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?q=80&w=800&auto=format&fit=crop',
+    imageUrl: '/dishes/samosa-king-gourmet.jpg',
   },
 
   // 4. Thick Shake Factory
@@ -364,7 +364,7 @@ export const FALLBACK_DISHES = [
     isVeg: true,
     isSignature: true,
     isAvailable: true,
-    imageUrl: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=800&auto=format&fit=crop',
+    imageUrl: '/dishes/dimmy-meetha-paan.jpg',
   },
 
   // 8. The Chocolate Room
@@ -387,14 +387,14 @@ export const FALLBACK_DISHES = [
     id: 'd_almond_bisticks',
     partnerId: 'ptr_almondhouse',
     partnerName: 'Almond House',
-    name: 'Signature Almond Bisticks',
-    description: 'Legendary crunchy almond confectionery exclusive to Almond House.',
+    name: 'Signature Almond Bisticks & Mithai',
+    description: 'Legendary crunchy almond confectionery and pure ghee royal sweets exclusive to Almond House.',
     category: 'Dessert',
     pricePerHead: 180,
     isVeg: true,
     isSignature: true,
     isAvailable: true,
-    imageUrl: 'https://images.unsplash.com/photo-1599488615731-7e5c2823ff28?q=80&w=800&auto=format&fit=crop',
+    imageUrl: '/dishes/almond-house-mithai.jpg',
   },
 
   // 10. Manam Chocolate

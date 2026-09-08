@@ -155,12 +155,12 @@ export default function HomePage() {
     },
     {
       id: 'ptr_samosasingh',
-      slug: 'sammosa-singh',
+      slug: 'samosa-king',
       businessName: 'Samosa King',
       cuisine: 'Appetizers & Chaat',
       location: 'Hitec City / Gachibowli',
       description: "Reinventing India's favorite snack with golden handcrafted cocktail samosas and chutneys.",
-      coverImageUrl: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?q=80&w=1200&auto=format&fit=crop',
+      coverImageUrl: '/dishes/samosa-king-gourmet.jpg',
       established: 2016,
     },
     {
@@ -180,7 +180,7 @@ export default function HomePage() {
       cuisine: 'Royal Indian Sweets',
       location: 'Himayatnagar / Jubilee Hills',
       description: 'Master confectioners renowned for pure ghee Bisticks, Badam Halwa, and silver-vark Shahi Kaju Katli.',
-      coverImageUrl: 'https://images.unsplash.com/photo-1599488615731-7e5c2823ff28?q=80&w=1200&auto=format&fit=crop',
+      coverImageUrl: '/dishes/almond-house-mithai.jpg',
       established: 1989,
     },
     {

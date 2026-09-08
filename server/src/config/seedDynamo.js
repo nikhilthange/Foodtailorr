@@ -156,16 +156,16 @@ export async function seedDynamo() {
     },
     {
       id: 'ptr_samosasingh',
-      businessName: 'Sammosa Singh',
-      slug: 'sammosa-singh',
+      businessName: 'Samosa King',
+      slug: 'samosa-king',
       tagline: 'Crispy, Golden Handcrafted Gourmet Samosas',
       cuisine: 'Appetizers & Snacks',
       location: 'Hitec City / Gachibowli, Hyderabad',
-      description: "Reinventing India's king of snacks with proprietary triangular pastries that stay crisp for 45+ minutes, filled with corn cheese, tandoori paneer, and spiced mutton kheema.",
+      description: "Reinventing India's favorite snack with golden handcrafted cocktail samosas, signature mint chutney, and seasonal fillings.",
       whyWePicked: 'High-velocity gourmet starters that ensure immediate guest delight upon arrival.',
       established: 2016,
-      website: 'https://samosasingh.com',
-      coverImageUrl: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?q=80&w=1200&auto=format&fit=crop',
+      website: 'https://samosaking.in',
+      coverImageUrl: '/dishes/samosa-king-gourmet.jpg',
     },
     {
       id: 'ptr_thickshake',
@@ -191,7 +191,7 @@ export async function seedDynamo() {
       whyWePicked: 'Unmatched authentic Old City soul and the gold standard for celebratory Hyderabadi mutton feasts.',
       established: 1953,
       website: 'https://hotelshadab.in',
-      coverImageUrl: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?q=80&w=1200&auto=format&fit=crop',
+      coverImageUrl: '/dishes/shadab-kaju-paneer-biryani.png',
     },
     {
       id: 'ptr_maharaja',
@@ -217,7 +217,7 @@ export async function seedDynamo() {
       whyWePicked: 'The timeless, aristocratic finale essential to completing every authentic Hyderabadi banquet.',
       established: 1995,
       website: 'https://dimmypanpalace.com',
-      coverImageUrl: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=1200&auto=format&fit=crop',
+      coverImageUrl: '/dishes/dimmy-meetha-paan.jpg',
     },
     {
       id: 'ptr_chocolateroom',
@@ -243,7 +243,7 @@ export async function seedDynamo() {
       whyWePicked: 'Celebrated for pure ghee craftsmanship and luxurious festive gifting platters.',
       established: 1989,
       website: 'https://almondhouse.com',
-      coverImageUrl: 'https://images.unsplash.com/photo-1599488615731-7e5c2823ff28?q=80&w=1200&auto=format&fit=crop',
+      coverImageUrl: '/dishes/almond-house-mithai.jpg',
     },
     {
       id: 'ptr_manam',

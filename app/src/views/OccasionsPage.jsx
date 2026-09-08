@@ -58,7 +58,7 @@ export const OCCASIONS_DATA = [
     lineup: [
       { name: 'Hotel Shadab', role: 'Nizami Chicken 65 & Dum Biryani' },
       { name: 'Almond House', role: 'Pure Ghee Badam Halwa & Bisticks' },
-      { name: 'Sammosa Singh', role: 'Party Starter Platters' },
+      { name: 'Samosa King', role: 'Party Starter Platters' },
       { name: 'Ice Berg', role: 'Handcrafted Sitaphal & Tender Coconut Scoops' },
     ],
     IconComponent: FamilyFeastSketch,
@@ -124,7 +124,7 @@ export const OCCASIONS_DATA = [
     guestRange: '15 – 60 guests',
     narrative: 'Turn your weekend living room or terrace into a buzzing gourmet lounge with piping hot finger food, artisanal coolers, and late-night biryani pots.',
     lineup: [
-      { name: 'Sammosa Singh', role: 'Crispy Snack Buckets' },
+      { name: 'Samosa King', role: 'Crispy Snack Buckets' },
       { name: 'Hotel Shadab', role: 'Tandoori Kebabs & Dum Pot' },
       { name: 'Ice Berg', role: 'Live Roll Ice Cream Scoops' },
       { name: 'Cafe Niloufer', role: 'Midnight Tea Kettle Staging' },
