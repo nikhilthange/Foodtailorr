@@ -140,7 +140,7 @@ export default function HomePage() {
       cuisine: 'Irani & Bakery',
       location: 'Lakdikapul / Banjara Hills',
       description: "Since 1978, Cafe Niloufer has defined Hyderabad's quintessential Irani chai and bakery culture.",
-      coverImageUrl: 'https://images.unsplash.com/photo-1544787219-7f47ccb76574?q=80&w=1200&auto=format&fit=crop',
+      coverImageUrl: '/dishes/cafe-niloufer-chai-bun.jpg',
       established: 1978,
     },
     {
@@ -170,7 +170,7 @@ export default function HomePage() {
       cuisine: 'Artisanal Confectionery',
       location: 'Road No. 12, Banjara Hills',
       description: 'Award-winning craft chocolate atelier transforming West Godavari cacao into single-origin bars.',
-      coverImageUrl: 'https://images.unsplash.com/photo-1549007994-cb92caebd54b?q=80&w=1200&auto=format&fit=crop',
+      coverImageUrl: '/dishes/manam-craft-truffles.jpg',
       established: 2022,
     },
     {
@@ -179,7 +179,7 @@ export default function HomePage() {
       businessName: 'Almond House',
       cuisine: 'Royal Indian Sweets',
       location: 'Himayatnagar / Jubilee Hills',
-      description: 'Master confectioners renowned for pure ghee Bisticks, Badam Halwa, and silver-vark Shahi Kaju Katli.',
+      description: 'Master confectioners renowned for pure ghee Gulab Jamun, Badam Halwa, and royal mithai.',
       coverImageUrl: '/dishes/almond-house-mithai.jpg',
       established: 1989,
     },
@@ -190,7 +190,7 @@ export default function HomePage() {
       cuisine: 'Desserts & Ice Creams',
       location: 'Jubilee Hills / Madhapur',
       description: 'Organic handcrafted ice creams made with real seasonal fruits like Sitaphal and tender coconut.',
-      coverImageUrl: 'https://images.unsplash.com/photo-1501443762994-82bd5dace89a?q=80&w=1200&auto=format&fit=crop',
+      coverImageUrl: '/dishes/ice-berg-gelato-cup.jpg',
       established: 2012,
     },
   ];

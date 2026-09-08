@@ -139,7 +139,7 @@ export async function seedDynamo() {
       whyWePicked: 'Iconic tea and traditional bakery that no Hyderabadi gathering is complete without.',
       established: 1978,
       website: 'https://cafeniloufer.com',
-      coverImageUrl: 'https://images.unsplash.com/photo-1544787219-7f47ccb76574?q=80&w=1200&auto=format&fit=crop',
+      coverImageUrl: '/dishes/cafe-niloufer-chai-bun.jpg',
     },
     {
       id: 'ptr_iceberg',
@@ -152,7 +152,7 @@ export async function seedDynamo() {
       whyWePicked: 'Pure fruit, preservative-free artisanal ice creams offering the ultimate refreshing dessert station.',
       established: 2012,
       website: 'https://icebergicecreams.com',
-      coverImageUrl: 'https://images.unsplash.com/photo-1501443762994-82bd5dace89a?q=80&w=1200&auto=format&fit=crop',
+      coverImageUrl: '/dishes/ice-berg-gelato-cup.jpg',
     },
     {
       id: 'ptr_samosasingh',
@@ -178,7 +178,7 @@ export async function seedDynamo() {
       whyWePicked: 'Crowd-pleasing beverage stations adored by younger guests and corporate banquet attendees alike.',
       established: 2013,
       website: 'https://thethickshakefactory.com',
-      coverImageUrl: 'https://images.unsplash.com/photo-1572490122747-3968b75cc699?q=80&w=1200&auto=format&fit=crop',
+      coverImageUrl: '/dishes/thick-shake-boba.jpg',
     },
     {
       id: 'ptr_shadab',
@@ -204,7 +204,7 @@ export async function seedDynamo() {
       whyWePicked: 'High-energy, interactive chaat counters that spark conversation during pre-dinner cocktail hours.',
       established: 1996,
       website: 'https://maharajachaat.in',
-      coverImageUrl: 'https://images.unsplash.com/photo-1606491956689-2ea866880c84?q=80&w=1200&auto=format&fit=crop',
+      coverImageUrl: '/dishes/maharaja-chaat-bowl.jpg',
     },
     {
       id: 'ptr_dimmy',
@@ -230,7 +230,7 @@ export async function seedDynamo() {
       whyWePicked: 'Brings theater and modern luxury dessert staging to celebrations and receptions.',
       established: 2007,
       website: 'https://thechocolateroomindia.com',
-      coverImageUrl: 'https://images.unsplash.com/photo-1511381939415-e44015466834?q=80&w=1200&auto=format&fit=crop',
+      coverImageUrl: '/dishes/chocolate-room-latte.jpg',
     },
     {
       id: 'ptr_almondhouse',
@@ -239,7 +239,7 @@ export async function seedDynamo() {
       tagline: 'Purity, Heritage & Royal Mithai',
       cuisine: 'Royal Indian Sweets',
       location: 'Himayatnagar / Jubilee Hills, Hyderabad',
-      description: 'Master confectioners since 1989, renowned for proprietary pure ghee Bisticks, saffron Badam Halwa, and silver-vark Shahi Kaju Katli.',
+      description: 'Master confectioners since 1989, renowned for pure ghee Gulab Jamun, Badam Halwa, and royal mithai.',
       whyWePicked: 'Celebrated for pure ghee craftsmanship and luxurious festive gifting platters.',
       established: 1989,
       website: 'https://almondhouse.com',
@@ -256,7 +256,7 @@ export async function seedDynamo() {
       whyWePicked: 'Contemporary culinary prestige and world-class craft confectionery for modern weddings and galas.',
       established: 2022,
       website: 'https://manamchocolate.com',
-      coverImageUrl: 'https://images.unsplash.com/photo-1549007994-cb92caebd54b?q=80&w=1200&auto=format&fit=crop',
+      coverImageUrl: '/dishes/manam-craft-truffles.jpg',
     },
     {
       id: 'ptr_karachi',
@@ -269,7 +269,7 @@ export async function seedDynamo() {
       whyWePicked: 'A timeless Hyderabad tradition that guests across generations warmly identify with.',
       established: 1953,
       website: 'https://karachibakery.com',
-      coverImageUrl: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?q=80&w=1200&auto=format&fit=crop',
+      coverImageUrl: '/dishes/karachi-bakery-biscuits.jpg',
     },
   ];
 
@@ -363,11 +363,11 @@ export async function seedDynamo() {
     { id: 'dsh_iceberg_coconut', partner: 'Ice Berg', name: 'Tender Coconut & Honey Cream', category: 'Dessert', description: 'Fresh tender coconut malai blended with wild honey.', pricePerHead: 130, isVeg: true, isSignature: true },
     { id: 'dsh_iceberg_belgian', partner: 'Ice Berg', name: 'Belgian Dark Chocolate Roll', category: 'Dessert', description: 'Rich 70% dark chocolate rolled live on chilled stone.', pricePerHead: 140, isVeg: true, isSignature: true },
 
-    // 3. Sammosa Singh (formerly Samosa King)
-    { id: 'dsh_samosa_corn_cheese', partner: 'Sammosa Singh', name: 'Crispy Corn Cheese Samosa', category: 'Starter', description: 'Golden triangular pastry parcels filled with sweet corn and molten cheese.', pricePerHead: 90, isVeg: true, isSignature: true },
-    { id: 'dsh_samosa_kheema', partner: 'Sammosa Singh', name: 'Hyderabadi Spiced Kheema Samosa', category: 'Starter', description: 'Crisp pastries stuffed with minced spiced mutton and fresh mint.', pricePerHead: 120, isVeg: false, isSignature: true },
-    { id: 'dsh_samosa_paneer', partner: 'Sammosa Singh', name: 'Paneer Tikka Cocktail Samosa', category: 'Starter', description: 'Bite-sized cocktail samosas filled with tandoori spiced cottage cheese.', pricePerHead: 95, isVeg: true, isSignature: true },
-    { id: 'dsh_samosa_aloo', partner: 'Sammosa Singh', name: 'Crispy Aloo Masala Samosa', category: 'Starter', description: 'Classic spiced potato and green pea samosa with tamarind drizzle.', pricePerHead: 75, isVeg: true, isSignature: true },
+    // 3. Samosa King
+    { id: 'dsh_samosa_corn_cheese', partner: 'Samosa King', name: 'Crispy Corn Cheese Samosa', category: 'Starter', description: 'Golden triangular pastry parcels filled with sweet corn and molten cheese.', pricePerHead: 90, isVeg: true, isSignature: true },
+    { id: 'dsh_samosa_kheema', partner: 'Samosa King', name: 'Hyderabadi Spiced Kheema Samosa', category: 'Starter', description: 'Crisp pastries stuffed with minced spiced mutton and fresh mint.', pricePerHead: 120, isVeg: false, isSignature: true },
+    { id: 'dsh_samosa_paneer', partner: 'Samosa King', name: 'Paneer Tikka Cocktail Samosa', category: 'Starter', description: 'Bite-sized cocktail samosas filled with tandoori spiced cottage cheese.', pricePerHead: 95, isVeg: true, isSignature: true },
+    { id: 'dsh_samosa_aloo', partner: 'Samosa King', name: 'Crispy Aloo Masala Samosa', category: 'Starter', description: 'Classic spiced potato and green pea samosa with tamarind drizzle.', pricePerHead: 75, isVeg: true, isSignature: true },
 
     // 4. Thick Shake Factory
     { id: 'dsh_thickshake_chocolate', partner: 'Thick Shake Factory', name: 'Belgian Chocolate Thick Shake', category: 'Beverage', description: 'Ultra-thick gourmet chocolate shake with dark fudge swirls.', pricePerHead: 150, isVeg: true, isSignature: true },
