@@ -16,8 +16,8 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-8 pb-12 border-b border-slate-800/80">
           {/* Brand & Mission Statement */}
           <div className="md:col-span-4 flex flex-col items-start">
-            <Link to="/" className="inline-block p-2.5 bg-white rounded-xl mb-4 shadow-sm hover:opacity-95 transition-opacity">
-              <FoodTailorLogo className="h-8 w-auto" />
+            <Link to="/" className="inline-block mb-4 hover:opacity-90 transition-opacity">
+              <FoodTailorLogo variant="light" className="h-8 md:h-9 w-auto" />
             </Link>
             <p className="text-xs text-slate-400 leading-relaxed max-w-sm mb-6 font-normal">
               Food Tailor orchestrates bespoke multi-brand culinary commissions for discerning event hosts. We aggregate iconic heritage dishes from celebrated Hyderabad institutions into one synchronized, audited degustation.

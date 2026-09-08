@@ -59,11 +59,10 @@ export default function Navbar() {
           {/* Brand Logo */}
           <div className="flex items-center">
             <Link to="/" className="flex items-center group py-1 focus:outline-none">
-              <div className="px-2.5 py-1 bg-white rounded-xl shadow-xs border border-white/40 flex items-center justify-center transition-transform duration-300 group-hover:scale-[1.02]">
-                <FoodTailorLogo
-                  className="h-6 sm:h-7 w-auto"
-                />
-              </div>
+              <FoodTailorLogo
+                variant="light"
+                className="h-7 sm:h-8 md:h-9 w-auto transition-transform duration-300 group-hover:scale-105 drop-shadow-sm"
+              />
             </Link>
           </div>
 
@@ -166,10 +165,8 @@ export default function Navbar() {
       >
         <div>
           <div className="flex items-center justify-between pb-5 border-b border-white/10">
-            <Link to="/" onClick={() => setDrawerOpen(false)} className="flex items-center">
-              <div className="px-2.5 py-1 bg-white rounded-xl shadow-xs border border-white/40 flex items-center justify-center">
-                <FoodTailorLogo className="h-6 w-auto" />
-              </div>
+            <Link to="/" onClick={() => setDrawerOpen(false)} className="flex items-center py-1">
+              <FoodTailorLogo variant="light" className="h-7 w-auto" />
             </Link>
             <button
               onClick={() => setDrawerOpen(false)}

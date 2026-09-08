@@ -2,8 +2,8 @@ import React from 'react';
 
 /**
  * FoodTailorLogo renders the official Food Tailor brand logo:
- * - 'food' in Deep Heritage Forest Green (#143823)
- * - 'tailor' in Warm Artisan Terracotta/Orange (#C85419)
+ * - 'default': Dark green 'food' (#143823) + Orange 'tailor' (#C85419) on transparent bg (for light backgrounds)
+ * - 'light': Crisp white 'food' (#FFFFFF) + Orange 'tailor' (#E8601C) on transparent bg (for dark backgrounds)
  */
 export default function FoodTailorLogo({
   className = 'h-8 w-auto',
@@ -11,9 +11,12 @@ export default function FoodTailorLogo({
   alt = 'Food Tailor',
   ...props
 }) {
+  const isLight = variant === 'light';
+  const logoSrc = isLight ? '/food-tailor-logo-light.png' : '/food-tailor-logo.png';
+
   return (
     <img
-      src="/food-tailor-logo.png"
+      src={logoSrc}
       alt={alt}
       className={`block object-contain select-none ${className}`}
       loading="eager"
@@ -21,4 +24,5 @@ export default function FoodTailorLogo({
     />
   );
 }
+
 
