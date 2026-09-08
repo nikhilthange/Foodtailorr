@@ -344,7 +344,7 @@ export default function MenuBuilderIntake() {
                 <input
                   type="range"
                   min="10"
-                  max="500"
+                  max="100"
                   step="5"
                   value={formData.guestCount}
                   onChange={(e) => setFormData({ ...formData, guestCount: parseInt(e.target.value, 10) })}
@@ -352,7 +352,7 @@ export default function MenuBuilderIntake() {
                 />
 
                 <div className="flex items-center justify-center gap-2 flex-wrap">
-                  {[15, 25, 50, 75, 100, 200].map((count) => (
+                  {[10, 20, 35, 50, 75, 100].map((count) => (
                     <button
                       key={count}
                       type="button"

@@ -19,7 +19,7 @@ export const OCCASIONS_DATA = [
     slug: 'birthday-table',
     title: 'Birthday Table',
     tagline: 'Milestone celebrations with high-energy starter counters and custom gateaux.',
-    guestRange: '15 – 150 guests',
+    guestRange: '15 – 100 guests',
     narrative: 'When marking another year of life or celebrating a milestone decade, the table should feel joyful, personal, and effortless. We blend comfort fare with showstopping live stations that delight every guest.',
     lineup: [
       { name: 'Maharaja Chaat', role: 'Live Interactive Chaat Counter' },
@@ -70,7 +70,7 @@ export const OCCASIONS_DATA = [
     slug: 'corporate-gathering',
     title: 'Corporate Gathering',
     tagline: 'Refined executive banquets, curated corporate dining, and boardroom tea lounges.',
-    guestRange: '20 – 500 guests',
+    guestRange: '20 – 100 guests',
     narrative: 'Impress distinguished clients and reward high-performing teams with fine-dining sophistication. Enjoy timely delivery, diverse dietary accommodations, and consolidated corporate GST invoicing.',
     lineup: [
       { name: 'Hotel Shadab', role: 'Executive Luncheon & Biryani Buffets' },
@@ -103,9 +103,9 @@ export const OCCASIONS_DATA = [
     id: 'occ_festival',
     slug: 'festival-celebration',
     title: 'Festive Banquet',
-    tagline: 'Ceremonial holiday feasts with pure ghee sweets and certified dietary segregation.',
-    guestRange: '25 – 300 guests',
-    narrative: 'Celebrate Diwali, Eid, Sankranti, or holiday reunions with traditional sanctity and royal splendor. We isolate preparation vessels and offer pure ghee mithai counters.',
+    tagline: 'Ceremonial holiday feasts with pure ghee sweets and traditional festive menus.',
+    guestRange: '20 – 100 guests',
+    narrative: 'Celebrate Diwali, Eid, Sankranti, or holiday reunions with traditional sanctity and royal splendor. We offer traditional festive preparations and pure ghee mithai counters.',
     lineup: [
       { name: 'Almond House', role: 'Dry Fruit Kaju Rolls & Badam Halwa' },
       { name: 'Hotel Shadab', role: 'Festive Dum Biryani & Haleem' },

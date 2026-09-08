@@ -286,7 +286,7 @@ export default function HomePage() {
                 Tell us your moment.
               </h3>
               <p className="text-xs text-slate-500 leading-relaxed">
-                Select your occasion, date, venue location, and guest count. Whether an intimate dinner or a 500-guest gala.
+                Select your occasion, date, venue location, and guest count. Whether an intimate dinner or a 100-guest banquet.
               </p>
             </div>
 
@@ -428,7 +428,7 @@ export default function HomePage() {
                 </div>
                 <div>
                   <h3 className="font-serif font-bold text-sm text-[#0D381E]">Guest Count Precision</h3>
-                  <p className="text-xs text-slate-500 mt-0.5 leading-relaxed">Calibrated portions for 10 to 1,000+ banquet covers.</p>
+                  <p className="text-xs text-slate-500 mt-0.5 leading-relaxed">Calibrated portions for 10 to 100 banquet covers.</p>
                 </div>
               </div>
 
