@@ -52,81 +52,113 @@ export default function HomePage() {
         id: 'birthday',
         slug: 'birthday-celebration',
         title: 'Birthday Celebration',
+        tagline: 'Milestone moments with interactive live chaat & custom gateaux.',
         description: 'Milestone moments with interactive live chaat, decadent dessert bars, and bespoke catering.',
-        iconName: 'bi-cake2',
-        color: '#C85419',
         badge: 'Top Pick',
+        badgeColor: 'bg-amber-500/90 text-slate-950 border-amber-300/40',
+        guestRange: '15 – 100 Guests',
+        image: 'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=1200&auto=format&fit=crop',
         sampleCourses: '6 Courses • Live Chaat • Gateaux',
+        brands: 'Maharaja Chaat • Shadab • Chocolate Room',
+        category: 'Celebration',
       },
       {
         id: 'anniversary',
         slug: 'anniversary-evening',
         title: 'Anniversary Soirée',
+        tagline: 'Regal intimate dining with slow-simmered heritage courses.',
         description: 'Intimate celebratory dining with royal Nizami slow-steamed courses and single-origin cacao.',
-        iconName: 'bi-gem',
-        color: '#0D381E',
         badge: 'Fine Dining',
+        badgeColor: 'bg-emerald-800/90 text-emerald-100 border-emerald-400/30',
+        guestRange: '10 – 100 Guests',
+        image: 'https://images.unsplash.com/photo-1519225424562-b9034d6ce255?q=80&w=1200&auto=format&fit=crop',
         sampleCourses: '7 Courses • Silver-Vark • Cacao',
+        brands: 'Hotel Shadab • Manam • Niloufer',
+        category: 'Fine Dining',
       },
       {
         id: 'family',
         slug: 'family-gathering',
         title: 'Family Gathering',
+        tagline: 'Generational comfort fare uniting all palates around one spread.',
         description: 'Generational comfort fare uniting grandparents, toddlers, and cousins around one lavish spread.',
-        iconName: 'bi-people',
-        color: '#0D381E',
         badge: 'Popular',
+        badgeColor: 'bg-orange-600/90 text-white border-orange-300/30',
+        guestRange: '12 – 80 Guests',
+        image: 'https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=1200&auto=format&fit=crop',
         sampleCourses: '8 Courses • Pure Ghee • Sweets',
+        brands: 'Shadab • Almond House • Samosa King',
+        category: 'Gathering',
       },
       {
         id: 'corporate',
         slug: 'corporate-feast',
         title: 'Corporate Feast',
+        tagline: 'Refined boardroom catering and executive galas.',
         description: 'Refined boardroom catering and executive galas with freshly staged culinary setups.',
-        iconName: 'bi-briefcase',
-        color: '#0D381E',
         badge: 'Executive',
+        badgeColor: 'bg-slate-800/90 text-slate-100 border-white/20',
+        guestRange: '20 – 100 Guests',
+        image: 'https://images.unsplash.com/photo-1511578314322-379afb476865?q=80&w=1200&auto=format&fit=crop',
         sampleCourses: 'Executive Boxes • Curated Menus',
+        brands: 'Hotel Shadab • Niloufer • Karachi Bakery',
+        category: 'Corporate',
       },
       {
         id: 'romantic',
         slug: 'romantic-dinner',
         title: 'Intimate Degustation',
+        tagline: 'Private candlelit residence dining with silver-vark service.',
         description: 'Private candlelit residence dining featuring silver-vark delicacies and custom tasting courses.',
-        iconName: 'bi-heart',
-        color: '#C85419',
         badge: 'Bespoke',
+        badgeColor: 'bg-rose-900/90 text-rose-100 border-rose-400/30',
+        guestRange: '2 – 12 Guests',
+        image: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=1200&auto=format&fit=crop',
         sampleCourses: '5 Courses • Butler Pairing',
+        brands: 'Hotel Shadab • Manam • Dimmy Pan',
+        category: 'Fine Dining',
       },
       {
         id: 'festival',
         slug: 'festival-celebration',
         title: 'Festive Banquet',
+        tagline: 'Ceremonial holiday feasts with pure ghee sweets.',
         description: 'Time-honored pure ghee sweets, traditional pure vegetarian options, and ceremonial holiday feasts.',
-        iconName: 'bi-sun',
-        color: '#C85419',
         badge: 'Heritage',
+        badgeColor: 'bg-amber-600/90 text-white border-amber-300/30',
+        guestRange: '20 – 100 Guests',
+        image: 'https://images.unsplash.com/photo-1532712938310-34cb3982ef74?q=80&w=1200&auto=format&fit=crop',
         sampleCourses: 'Pure Veg / Jain • Heritage Sweets',
+        brands: 'Almond House • Shadab • Maharaja Chaat',
+        category: 'Gathering',
       },
       {
         id: 'weekend',
         slug: 'weekend-celebration',
         title: 'Weekend Party',
+        tagline: 'High-energy weekend bashes with live charcoal grills.',
         description: 'High-energy house parties with live flaming charcoal skewers, crispy pastries, and craft coolers.',
-        iconName: 'bi-music-note-beamed',
-        color: '#0D381E',
         badge: 'Vibrant',
+        badgeColor: 'bg-emerald-700/90 text-white border-emerald-300/30',
+        guestRange: '15 – 60 Guests',
+        image: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=1200&auto=format&fit=crop',
         sampleCourses: 'Skewers • Chaat • Mocktails',
+        brands: 'Samosa King • Ice Berg • Shadab',
+        category: 'Celebration',
       },
       {
         id: 'custom',
         slug: 'custom-occasion',
         title: 'Custom Experience',
+        tagline: 'Your unique vision, architected course-by-course.',
         description: 'Your unique vision, architected course-by-course with personalized pairings and seamless coordination.',
-        iconName: 'bi-compass',
-        color: '#C85419',
         badge: 'Tailored',
+        badgeColor: 'bg-[#C85419] text-white border-amber-300/40',
+        guestRange: 'Bespoke Scale',
+        image: 'https://images.unsplash.com/photo-1555244162-803834f70033?q=80&w=1200&auto=format&fit=crop',
         sampleCourses: 'Bespoke Menu • Multi-Kitchen Curation',
+        brands: 'All Atelier Kitchens • Dedicated Staging',
+        category: 'Bespoke',
       },
     ],
     []
@@ -200,17 +232,17 @@ export default function HomePage() {
       {/* ============================================================ */}
       {/* SECTION 1 — HERO                                             */}
       {/* ============================================================ */}
-      <section className="relative w-full min-h-[92vh] flex flex-col items-center justify-center bg-[#0B1E13] text-white pt-28 pb-20 px-4 md:px-8 overflow-hidden">
-        {/* Vibrant Fresh Background Image & Luminous Fresh Lighting */}
+      <section className="relative w-full min-h-[92vh] flex flex-col items-center justify-center bg-[#07190F] text-white pt-28 pb-20 px-4 md:px-8 overflow-hidden">
+        {/* Luxury Atmospheric Banquet Visual & Elegant Vignette */}
         <div className="absolute inset-0 z-0 overflow-hidden">
           <img
-            src="/hero-fresh-banquet.jpg"
-            alt="Fresh Gourmet Indian Culinary Feast"
-            className="w-full h-full object-cover object-center brightness-[0.88] contrast-[1.06] saturate-[1.12] scale-100"
+            src="/hero-luxury-banquet.jpg"
+            alt="Bespoke Luxury Fine-Dining Banquet"
+            className="w-full h-full object-cover object-center brightness-[0.92] contrast-[1.05] scale-100"
           />
-          {/* Luminous Gradient Overlay for Freshness and High Legibility */}
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0B1E13] via-[#0B1E13]/40 to-[#0B1E13]/60" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_transparent_30%,_rgba(11,30,19,0.7)_100%)]" />
+          {/* Subtle cinematic gradient overlays for pristine text readability */}
+          <div className="absolute inset-0 bg-gradient-to-t from-[#07190F] via-[#07190F]/45 to-[#07190F]/70" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_transparent_20%,_rgba(7,25,15,0.75)_100%)]" />
         </div>
 
         {/* Hero Content */}
@@ -449,52 +481,111 @@ export default function HomePage() {
       {/* ============================================================ */}
       {/* SECTION 4 — OCCASIONS                                        */}
       {/* ============================================================ */}
-      <section className="py-20 md:py-28 bg-[#F6F4EE] border-b border-[#E8E5DD]">
-        <div className="max-w-7xl mx-auto px-4 md:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <span className="text-xs uppercase font-bold tracking-[0.2em] text-[#C85419] block mb-2">
-              Bespoke Banqueting Formats
-            </span>
-            <h2 className="font-serif text-3xl sm:text-5xl font-extrabold text-[#0D381E] tracking-tight">
-              Curated Occasions
-            </h2>
-            <div className="w-12 h-1 bg-[#C85419] rounded-full my-4 mx-auto" />
-            <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
-              Every gathering has its own tempo. Explore calibrated multi-brand lineups engineered for Hyderabad&apos;s most cherished milestones.
-            </p>
+      <section className="py-20 md:py-28 bg-[#FCFBF7] border-b border-[#E8E5DD] relative overflow-hidden">
+        {/* Ambient background glows */}
+        <div className="absolute top-1/4 left-0 w-80 h-80 bg-emerald-500/5 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-10 right-0 w-96 h-96 bg-amber-500/5 rounded-full blur-3xl pointer-events-none" />
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 relative z-10">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 sm:mb-16">
+            <div>
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#C85419]/10 text-[#C85419] border border-[#C85419]/20 text-xs font-bold uppercase tracking-widest mb-3">
+                <Sparkles className="w-3.5 h-3.5 text-[#C85419]" />
+                <span>Bespoke Banqueting Formats</span>
+              </div>
+              <h2 className="font-serif text-3xl sm:text-5xl font-extrabold text-[#0D381E] tracking-tight">
+                Curated Occasions
+              </h2>
+              <p className="text-sm sm:text-base text-slate-600 mt-2 max-w-2xl leading-relaxed font-normal">
+                Every gathering has its own tempo. Explore calibrated multi-brand lineups engineered for Hyderabad&apos;s most cherished milestones.
+              </p>
+            </div>
+
+            <Link
+              to="/occasions"
+              className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#0D381E] hover:text-[#C85419] transition-colors self-start md:self-end pb-1"
+            >
+              <span>View All Occasion Folios</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
           </div>
 
-          {/* 8 Occasion Cards Grid */}
+          {/* 8 Luxury Occasion Cards Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {occasionCards.map((occ) => (
-              <Link
+              <div
                 key={occ.id}
-                to={`/occasions/${occ.slug}`}
-                className="bg-white p-6 rounded-2xl border border-[#EDE8DF] hover:border-[#0D381E]/40 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group"
+                className="group relative bg-white rounded-3xl overflow-hidden border border-[#EDE8DF] hover:border-amber-500/50 shadow-sm hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col h-full"
               >
-                <div>
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="w-12 h-12 rounded-xl bg-[#F6F4EE] border border-[#E8E5DD] flex items-center justify-center group-hover:scale-105 transition-transform">
-                      <i className={`bi ${occ.iconName} text-xl`} style={{ color: occ.color }} />
-                    </div>
-                    <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-[#F6F4EE] text-slate-700 border border-[#EDE8DF]">
+                {/* Visual Header Image Container */}
+                <div className="relative h-52 w-full overflow-hidden bg-slate-950">
+                  <img
+                    src={occ.image}
+                    alt={occ.title}
+                    loading="lazy"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/30 to-transparent" />
+
+                  {/* Top Badges: Category Tag & Guest Scale */}
+                  <div className="absolute top-3 left-3 right-3 flex items-center justify-between gap-2">
+                    <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider backdrop-blur-md border shadow-sm ${occ.badgeColor}`}>
                       {occ.badge}
+                    </span>
+
+                    <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-semibold bg-black/60 text-white backdrop-blur-md border border-white/15">
+                      <Users className="w-3 h-3 text-amber-300" />
+                      <span>{occ.guestRange}</span>
                     </span>
                   </div>
 
-                  <h3 className="font-serif font-bold text-lg text-slate-900 group-hover:text-[#C85419] transition-colors mb-1.5">
-                    {occ.title}
-                  </h3>
-                  <p className="text-xs text-slate-500 leading-relaxed mb-4">
-                    {occ.description}
-                  </p>
+                  {/* Bottom Lineup Indicator */}
+                  <div className="absolute bottom-2.5 left-3 right-3 flex items-center justify-between text-[11px] text-amber-200/90 font-medium">
+                    <span className="truncate drop-shadow-sm">{occ.sampleCourses}</span>
+                  </div>
                 </div>
 
-                <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold uppercase tracking-wider text-[#0D381E] group-hover:text-[#C85419] transition-colors">
-                  <span>Explore Folio</span>
-                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                {/* Content Section */}
+                <div className="p-5 sm:p-6 flex-1 flex flex-col justify-between bg-white">
+                  <div>
+                    <h3 className="font-serif text-xl font-bold text-slate-900 group-hover:text-[#C85419] transition-colors leading-tight mb-2">
+                      {occ.title}
+                    </h3>
+                    
+                    <p className="text-xs text-slate-600 leading-relaxed line-clamp-2 mb-4 font-normal">
+                      {occ.description}
+                    </p>
+
+                    {/* Curated Brand Roster Tag */}
+                    <div className="p-2.5 rounded-xl bg-[#FAF8F5] border border-[#EDE8DF] mb-4">
+                      <span className="text-[10px] uppercase font-bold tracking-widest text-[#C85419] block mb-1">
+                        Featured Guild Partners
+                      </span>
+                      <p className="text-xs font-semibold text-slate-700 truncate">
+                        {occ.brands}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Action Link Row */}
+                  <div className="pt-3 border-t border-slate-100 flex items-center justify-between gap-2">
+                    <Link
+                      to={`/occasions/${occ.slug}`}
+                      className="text-xs font-bold uppercase tracking-wider text-[#0D381E] hover:text-[#C85419] transition-colors flex items-center gap-1"
+                    >
+                      <span>Explore Folio</span>
+                      <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                    </Link>
+
+                    <Link
+                      to={`/build-menu?occasion=${encodeURIComponent(occ.id)}`}
+                      className="px-3 py-1.5 rounded-xl bg-[#0D381E] hover:bg-[#C85419] text-white text-[11px] font-bold tracking-wide uppercase transition-all shadow-xs"
+                    >
+                      <span>Tailor Feast</span>
+                    </Link>
+                  </div>
                 </div>
-              </Link>
+              </div>
             ))}
           </div>
         </div>

@@ -5,6 +5,7 @@ import { Link } from '../lib/navigation';
 import { api } from '../lib/apiClient';
 import { FALLBACK_DISHES, FALLBACK_PARTNERS } from '../lib/fallbackData';
 import { Search, ArrowRight, Sparkles, Utensils, Flame, Cake, Wine, Coffee, ChefHat, Check } from 'lucide-react';
+import { getDishImage } from '../lib/brandImageMap';
 
 const CATEGORIES = [
   { label: 'All Courses', value: 'ALL', icon: Utensils },
@@ -286,7 +287,7 @@ export default function MenusPage() {
                   {/* Dish Image */}
                   <div className="relative h-48 w-full overflow-hidden bg-slate-900">
                     <img
-                      src={dish.imageUrl || 'https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=800&auto=format&fit=crop'}
+                      src={getDishImage(dish)}
                       alt={dish.name}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                     />

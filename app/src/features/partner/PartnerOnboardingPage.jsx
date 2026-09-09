@@ -2,8 +2,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { api } from '../../lib/apiClient';
 import { useAuth } from '../auth/AuthContext';
-import { useNavigate } from '../../lib/navigation';
-import { CheckCircle2, Clock, AlertCircle } from 'lucide-react';
+import { CheckCircle2, Clock, AlertCircle, Plus, Trash2, IndianRupee, Utensils } from 'lucide-react';
 
 const RESTAURANT_TYPES = [
   'Restaurant',
@@ -68,9 +67,15 @@ export default function PartnerOnboardingPage() {
     // Section 4: Menu & Production
     existingMenuDocUrl: '',
     signatureDishes: '',
+    avgPricePerHead: '',
+    minOrderAmount: '2500',
     bulkOrdersAvailable: 'Yes',
     minBulkOrderQuantity: '10',
     bulkOrderPrepTime: '2-4 hours',
+    dishesList: [
+      { name: '', category: 'Biryani', dietary: 'NON_VEG', pricePerHead: '', notes: '' },
+      { name: '', category: 'Starter', dietary: 'VEG', pricePerHead: '', notes: '' },
+    ],
 
     // Section 5: Bank Details
     accountHolderName: '',
@@ -96,6 +101,10 @@ export default function PartnerOnboardingPage() {
         setFormData(prev => ({
           ...prev,
           ...res.application.formData,
+          dishesList:
+            res.application.formData.dishesList?.length > 0
+              ? res.application.formData.dishesList
+              : prev.dishesList,
         }));
       }
       if (res.application?.draftStep && res.status === 'DRAFT') {
@@ -117,6 +126,58 @@ export default function PartnerOnboardingPage() {
     if (errors[field]) {
       setErrors(prev => ({ ...prev, [field]: null }));
     }
+  };
+
+  const handleDishChange = (index, field, value) => {
+    const updated = [...(formData.dishesList || [])];
+    updated[index] = { ...updated[index], [field]: value };
+
+    // Auto-generate signature dishes summary string
+    const summary = updated
+      .filter(d => d.name?.trim())
+      .map(d => `${d.name} (₹${d.pricePerHead || '—'}/head • ${d.category || 'General'})`)
+      .join(', ');
+
+    setFormData(prev => ({
+      ...prev,
+      dishesList: updated,
+      signatureDishes: summary || prev.signatureDishes,
+    }));
+
+    if (errors[`dish_${index}_${field}`] || errors.signatureDishes) {
+      setErrors(prev => ({
+        ...prev,
+        [`dish_${index}_${field}`]: null,
+        signatureDishes: null,
+      }));
+    }
+  };
+
+  const handleAddDish = () => {
+    setFormData(prev => ({
+      ...prev,
+      dishesList: [
+        ...(prev.dishesList || []),
+        { name: '', category: 'Main Course', dietary: 'NON_VEG', pricePerHead: '', notes: '' },
+      ],
+    }));
+  };
+
+  const handleRemoveDish = (index) => {
+    const current = formData.dishesList || [];
+    const updated = current.filter((_, i) => i !== index);
+    const finalDishes = updated.length > 0 ? updated : [{ name: '', category: 'Main Course', dietary: 'NON_VEG', pricePerHead: '', notes: '' }];
+
+    const summary = finalDishes
+      .filter(d => d.name?.trim())
+      .map(d => `${d.name} (₹${d.pricePerHead || '—'}/head • ${d.category || 'General'})`)
+      .join(', ');
+
+    setFormData(prev => ({
+      ...prev,
+      dishesList: finalDishes,
+      signatureDishes: summary || prev.signatureDishes,
+    }));
   };
 
   const handleSaveDraft = async () => {
@@ -155,7 +216,20 @@ export default function PartnerOnboardingPage() {
         errs.gstin = 'GSTIN is required when registered for GST';
       }
     } else if (step === 4) {
-      if (!formData.signatureDishes.trim()) errs.signatureDishes = 'Please describe your signature dishes';
+      const validDishes = (formData.dishesList || []).filter(d => d.name?.trim());
+      if (validDishes.length === 0 && !formData.signatureDishes.trim()) {
+        errs.signatureDishes = 'Please provide at least one signature dish with pricing';
+      }
+      (formData.dishesList || []).forEach((d, idx) => {
+        if (d.name?.trim() && (!d.pricePerHead || isNaN(Number(d.pricePerHead)) || Number(d.pricePerHead) <= 0)) {
+          errs[`dish_${idx}_pricePerHead`] = 'Enter price per head';
+        }
+      });
+      if (validDishes.length > 0 && !formData.signatureDishes?.trim()) {
+        formData.signatureDishes = validDishes
+          .map(d => `${d.name} (₹${d.pricePerHead}/head)`)
+          .join(', ');
+      }
     } else if (step === 5) {
       if (!formData.accountHolderName.trim()) errs.accountHolderName = 'Account Holder Name is required';
       if (!formData.bankName.trim()) errs.bankName = 'Bank Name is required';
@@ -730,39 +804,204 @@ export default function PartnerOnboardingPage() {
                 4. Menu & Production Capabilities
               </h3>
               <p className="text-xs text-on-surface-variant mt-1">
-                Provide your signature culinary creations and banquet delivery specifications.
+                Provide your signature culinary creations, dish pricing, and banquet delivery specifications.
               </p>
             </div>
 
+            {/* Price Overview Banner */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4 rounded-2xl bg-surface-container-low border border-outline-variant/40">
+              <div>
+                <label className="block text-xs font-bold uppercase tracking-wider text-primary-container mb-1.5">
+                  Estimated Average Price / Head (₹)
+                </label>
+                <div className="relative">
+                  <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-sm font-bold text-slate-400">₹</span>
+                  <input
+                    type="number"
+                    min="50"
+                    step="10"
+                    value={formData.avgPricePerHead}
+                    onChange={e => handleChange('avgPricePerHead', e.target.value)}
+                    placeholder="e.g. 350"
+                    className="w-full pl-8 pr-4 py-2.5 rounded-xl border border-outline-variant/60 text-sm focus:outline-none focus:ring-2 focus:ring-secondary/20 bg-white"
+                  />
+                </div>
+                <p className="text-[10px] text-on-surface-variant mt-1">Average tasting menu cost per guest</p>
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold uppercase tracking-wider text-primary-container mb-1.5">
+                  Min Bulk Order Amount (₹)
+                </label>
+                <div className="relative">
+                  <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-sm font-bold text-slate-400">₹</span>
+                  <input
+                    type="number"
+                    min="500"
+                    step="500"
+                    value={formData.minOrderAmount}
+                    onChange={e => handleChange('minOrderAmount', e.target.value)}
+                    placeholder="e.g. 2500"
+                    className="w-full pl-8 pr-4 py-2.5 rounded-xl border border-outline-variant/60 text-sm focus:outline-none focus:ring-2 focus:ring-secondary/20 bg-white"
+                  />
+                </div>
+                <p className="text-[10px] text-on-surface-variant mt-1">Minimum banquet ticket size</p>
+              </div>
+            </div>
+
+            {/* Signature Dishes & Pricing Builder Table */}
+            <div>
+              <div className="flex items-center justify-between mb-3">
+                <div>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-primary-container">
+                    Signature Dishes & Price Per Head <span className="text-red-500">*</span>
+                  </label>
+                  <p className="text-[11px] text-on-surface-variant">
+                    Add signature creations with their price per head so clients can curate your dishes into banquet menus.
+                  </p>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={handleAddDish}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-secondary text-white text-xs font-bold uppercase tracking-wider hover:opacity-90 transition-opacity shadow-xs cursor-pointer"
+                >
+                  <Plus className="w-3.5 h-3.5" />
+                  <span>Add Dish</span>
+                </button>
+              </div>
+
+              <div className="space-y-3">
+                {(formData.dishesList || []).map((dish, idx) => (
+                  <div
+                    key={idx}
+                    className="p-4 rounded-2xl bg-white border border-outline-variant/50 shadow-xs space-y-3"
+                  >
+                    <div className="grid grid-cols-1 sm:grid-cols-12 gap-3 items-start">
+                      {/* Dish Name */}
+                      <div className="sm:col-span-5">
+                        <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1">
+                          Dish Name <span className="text-red-500">*</span>
+                        </label>
+                        <input
+                          type="text"
+                          value={dish.name}
+                          onChange={e => handleDishChange(idx, 'name', e.target.value)}
+                          placeholder="e.g. Royal Mutton Dum Biryani"
+                          className="w-full px-3 py-2 rounded-xl border border-outline-variant/60 text-xs focus:outline-none focus:ring-2 focus:ring-secondary/20 font-medium"
+                        />
+                      </div>
+
+                      {/* Category */}
+                      <div className="sm:col-span-3">
+                        <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1">
+                          Category
+                        </label>
+                        <select
+                          value={dish.category}
+                          onChange={e => handleDishChange(idx, 'category', e.target.value)}
+                          className="w-full px-2.5 py-2 rounded-xl border border-outline-variant/60 text-xs focus:outline-none focus:ring-2 focus:ring-secondary/20 bg-white"
+                        >
+                          <option value="Biryani">Biryani</option>
+                          <option value="Starter">Starter / Appetizer</option>
+                          <option value="Main Course">Main Course</option>
+                          <option value="Dessert">Dessert / Mithai</option>
+                          <option value="Beverage">Beverage / Chai</option>
+                          <option value="Street Food & Chaat">Street Chaat</option>
+                          <option value="Bakery & Bakes">Bakery & Bakes</option>
+                          <option value="Paan & Refreshers">Paan</option>
+                        </select>
+                      </div>
+
+                      {/* Dietary */}
+                      <div className="sm:col-span-2">
+                        <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1">
+                          Dietary
+                        </label>
+                        <select
+                          value={dish.dietary}
+                          onChange={e => handleDishChange(idx, 'dietary', e.target.value)}
+                          className="w-full px-2 py-2 rounded-xl border border-outline-variant/60 text-xs focus:outline-none focus:ring-2 focus:ring-secondary/20 bg-white"
+                        >
+                          <option value="NON_VEG">Non-Veg</option>
+                          <option value="VEG">Pure Veg</option>
+                          <option value="JAIN">Jain</option>
+                          <option value="VEGAN">Vegan</option>
+                        </select>
+                      </div>
+
+                      {/* Price Per Head */}
+                      <div className="sm:col-span-2">
+                        <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1">
+                          Price / Head (₹) <span className="text-red-500">*</span>
+                        </label>
+                        <div className="relative flex items-center">
+                          <span className="absolute left-2.5 text-xs font-bold text-slate-400">₹</span>
+                          <input
+                            type="number"
+                            min="10"
+                            step="10"
+                            value={dish.pricePerHead}
+                            onChange={e => handleDishChange(idx, 'pricePerHead', e.target.value)}
+                            placeholder="380"
+                            className={`w-full pl-6 pr-2 py-2 rounded-xl border text-xs font-bold focus:outline-none focus:ring-2 ${
+                              errors[`dish_${idx}_pricePerHead`]
+                                ? 'border-red-500'
+                                : 'border-outline-variant/60 focus:ring-secondary/20'
+                            }`}
+                          />
+                        </div>
+                        {errors[`dish_${idx}_pricePerHead`] && (
+                          <p className="text-red-500 text-[9px] mt-0.5">{errors[`dish_${idx}_pricePerHead`]}</p>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Description Row & Delete */}
+                    <div className="flex items-center gap-2 pt-1">
+                      <input
+                        type="text"
+                        value={dish.notes || ''}
+                        onChange={e => handleDishChange(idx, 'notes', e.target.value)}
+                        placeholder="Portion size / tasting notes (e.g. Serves in authentic sealed handi with mirchi ka salan)"
+                        className="flex-1 px-3 py-1.5 rounded-lg border border-outline-variant/40 text-[11px] text-slate-600 focus:outline-none focus:ring-1 focus:ring-secondary/20 bg-slate-50/60"
+                      />
+
+                      {(formData.dishesList || []).length > 1 && (
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveDish(idx)}
+                          className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors cursor-pointer"
+                          title="Remove Dish"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {errors.signatureDishes && (
+                <p className="text-red-500 text-xs mt-2">{errors.signatureDishes}</p>
+              )}
+            </div>
+
+            {/* Upload Menu URL */}
             <div>
               <label className="block text-xs font-bold uppercase tracking-wider text-primary-container mb-2">
-                Upload Your Existing Menu / Link
+                Upload Your Complete Menu / Link (Optional)
               </label>
               <input
                 type="text"
                 value={formData.existingMenuDocUrl}
                 onChange={e => handleChange('existingMenuDocUrl', e.target.value)}
-                placeholder="Google Drive, Dropbox, or public menu URL"
+                placeholder="Google Drive, Dropbox, or public PDF menu URL"
                 className="w-full px-4 py-3 rounded-xl border border-outline-variant/60 text-sm focus:outline-none focus:ring-2 focus:ring-secondary/20"
               />
             </div>
 
-            <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-primary-container mb-2">
-                Signature Dishes & Tasting Notes <span className="text-red-500">*</span>
-              </label>
-              <textarea
-                rows={3}
-                value={formData.signatureDishes}
-                onChange={e => handleChange('signatureDishes', e.target.value)}
-                placeholder="e.g. Royal Dum Biryani, Mutton Haleem, Irani Chai, Truffle Kebabs..."
-                className={`w-full px-4 py-3 rounded-xl border text-sm focus:outline-none focus:ring-2 ${
-                  errors.signatureDishes ? 'border-red-500' : 'border-outline-variant/60 focus:ring-secondary/20'
-                }`}
-              />
-              {errors.signatureDishes && <p className="text-red-500 text-xs mt-1">{errors.signatureDishes}</p>}
-            </div>
-
+            {/* Bulk Logistics */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div>
                 <label className="block text-xs font-bold uppercase tracking-wider text-primary-container mb-2">
@@ -949,13 +1188,38 @@ export default function PartnerOnboardingPage() {
               </div>
 
               <div className="p-4 bg-surface-container-low rounded-xl border border-outline-variant/30 space-y-2">
-                <span className="font-bold text-secondary uppercase text-[10px]">Operations & Banking</span>
-                <p><strong>Signature:</strong> {formData.signatureDishes}</p>
+                <span className="font-bold text-secondary uppercase text-[10px]">Commercial & Payouts</span>
+                <p><strong>Avg / Head:</strong> ₹{formData.avgPricePerHead || '350'}</p>
+                <p><strong>Min Order:</strong> ₹{formData.minOrderAmount || '2500'}</p>
                 <p><strong>Bank:</strong> {formData.bankName}</p>
                 <p><strong>A/C Holder:</strong> {formData.accountHolderName}</p>
                 <p><strong>IFSC:</strong> {formData.ifscCode}</p>
               </div>
             </div>
+
+            {/* Declared Dishes Summary in Review */}
+            {(formData.dishesList || []).filter(d => d.name?.trim()).length > 0 && (
+              <div className="p-4 bg-surface-container-low rounded-xl border border-outline-variant/30">
+                <span className="font-bold text-secondary uppercase text-[10px] block mb-2.5">
+                  Declared Signature Dishes & Pricing ({formData.dishesList.filter(d => d.name?.trim()).length} Items)
+                </span>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                  {formData.dishesList.filter(d => d.name?.trim()).map((dish, i) => (
+                    <div key={i} className="p-2.5 bg-white rounded-lg border border-outline-variant/40 flex items-center justify-between gap-2">
+                      <div>
+                        <div className="font-bold text-slate-900">{dish.name}</div>
+                        <div className="text-[10px] text-slate-500">
+                          {dish.category} • <span className={dish.dietary === 'VEG' ? 'text-emerald-700 font-semibold' : 'text-rose-700 font-semibold'}>{dish.dietary}</span>
+                        </div>
+                      </div>
+                      <span className="font-bold text-[#0D381E] bg-emerald-50 px-2.5 py-1 rounded-md text-xs border border-emerald-100">
+                        ₹{dish.pricePerHead}/head
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
 
             <div className="p-4 rounded-xl bg-amber-50/70 border border-amber-200">
               <label className="flex items-start gap-3 cursor-pointer">

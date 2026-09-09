@@ -3,11 +3,11 @@
 import React, { useState } from 'react';
 import { Link } from '../lib/navigation';
 import { MapPin, ArrowRight, CheckCircle2, Star } from 'lucide-react';
-
-const FALLBACK_IMAGE = 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=1200&auto=format&fit=crop';
+import { getPartnerCoverImage } from '../lib/brandImageMap';
 
 export default function PartnerCard({ partner }) {
-  const [imgSrc, setImgSrc] = useState(partner.coverImageUrl || partner.imageUrl || FALLBACK_IMAGE);
+  const authenticImg = getPartnerCoverImage(partner);
+  const [imgSrc, setImgSrc] = useState(authenticImg);
   const [imgError, setImgError] = useState(false);
 
   const name = partner.businessName || partner.name || 'Artisanal Kitchen';
@@ -21,12 +21,12 @@ export default function PartnerCard({ partner }) {
       {/* Aspect-Ratio Cover Image Container */}
       <div className="relative h-52 w-full overflow-hidden bg-slate-100">
         <img
-          src={imgError ? FALLBACK_IMAGE : imgSrc}
+          src={imgError ? authenticImg : imgSrc}
           alt={name}
           loading="lazy"
           onError={() => {
             setImgError(true);
-            setImgSrc(FALLBACK_IMAGE);
+            setImgSrc(authenticImg);
           }}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
         />
