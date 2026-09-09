@@ -175,19 +175,21 @@ export default function MenuBuilderIntake() {
 
   return (
     <div className="min-h-screen bg-[#FCFBF7] text-slate-900 pb-24">
-      {/* Editorial Header */}
-      <section className="bg-gradient-to-b from-[#081810] via-[#0D381E] to-[#0A2615] text-white pt-28 pb-14 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-amber-500/10 via-transparent to-transparent pointer-events-none" />
+      {/* Luxury Porcelain Editorial Header */}
+      <section className="relative bg-gradient-to-b from-white via-[#FCFBF7] to-[#F6F4EE] pt-28 pb-10 sm:pb-12 px-4 sm:px-6 lg:px-8 border-b border-[#E8E5DD] overflow-hidden">
+        {/* Subtle Ambient Glows */}
+        <div className="absolute top-6 left-1/4 w-96 h-96 bg-[#0D381E]/5 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[#C85419]/5 rounded-full blur-3xl pointer-events-none" />
 
         <div className="max-w-4xl mx-auto relative z-10 text-center">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/10 text-amber-300 text-xs font-semibold tracking-wider uppercase mb-3 backdrop-blur-sm border border-amber-400/30">
-            <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-            <span>Interactive Curation Studio</span>
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#C85419]/10 text-[#C85419] border border-[#C85419]/20 text-xs font-bold uppercase tracking-widest mb-3 shadow-xs">
+            <Sparkles className="w-3.5 h-3.5 text-[#C85419]" />
+            <span>Interactive Curation Studio • Multi-Brand Calibration</span>
           </div>
-          <h1 className="font-serif text-3xl sm:text-5xl font-extrabold uppercase tracking-tight text-white leading-tight">
+          <h1 className="font-serif text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-[#0D381E] leading-tight">
             Tailor Your Gathering
           </h1>
-          <p className="mt-2 text-slate-200/90 text-xs sm:text-sm max-w-xl mx-auto font-normal">
+          <p className="mt-2.5 text-slate-600 text-sm sm:text-base max-w-xl mx-auto font-normal leading-relaxed">
             Step {step} of 8 • Define your gathering parameters to synthesize a balanced multi-brand feast.
           </p>
         </div>
