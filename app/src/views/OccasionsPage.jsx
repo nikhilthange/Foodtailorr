@@ -38,7 +38,7 @@ export const OCCASIONS_DATA = [
     estimatedPerHead: 980,
     narrative: 'When marking another year of life or celebrating a milestone decade, the table should feel joyful, personal, and effortless. We blend comfort fare with showstopping live stations that delight every guest from toddlers to grandparents.',
     sampleCourses: '6 Courses • Live Chaat • Gateaux',
-    image: '/dishes/maharaja-chaat-bowl.jpg',
+    image: '/occasions/birthday-celebration.jpg',
     IconComponent: BirthdayCakeSketch,
     lineup: [
       { name: 'Maharaja Chaat', role: 'Live Interactive Chaat Counter', location: 'Jubilee Hills' },
@@ -100,7 +100,7 @@ export const OCCASIONS_DATA = [
     estimatedPerHead: 1250,
     narrative: 'Honoring enduring love demands timeless culinary elegance. Enjoy copper-pot steamed Nizami biryanis, aromatic saffron curries, and West Godavari single-origin craft chocolate truffles curated for candlelit celebration.',
     sampleCourses: '7 Courses • Silver-Vark • Cacao',
-    image: '/dishes/manam-craft-truffles.jpg',
+    image: '/occasions/anniversary-evening.jpg',
     IconComponent: AnniversaryRingsSketch,
     lineup: [
       { name: 'Hotel Shadab', role: 'Imperial Dastarkhwan & Shahi Tukda', location: 'Old City' },
@@ -162,7 +162,7 @@ export const OCCASIONS_DATA = [
     estimatedPerHead: 920,
     narrative: 'The eternal family debate over where to order from is resolved. We curate the city’s best Mughlai dum pots alongside 100% segregated pure vegetarian specialties so every generation finds their favorite heritage dish.',
     sampleCourses: '8 Courses • Pure Ghee • Sweets',
-    image: '/dishes/shadab-kaju-paneer-biryani.png',
+    image: '/occasions/family-gathering.jpg',
     IconComponent: FamilyFeastSketch,
     lineup: [
       { name: 'Hotel Shadab', role: 'Nizami Chicken 65 & Dum Biryani', location: 'Old City' },
@@ -224,7 +224,7 @@ export const OCCASIONS_DATA = [
     estimatedPerHead: 1100,
     narrative: 'Impress distinguished clients and reward high-performing teams with fine-dining sophistication. Enjoy timely delivery, diverse dietary accommodations, and consolidated corporate GST invoicing.',
     sampleCourses: 'Executive Boxes • Curated Menus',
-    image: '/hero-culinary-banquet-premium.jpg',
+    image: '/occasions/corporate-feast.jpg',
     IconComponent: CorporateMeetingSketch,
     lineup: [
       { name: 'Hotel Shadab', role: 'Executive Luncheon & Biryani Buffets', location: 'Old City' },
@@ -286,7 +286,7 @@ export const OCCASIONS_DATA = [
     estimatedPerHead: 1450,
     narrative: 'A private gastronomic atelier orchestrated in your residence. Enjoy bespoke course pacing, tableside finishing, molten chocolate fondues, and aristocratic digestifs.',
     sampleCourses: '5 Courses • Butler Pairing',
-    image: '/dishes/dimmy-meetha-paan.jpg',
+    image: '/occasions/intimate-degustation.jpg',
     IconComponent: RomanticDinnerSketch,
     lineup: [
       { name: 'Hotel Shadab', role: 'Nizami Marag & Galouti Kebabs', location: 'Old City' },
@@ -348,7 +348,7 @@ export const OCCASIONS_DATA = [
     estimatedPerHead: 1080,
     narrative: 'Celebrate Diwali, Eid, Sankranti, or holiday reunions with traditional sanctity and royal splendor. We offer traditional festive preparations and pure ghee mithai counters with complete segregation for pure vegetarian and Jain dietary needs.',
     sampleCourses: 'Pure Veg / Jain • Heritage Sweets',
-    image: '/dishes/almond-house-mithai.jpg',
+    image: '/occasions/festive-banquet.jpg',
     IconComponent: FestivalLampSketch,
     lineup: [
       { name: 'Almond House', role: 'Dry Fruit Kaju Rolls & Badam Halwa', location: 'Himayatnagar' },
@@ -418,7 +418,7 @@ export const OCCASIONS_DATA = [
     estimatedPerHead: 890,
     narrative: 'Turn your weekend living room or terrace into a buzzing gourmet lounge with piping hot finger food, artisanal coolers, and late-night biryani pots.',
     sampleCourses: 'Skewers • Chaat • Mocktails',
-    image: '/dishes/samosa-king-gourmet.jpg',
+    image: '/occasions/weekend-party.jpg',
     IconComponent: WeekendPartySketch,
     lineup: [
       { name: 'Samosa King', role: 'Crispy Snack Buckets', location: 'Hitec City' },
@@ -479,7 +479,7 @@ export const OCCASIONS_DATA = [
     estimatedPerHead: 1350,
     narrative: 'When no standard format fits, architect your dream banquet from the ground up. Select any combination of master kitchens, specialized live counters, sommelier pairings, and staging styles.',
     sampleCourses: 'Bespoke Menu • Multi-Kitchen Curation',
-    image: '/food-tailor-brand-showcase.jpg',
+    image: '/occasions/custom-experience.jpg',
     IconComponent: Sparkles,
     lineup: [
       { name: 'All Atelier Kitchens', role: 'Unified Multi-Brand Access', location: 'Citywide Guild' },
