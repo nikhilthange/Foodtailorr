@@ -12,7 +12,6 @@ import {
   UtensilsCrossed,
   Award,
   CheckCircle2,
-  Check,
   Sliders,
   Calendar,
   Sparkles,
@@ -219,7 +218,7 @@ export default function HomePage() {
           </p>
 
           {/* Action CTAs */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5 w-full max-w-sm mb-12">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5 w-full max-w-sm">
             <Link
               to="/build-menu"
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3 rounded-lg bg-[#C85419] hover:bg-[#B34710] text-white text-sm font-semibold tracking-normal transition-all shadow-md"
@@ -234,26 +233,6 @@ export default function HomePage() {
             >
               <span>Explore Restaurants</span>
             </Link>
-          </div>
-
-          {/* Trust Highlights Bar */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 pt-6 border-t border-white/10 w-full max-w-3xl text-left">
-            <div className="flex items-center gap-2.5 text-xs text-slate-300">
-              <Check className="w-4 h-4 text-emerald-400 shrink-0" />
-              <span>Multiple restaurants on 1 bill</span>
-            </div>
-            <div className="flex items-center gap-2.5 text-xs text-slate-300">
-              <Check className="w-4 h-4 text-emerald-400 shrink-0" />
-              <span>Strict Veg & Non-Veg segregation</span>
-            </div>
-            <div className="flex items-center gap-2.5 text-xs text-slate-300">
-              <Check className="w-4 h-4 text-emerald-400 shrink-0" />
-              <span>Accurate per-guest portions</span>
-            </div>
-            <div className="flex items-center gap-2.5 text-xs text-slate-300">
-              <Check className="w-4 h-4 text-emerald-400 shrink-0" />
-              <span>Synchronized event delivery</span>
-            </div>
           </div>
         </div>
       </section>
