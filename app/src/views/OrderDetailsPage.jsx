@@ -150,10 +150,10 @@ export default function OrderDetailsPage() {
               <div className="inline-flex items-center gap-2 mb-1">
                 <span className="w-2 h-2 rounded-full bg-brand-terracotta"></span>
                 <span className="text-xs uppercase tracking-widest text-brand-terracotta font-bold">
-                  Bespoke Atelier Commission
+                  Order Details
                 </span>
               </div>
-              <h1 className="font-serif font-bold text-2xl sm:text-3xl text-slate-900">
+              <h1 className="font-serif font-bold text-2xl sm:text-3xl text-slate-900 break-words">
                 {order.orderRef}
               </h1>
               <p className="text-xs text-slate-500 mt-0.5">

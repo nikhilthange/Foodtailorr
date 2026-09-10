@@ -538,44 +538,38 @@ export default function OccasionsPage() {
   }, [filter]);
 
   const filterTabs = [
-    { id: 'ALL', label: 'All Formats' },
-    { id: 'Celebration', label: 'Celebrations & Parties' },
+    { id: 'ALL', label: 'All Occasions' },
+    { id: 'Celebration', label: 'Birthdays & Parties' },
     { id: 'Fine Dining', label: 'Fine Dining & Soirées' },
-    { id: 'Gathering', label: 'Family & Festivals' },
-    { id: 'Corporate', label: 'Executive & Corporate' },
-    { id: 'Bespoke', label: 'Bespoke Formats' },
+    { id: 'Gathering', label: 'Family & Festive' },
+    { id: 'Corporate', label: 'Corporate & Lunches' },
   ];
 
   return (
-    <div className="min-h-screen bg-[#FCFBF7] text-slate-900">
-      {/* Luxury Porcelain Editorial Header */}
-      <section className="relative bg-gradient-to-b from-white via-[#FCFBF7] to-[#F6F4EE] pt-28 pb-12 sm:pb-16 px-4 sm:px-6 lg:px-8 border-b border-[#E8E5DD] overflow-hidden">
-        {/* Subtle Ambient Glows */}
-        <div className="absolute top-10 left-1/4 w-96 h-96 bg-[#0D381E]/5 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[#C85419]/5 rounded-full blur-3xl pointer-events-none" />
-
-        <div className="max-w-7xl mx-auto relative z-10">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#C85419]/10 text-[#C85419] border border-[#C85419]/20 text-xs font-bold uppercase tracking-widest mb-4 shadow-xs">
-            <Sparkles className="w-3.5 h-3.5 text-[#C85419]" />
-            <span>Bespoke Banqueting Formats • Multi-Brand Calibration</span>
-          </div>
-          <h1 className="font-serif text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-[#0D381E] max-w-3xl leading-tight">
-            Occasions Tailored To Perfection
+    <div className="min-h-screen bg-[#FAF8F5] text-slate-900">
+      {/* Header */}
+      <section className="bg-white pt-28 pb-12 sm:pb-14 px-4 sm:px-6 lg:px-8 border-b border-[#EAE5DC]">
+        <div className="max-w-7xl mx-auto">
+          <span className="text-xs font-bold uppercase tracking-wider text-[#C85419] block mb-2">
+            Event Templates
+          </span>
+          <h1 className="font-serif text-3xl sm:text-5xl font-bold tracking-tight text-slate-900 leading-tight">
+            Curated Occasions
           </h1>
-          <p className="mt-3 text-slate-600 text-sm sm:text-base max-w-2xl font-normal leading-relaxed">
-            Every gathering has its own tempo. Explore calibrated multi-brand lineups engineered for Hyderabad&apos;s most cherished celebratory milestones.
+          <p className="mt-2 text-slate-600 text-sm sm:text-base max-w-2xl font-normal leading-relaxed">
+            Pre-balanced menus and restaurant combinations designed for celebrations, family feasts, and boardroom gatherings.
           </p>
 
-          {/* Interactive Category Filter Pills */}
-          <div className="flex flex-wrap items-center gap-2.5 mt-8 pt-6 border-t border-[#E8E5DD]/70">
+          {/* Category Filter Pills */}
+          <div className="flex flex-wrap items-center gap-2 mt-6 pt-4 border-t border-slate-100">
             {filterTabs.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setFilter(tab.id)}
-                className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
+                className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
                   filter === tab.id
-                    ? 'bg-[#0D381E] text-white shadow-md'
-                    : 'bg-white text-slate-600 border border-[#EDE8DF] hover:border-[#0D381E]/30 hover:text-slate-900'
+                    ? 'bg-[#0D2418] text-white shadow-xs'
+                    : 'bg-[#FAF8F5] text-slate-600 border border-[#EAE5DC] hover:text-slate-900'
                 }`}
               >
                 {tab.label}
@@ -586,75 +580,73 @@ export default function OccasionsPage() {
       </section>
 
       {/* Occasions Editorial Grid */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {filteredOccasions.map((occ) => {
             const Icon = occ.IconComponent;
             return (
               <div
                 key={occ.id}
-                className="bg-white rounded-3xl overflow-hidden flex flex-col group border border-[#EDE8DF] hover:border-amber-500/50 shadow-sm hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300"
+                className="bg-white rounded-2xl overflow-hidden flex flex-col group border border-[#EAE5DC] hover:border-[#D1C9BC] shadow-xs hover:shadow-md transition-all duration-200"
               >
                 {/* Visual Header Image */}
-                <div className="relative h-64 sm:h-72 w-full overflow-hidden bg-slate-950">
+                <div className="relative aspect-[16/9] w-full overflow-hidden bg-slate-100">
                   <img
                     src={occ.image}
                     alt={occ.title}
                     loading="lazy"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out brightness-90"
+                    className="w-full h-full object-cover group-hover:scale-102 transition-transform duration-500 ease-out"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/35 to-transparent" />
                   
                   {/* Top Badges */}
-                  <div className="absolute top-4 left-4 right-4 flex items-center justify-between gap-2">
+                  <div className="absolute top-3 left-3 right-3 flex items-center justify-between gap-2 pointer-events-none">
                     <div className="flex items-center gap-2">
-                      <div className="w-10 h-10 rounded-xl bg-white/95 backdrop-blur-md flex items-center justify-center shadow-md">
-                        <Icon className="w-6 h-6" color={occ.accentColor} />
+                      <div className="w-8 h-8 rounded-lg bg-white/95 flex items-center justify-center shadow-xs">
+                        <Icon className="w-4 h-4" color={occ.accentColor} />
                       </div>
-                      <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-slate-900/80 text-white backdrop-blur-md border border-white/15 flex items-center gap-1.5">
-                        <Users className="w-3.5 h-3.5 text-amber-300" />
+                      <span className="px-2.5 py-1 rounded-md text-xs font-semibold bg-black/60 text-white backdrop-blur-xs flex items-center gap-1">
+                        <Users className="w-3 h-3 text-amber-300" />
                         <span>{occ.guestRange}</span>
                       </span>
                     </div>
 
-                    <span className="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-[#C85419] text-white shadow-sm">
+                    <span className="px-2.5 py-1 rounded-md text-xs font-semibold bg-white/95 text-slate-800 shadow-xs">
                       {occ.badge}
                     </span>
                   </div>
 
                   {/* Bottom Title & Sample Courses */}
-                  <div className="absolute bottom-4 left-4 right-4">
-                    <h2 className="font-serif text-2xl sm:text-3xl font-bold text-white leading-tight drop-shadow-md mb-1">
-                      {occ.title}
-                    </h2>
-                    <span className="text-xs text-amber-200/95 font-medium">
-                      {occ.sampleCourses} • Approx. ₹{occ.estimatedPerHead}/cover
-                    </span>
+                  <div className="absolute bottom-3 left-3 right-3 pointer-events-none">
+                    <div className="p-2.5 rounded-lg bg-black/60 backdrop-blur-xs text-white">
+                      <h2 className="font-serif text-lg font-bold leading-snug">
+                        {occ.title}
+                      </h2>
+                      <span className="text-xs text-amber-200">
+                        {occ.sampleCourses} • Approx. ₹{occ.estimatedPerHead}/guest
+                      </span>
+                    </div>
                   </div>
                 </div>
 
                 {/* Content Details */}
-                <div className="p-6 flex-1 flex flex-col justify-between">
+                <div className="p-5 flex-1 flex flex-col justify-between">
                   <div>
-                    <p className="text-xs italic text-slate-500 font-medium mb-3">
-                      &ldquo;{occ.tagline}&rdquo;
-                    </p>
-                    <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal mb-6">
+                    <p className="text-xs text-slate-600 leading-relaxed font-normal mb-4">
                       {occ.narrative}
                     </p>
 
                     {/* Curated Partner Lineup */}
-                    <div className="mb-6 p-4 bg-[#FAF8F5] rounded-2xl border border-[#EDE8DF]">
-                      <span className="text-[10px] uppercase font-bold tracking-widest text-[#C85419] block mb-2.5">
-                        Curated Partner Lineup
+                    <div className="mb-4 p-3 bg-[#FAF8F5] rounded-xl border border-[#EAE5DC]">
+                      <span className="text-[10px] uppercase font-semibold text-[#C85419] block mb-2">
+                        Included Restaurant Lineup
                       </span>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                         {occ.lineup.map((item, idx) => (
-                          <div key={idx} className="flex items-start gap-2">
-                            <Check className="w-3.5 h-3.5 text-emerald-700 shrink-0 mt-0.5" />
+                          <div key={idx} className="flex items-start gap-1.5">
+                            <Check className="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5" />
                             <div className="text-xs">
-                              <span className="font-bold text-[#0D381E]">{item.name}: </span>
-                              <span className="text-slate-600">{item.role}</span>
+                              <span className="font-semibold text-slate-800">{item.name}: </span>
+                              <span className="text-slate-500">{item.role}</span>
                             </div>
                           </div>
                         ))}
@@ -663,20 +655,20 @@ export default function OccasionsPage() {
                   </div>
 
                   {/* Action CTAs */}
-                  <div className="pt-4 border-t border-slate-100 flex items-center justify-between gap-4">
+                  <div className="pt-3 border-t border-slate-100 flex items-center justify-between gap-3">
                     <Link
                       to={`/occasions/${occ.slug}`}
-                      className="text-xs font-bold uppercase tracking-wider text-[#0D381E] hover:text-[#C85419] transition-colors flex items-center gap-1.5 py-2 group/link"
+                      className="text-xs font-semibold text-slate-700 hover:text-[#C85419] transition-colors flex items-center gap-1"
                     >
-                      <span>Explore Occasion Folio</span>
-                      <ArrowRight className="w-3.5 h-3.5 group-hover/link:translate-x-1 transition-transform" />
+                      <span>View Details</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
                     </Link>
 
                     <Link
                       to={`/build-menu?occasion=${encodeURIComponent(occ.id)}`}
-                      className="btn-accent px-5 py-2.5 rounded-xl text-xs uppercase tracking-wider font-bold shadow-md flex items-center gap-1.5 hover:scale-[1.02] active:scale-100 transition-transform"
+                      className="px-3.5 py-1.5 rounded-lg bg-[#C85419] hover:bg-[#B34710] text-white text-xs font-semibold transition-colors flex items-center gap-1"
                     >
-                      <span>Tailor This Feast</span>
+                      <span>Plan Menu</span>
                       <ArrowRight className="w-3.5 h-3.5" />
                     </Link>
                   </div>

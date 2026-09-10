@@ -115,18 +115,18 @@ export default function MenuBuilderReview() {
 
   const handleSaveMenu = async () => {
     if (!user) {
-      showToast('Please sign in to save folios to your profile.');
+      showToast('Please sign in to save menus to your account.');
       return;
     }
     setSavingMenu(true);
     try {
       await api.saveMenu({
-        name: `${currentPackage.name} (${intake.occasion || 'Bespoke'})`,
+        name: `${currentPackage.name} (${intake.occasion || 'Custom Event'})`,
         occasionId: intake.occasion || undefined,
         guestCount: parseInt(guestCount, 10),
         items: activeItems.map((item) => ({ dishId: item.dishId, quantity: guestCount })),
       });
-      showToast('✨ Degustation folio saved to your personal atelier portfolio!');
+      showToast('Menu saved to your account successfully!');
     } catch (err) {
       console.error('Save menu failed', err);
       showToast('Could not save menu. Please try again.');
@@ -193,20 +193,20 @@ export default function MenuBuilderReview() {
         )}
 
         {/* Header Chapter */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 mb-8 border-b border-[#EDE8DF]">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 mb-8 border-b border-[#EAE5DC]">
           <div>
             <div className="inline-flex items-center gap-2 mb-1">
               <span className="w-2 h-2 rounded-full bg-[#C85419]" />
-              <span className="text-xs uppercase tracking-widest text-[#C85419] font-bold">
-                Degustation Review
+              <span className="text-xs uppercase tracking-wider text-[#C85419] font-bold">
+                Menu Review
               </span>
             </div>
-            <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl font-extrabold uppercase tracking-tight text-[#0D381E]">
-              Your Tailored Banquet Folio
+            <h1 className="font-serif text-3xl sm:text-4xl font-bold tracking-tight text-slate-900">
+              Your Tailored Event Menu
             </h1>
-            <p className="text-xs sm:text-sm text-slate-500 mt-1">
-              Carefully calibrated for <strong className="text-[#0D381E]">{guestCount} Guests</strong> • Occasion:{' '}
-              <strong className="text-[#0D381E] capitalize">{intake.occasion || 'Gathering'}</strong>
+            <p className="text-xs sm:text-sm text-slate-600 mt-1">
+              Calibrated for <strong className="text-slate-900 font-semibold">{guestCount} Guests</strong> • Occasion:{' '}
+              <strong className="text-slate-900 capitalize font-semibold">{intake.occasion || 'Gathering'}</strong>
             </p>
           </div>
 
@@ -214,34 +214,32 @@ export default function MenuBuilderReview() {
             <button
               onClick={handleSaveMenu}
               disabled={savingMenu}
-              className="px-4 py-2.5 bg-white border border-[#EDE8DF] hover:border-[#0D381E] text-[#0D381E] rounded-xl text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 shadow-xs cursor-pointer hover:bg-[#F6F4EE]"
+              className="px-4 py-2 bg-white border border-[#EAE5DC] hover:border-[#0D2418] text-slate-800 rounded-lg text-xs font-semibold tracking-normal transition-all flex items-center gap-1.5 shadow-xs cursor-pointer hover:bg-slate-50"
             >
-              <Bookmark className="w-4 h-4 text-[#C85419]" />
-              <span>{savingMenu ? 'Saving...' : 'Save Folio'}</span>
+              <Bookmark className="w-3.5 h-3.5 text-[#C85419]" />
+              <span>{savingMenu ? 'Saving...' : 'Save Menu'}</span>
             </button>
-            <button onClick={() => setIsCheckoutOpen(true)} className="btn-accent">
-              <Sparkles className="w-3.5 h-3.5 text-amber-200" />
-              <span>CONTINUE TO ORDER</span>
+            <button onClick={() => setIsCheckoutOpen(true)} className="btn-accent text-xs font-semibold py-2.5 px-5 rounded-lg shadow-sm flex items-center gap-1.5">
+              <span>Continue to Checkout</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </div>
         </div>
 
         {/* Personalization Profile Summary */}
-        <div className="bg-white p-5 sm:p-6 rounded-2xl border border-[#EDE8DF] mb-8 shadow-sm">
+        <div className="bg-white p-5 rounded-2xl border border-[#EAE5DC] mb-8 shadow-xs">
           <div className="flex items-center justify-between pb-3 mb-4 border-b border-slate-100">
             <div className="flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-[#C85419]" />
-              <span className="text-xs uppercase font-bold tracking-widest text-[#0D381E]">
-                Intake Parameters Summary
+              <span className="text-xs font-semibold text-slate-700">
+                Menu Specifications
               </span>
             </div>
             <Link
               to="/build-menu"
-              className="text-xs font-bold text-[#C85419] hover:underline flex items-center gap-1"
+              className="text-xs font-semibold text-[#C85419] hover:underline flex items-center gap-1"
             >
               <Edit3 className="w-3.5 h-3.5" />
-              <span>Edit Intake</span>
+              <span>Edit Preferences</span>
             </Link>
           </div>
 

@@ -5,7 +5,7 @@ import PartnerCard from '../components/PartnerCard';
 import FilterDropdown from '../components/ui/FilterDropdown';
 import { api } from '../lib/apiClient';
 import { FALLBACK_PARTNERS } from '../lib/fallbackData';
-import { Search, X, SlidersHorizontal, RefreshCw, AlertCircle, Sparkles, Building2, CheckCircle2 } from 'lucide-react';
+import { Search, X, SlidersHorizontal, Building2 } from 'lucide-react';
 
 const CUISINE_OPTIONS = [
   { value: 'ALL', label: 'All Cuisines' },
@@ -16,28 +16,7 @@ const CUISINE_OPTIONS = [
   { value: 'Street Food & Chaat', label: 'Street Food & Chaat' },
   { value: 'Desserts & Ice Creams', label: 'Desserts & Ice Creams' },
   { value: 'Beverages & Shakes', label: 'Beverages & Shakes' },
-  { value: 'Paan & After-Mints', label: 'Paan & After-Mints' },
   { value: 'Appetizers & Snacks', label: 'Appetizers & Snacks' },
-];
-
-const CATEGORY_OPTIONS = [
-  { value: 'ALL', label: 'All Categories' },
-  { value: 'Biryani', label: 'Dum Biryani' },
-  { value: 'Starters', label: 'Artisanal Starters' },
-  { value: 'Mains', label: 'Royal Mains' },
-  { value: 'Desserts', label: 'Heritage Desserts' },
-  { value: 'Beverages', label: 'Shakes & Chai' },
-  { value: 'Paan', label: 'Royal Paan' },
-];
-
-const OCCASION_OPTIONS = [
-  { value: 'ALL', label: 'All Occasions' },
-  { value: 'Wedding', label: 'Weddings & Banquets' },
-  { value: 'Birthday', label: 'Milestone Birthdays' },
-  { value: 'Family', label: 'Family Gatherings' },
-  { value: 'Corporate', label: 'Corporate Dining' },
-  { value: 'Cocktail', label: 'Cocktail Soirees' },
-  { value: 'Festival', label: 'Festive Feasts' },
 ];
 
 const LOCATION_OPTIONS = [
@@ -52,7 +31,7 @@ const LOCATION_OPTIONS = [
 ];
 
 const SORT_OPTIONS = [
-  { value: 'featured', label: 'Featured Masters' },
+  { value: 'featured', label: 'Featured' },
   { value: 'heritage', label: 'Oldest Heritage (Est.)' },
   { value: 'name-asc', label: 'Name (A to Z)' },
   { value: 'name-desc', label: 'Name (Z to A)' },
@@ -61,13 +40,11 @@ const SORT_OPTIONS = [
 export default function ExplorePage() {
   const [partners, setPartners] = useState(FALLBACK_PARTNERS);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [_error, setError] = useState(null);
 
   const [searchQuery, setSearchQuery] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState('');
   const [selectedCuisine, setSelectedCuisine] = useState('ALL');
-  const [selectedCategory, setSelectedCategory] = useState('ALL');
-  const [selectedOccasion, setSelectedOccasion] = useState('ALL');
   const [selectedLocation, setSelectedLocation] = useState('ALL');
   const [sortBy, setSortBy] = useState('featured');
 
@@ -152,12 +129,6 @@ export default function ExplorePage() {
   if (selectedCuisine !== 'ALL') {
     activeChips.push({ id: 'cuisine', label: `Cuisine: ${selectedCuisine}`, clear: () => setSelectedCuisine('ALL') });
   }
-  if (selectedCategory !== 'ALL') {
-    activeChips.push({ id: 'category', label: `Category: ${selectedCategory}`, clear: () => setSelectedCategory('ALL') });
-  }
-  if (selectedOccasion !== 'ALL') {
-    activeChips.push({ id: 'occasion', label: `Occasion: ${selectedOccasion}`, clear: () => setSelectedOccasion('ALL') });
-  }
   if (selectedLocation !== 'ALL') {
     activeChips.push({ id: 'location', label: `Location: ${selectedLocation}`, clear: () => setSelectedLocation('ALL') });
   }
@@ -166,48 +137,41 @@ export default function ExplorePage() {
     setSearchQuery('');
     setDebouncedSearch('');
     setSelectedCuisine('ALL');
-    setSelectedCategory('ALL');
-    setSelectedOccasion('ALL');
     setSelectedLocation('ALL');
     setSortBy('featured');
   };
 
   return (
-    <div className="min-h-screen bg-[#FCFBF7] text-slate-900">
-      {/* Luxury Porcelain Editorial Header */}
-      <section className="relative bg-gradient-to-b from-white via-[#FCFBF7] to-[#F6F4EE] pt-28 pb-12 sm:pb-16 px-4 sm:px-6 lg:px-8 border-b border-[#E8E5DD] overflow-hidden">
-        {/* Subtle Ambient Glows */}
-        <div className="absolute top-10 left-1/4 w-96 h-96 bg-brand-forest/5 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-brand-terracotta/5 rounded-full blur-3xl pointer-events-none" />
-
-        <div className="max-w-7xl mx-auto relative z-10">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-terracotta/10 text-brand-terracotta border border-brand-terracotta/20 text-xs font-bold uppercase tracking-widest mb-4">
-            <Sparkles className="w-3.5 h-3.5 text-brand-terracotta" />
-            <span>The Curation Hub • Hyderabad Atelier Guild</span>
-          </div>
-          <h1 className="font-serif text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight text-slate-900 max-w-3xl leading-tight">
-            Discover Your Next Culinary Moment
+    <div className="min-h-screen bg-[#FAF8F5] text-slate-900">
+      {/* Header */}
+      <section className="bg-white pt-28 pb-12 sm:pb-14 px-4 sm:px-6 lg:px-8 border-b border-[#EAE5DC]">
+        <div className="max-w-7xl mx-auto">
+          <span className="text-xs font-bold uppercase tracking-wider text-[#C85419] block mb-2">
+            Curated Restaurants
+          </span>
+          <h1 className="font-serif text-3xl sm:text-5xl font-bold tracking-tight text-slate-900 leading-tight">
+            Discover Partner Restaurants
           </h1>
-          <p className="mt-3 text-slate-600 text-sm sm:text-base max-w-2xl font-normal leading-relaxed">
-            Direct access to Hyderabad&apos;s verified culinary institutions. Explore heirloom menus, kitchen heritage, and banquet specialties.
+          <p className="mt-2 text-slate-600 text-sm sm:text-base max-w-2xl font-normal leading-relaxed">
+            Order authentic specialties directly from Hyderabad&apos;s verified restaurants and bakeries for your next gathering.
           </p>
         </div>
       </section>
 
       {/* Main Content Area */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
         {/* Search & Filters Bar */}
-        <div className="bg-white p-4 sm:p-5 rounded-3xl border border-[#EDE8DF] shadow-sm mb-8 flex flex-col gap-4">
+        <div className="bg-white p-4 sm:p-5 rounded-2xl border border-[#EAE5DC] shadow-xs mb-8 flex flex-col gap-4">
           {/* Top Search Line */}
           <div className="flex items-center gap-3">
             <div className="relative flex-1">
               <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
               <input
                 type="text"
-                placeholder="Search kitchens, signature dishes or cuisines..."
+                placeholder="Search restaurants, signature dishes, or cuisines..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-10 py-3 bg-slate-50/80 rounded-xl border border-slate-200 focus:outline-none focus:border-brand-forest text-sm text-slate-900 placeholder-slate-400 font-medium"
+                className="w-full pl-10 pr-10 py-2.5 bg-[#FAF8F5] rounded-lg border border-[#EAE5DC] focus:outline-none focus:border-[#0D2418] text-sm text-slate-900 placeholder-slate-400"
               />
               {searchQuery && (
                 <button
@@ -223,12 +187,12 @@ export default function ExplorePage() {
             {/* Mobile Filter Drawer Trigger */}
             <button
               onClick={() => setMobileFiltersOpen(true)}
-              className="lg:hidden px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 flex items-center gap-2 hover:bg-slate-100"
+              className="lg:hidden px-3.5 py-2.5 bg-[#FAF8F5] border border-[#EAE5DC] rounded-lg text-xs font-semibold text-slate-700 flex items-center gap-2 hover:bg-slate-100"
             >
-              <SlidersHorizontal className="w-4 h-4 text-brand-terracotta" />
+              <SlidersHorizontal className="w-4 h-4 text-[#C85419]" />
               <span>Filters</span>
               {activeChips.length > 0 && (
-                <span className="w-5 h-5 rounded-full bg-brand-terracotta text-white text-[10px] font-bold flex items-center justify-center">
+                <span className="w-4 h-4 rounded-full bg-[#C85419] text-white text-[10px] font-bold flex items-center justify-center">
                   {activeChips.length}
                 </span>
               )}
@@ -236,24 +200,12 @@ export default function ExplorePage() {
           </div>
 
           {/* Desktop Filter Dropdowns Row */}
-          <div className="hidden lg:flex items-center gap-3 flex-wrap pt-1 border-t border-slate-100">
+          <div className="hidden lg:flex items-center gap-3 flex-wrap pt-2 border-t border-slate-100">
             <FilterDropdown
               label="Cuisine"
               options={CUISINE_OPTIONS}
               value={selectedCuisine}
               onChange={setSelectedCuisine}
-            />
-            <FilterDropdown
-              label="Category"
-              options={CATEGORY_OPTIONS}
-              value={selectedCategory}
-              onChange={setSelectedCategory}
-            />
-            <FilterDropdown
-              label="Occasion"
-              options={OCCASION_OPTIONS}
-              value={selectedOccasion}
-              onChange={setSelectedOccasion}
             />
             <FilterDropdown
               label="Location"
@@ -276,21 +228,21 @@ export default function ExplorePage() {
           {/* Active Filter Chips */}
           {activeChips.length > 0 && (
             <div className="flex items-center gap-2 flex-wrap pt-2 border-t border-slate-100">
-              <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Active:</span>
+              <span className="text-xs font-semibold text-slate-400">Active:</span>
               {activeChips.map((chip) => (
                 <span
                   key={chip.id}
-                  className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-orange-50 text-brand-terracotta border border-brand-terracotta/20"
+                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium bg-orange-50 text-[#C85419] border border-[#FCD4BC]"
                 >
                   <span>{chip.label}</span>
-                  <button onClick={chip.clear} className="hover:text-red-600">
+                  <button onClick={chip.clear} className="hover:text-red-700">
                     <X className="w-3 h-3" />
                   </button>
                 </span>
               ))}
               <button
                 onClick={clearAllFilters}
-                className="text-xs text-slate-500 hover:text-slate-900 font-bold underline ml-1"
+                className="text-xs text-slate-600 hover:text-slate-900 font-medium underline ml-1"
               >
                 Clear All
               </button>
@@ -301,35 +253,32 @@ export default function ExplorePage() {
         {/* Counter Summary */}
         <div className="flex items-center justify-between mb-6">
           <div className="text-xs font-medium text-slate-500">
-            Showing <strong className="text-slate-900 font-bold">{filteredPartners.length}</strong> verified culinary ateliers
-          </div>
-          <div className="text-xs text-slate-400 hidden sm:block">
-            All partners verified for authentic Hyderabad provenance
+            Showing <strong className="text-slate-900 font-semibold">{filteredPartners.length}</strong> partner restaurants
           </div>
         </div>
 
         {/* Partners Grid */}
         {loading ? (
           <div className="py-20 flex flex-col items-center justify-center">
-            <div className="w-10 h-10 border-3 border-brand-forest border-t-transparent rounded-full animate-spin mb-4" />
-            <p className="text-xs uppercase font-bold tracking-widest text-slate-500">Curating Ateliers...</p>
+            <div className="w-8 h-8 border-2 border-[#0D2418] border-t-transparent rounded-full animate-spin mb-3" />
+            <p className="text-xs font-medium text-slate-500">Loading restaurants...</p>
           </div>
         ) : filteredPartners.length === 0 ? (
-          <div className="bg-white rounded-2xl border border-slate-200/80 p-12 text-center max-w-md mx-auto shadow-card-soft">
-            <Building2 className="w-12 h-12 text-brand-terracotta mx-auto mb-3 opacity-80" />
-            <h3 className="font-serif font-bold text-lg text-slate-900 mb-1">No Matching Ateliers Found</h3>
-            <p className="text-xs text-slate-500 mb-6 leading-relaxed">
-              We couldn't locate any kitchens matching your active filter combination. Try clearing some filters.
+          <div className="bg-white rounded-2xl border border-[#EAE5DC] p-10 text-center max-w-md mx-auto shadow-xs">
+            <Building2 className="w-10 h-10 text-slate-400 mx-auto mb-3" />
+            <h3 className="font-serif font-bold text-base text-slate-900 mb-1">No Restaurants Found</h3>
+            <p className="text-xs text-slate-500 mb-5 leading-relaxed">
+              We couldn&apos;t find any restaurants matching your current filter combination.
             </p>
             <button
               onClick={clearAllFilters}
-              className="btn-accent px-5 py-2.5 rounded-xl text-xs uppercase tracking-wider font-bold"
+              className="px-4 py-2 rounded-lg bg-[#C85419] text-white text-xs font-semibold"
             >
-              Reset All Filters
+              Reset Filters
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredPartners.map((partner) => (
               <PartnerCard key={partner.id || partner.slug} partner={partner} />
             ))}
@@ -341,13 +290,13 @@ export default function ExplorePage() {
       {mobileFiltersOpen && (
         <div className="fixed inset-0 z-50 lg:hidden">
           <div
-            className="fixed inset-0 bg-slate-900/40 backdrop-blur-xs"
+            className="fixed inset-0 bg-black/50"
             onClick={() => setMobileFiltersOpen(false)}
           />
-          <div className="fixed inset-y-0 right-0 max-w-xs w-full bg-white p-6 shadow-2xl flex flex-col justify-between overflow-y-auto">
+          <div className="fixed inset-y-0 right-0 max-w-xs w-full bg-white p-6 shadow-xl flex flex-col justify-between overflow-y-auto">
             <div className="space-y-6">
               <div className="flex items-center justify-between pb-4 border-b border-slate-100">
-                <h3 className="font-serif font-bold text-lg text-slate-900">Filter Kitchens</h3>
+                <h3 className="font-serif font-bold text-base text-slate-900">Filter Restaurants</h3>
                 <button onClick={() => setMobileFiltersOpen(false)} className="p-1 text-slate-400 hover:text-slate-700">
                   <X className="w-5 h-5" />
                 </button>
@@ -355,11 +304,11 @@ export default function ExplorePage() {
 
               <div className="space-y-4">
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">Cuisine</label>
+                  <label className="block text-xs font-semibold text-slate-700 mb-1.5">Cuisine</label>
                   <select
                     value={selectedCuisine}
                     onChange={(e) => setSelectedCuisine(e.target.value)}
-                    className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium"
+                    className="w-full p-2.5 bg-[#FAF8F5] border border-[#EAE5DC] rounded-lg text-xs font-medium text-slate-800"
                   >
                     {CUISINE_OPTIONS.map((o) => (
                       <option key={o.value} value={o.value}>{o.label}</option>
@@ -368,37 +317,11 @@ export default function ExplorePage() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">Category</label>
-                  <select
-                    value={selectedCategory}
-                    onChange={(e) => setSelectedCategory(e.target.value)}
-                    className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium"
-                  >
-                    {CATEGORY_OPTIONS.map((o) => (
-                      <option key={o.value} value={o.value}>{o.label}</option>
-                    ))}
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">Occasion</label>
-                  <select
-                    value={selectedOccasion}
-                    onChange={(e) => setSelectedOccasion(e.target.value)}
-                    className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium"
-                  >
-                    {OCCASION_OPTIONS.map((o) => (
-                      <option key={o.value} value={o.value}>{o.label}</option>
-                    ))}
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">Location</label>
+                  <label className="block text-xs font-semibold text-slate-700 mb-1.5">Location</label>
                   <select
                     value={selectedLocation}
                     onChange={(e) => setSelectedLocation(e.target.value)}
-                    className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium"
+                    className="w-full p-2.5 bg-[#FAF8F5] border border-[#EAE5DC] rounded-lg text-xs font-medium text-slate-800"
                   >
                     {LOCATION_OPTIONS.map((o) => (
                       <option key={o.value} value={o.value}>{o.label}</option>
@@ -407,11 +330,11 @@ export default function ExplorePage() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">Sort By</label>
+                  <label className="block text-xs font-semibold text-slate-700 mb-1.5">Sort By</label>
                   <select
                     value={sortBy}
                     onChange={(e) => setSortBy(e.target.value)}
-                    className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium"
+                    className="w-full p-2.5 bg-[#FAF8F5] border border-[#EAE5DC] rounded-lg text-xs font-medium text-slate-800"
                   >
                     {SORT_OPTIONS.map((o) => (
                       <option key={o.value} value={o.value}>{o.label}</option>
@@ -424,13 +347,13 @@ export default function ExplorePage() {
             <div className="pt-6 border-t border-slate-100 flex gap-3">
               <button
                 onClick={clearAllFilters}
-                className="w-1/2 py-2.5 border border-slate-200 rounded-xl text-xs font-bold text-slate-600 hover:bg-slate-50"
+                className="w-1/2 py-2.5 border border-[#EAE5DC] rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-50"
               >
                 Clear
               </button>
               <button
                 onClick={() => setMobileFiltersOpen(false)}
-                className="btn-accent w-1/2 py-2.5 rounded-xl text-xs font-bold"
+                className="w-1/2 py-2.5 bg-[#C85419] text-white rounded-lg text-xs font-semibold"
               >
                 Apply
               </button>
@@ -438,7 +361,6 @@ export default function ExplorePage() {
           </div>
         </div>
       )}
-
     </div>
   );
 }

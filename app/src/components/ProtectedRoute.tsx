@@ -32,8 +32,8 @@ export default function ProtectedRoute({
   if (loading) {
     return (
       <div className="py-24 text-center">
-        <div className="w-8 h-8 border-2 border-primary-container border-t-transparent rounded-full animate-spin mx-auto mb-2" />
-        <span className="text-xs uppercase font-semibold text-secondary">Verifying Atelier Session...</span>
+        <div className="w-8 h-8 border-2 border-[#0D2418] border-t-transparent rounded-full animate-spin mx-auto mb-2" />
+        <span className="text-xs uppercase font-bold tracking-wider text-slate-500">Verifying Session...</span>
       </div>
     );
   }

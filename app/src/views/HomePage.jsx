@@ -1,24 +1,21 @@
 'use client';
 
 import React, { useState, useEffect, useMemo } from 'react';
-import { Link, useNavigate } from '../lib/navigation';
+import { Link } from '../lib/navigation';
 import { api } from '../lib/apiClient';
 import PartnerCard from '../components/PartnerCard';
 import {
   ArrowRight,
-  Sparkles,
   ShieldCheck,
   Clock,
   Users,
-  Flame,
-  Compass,
   UtensilsCrossed,
   Award,
-  ChefHat,
   CheckCircle2,
-  Star,
-  Zap,
+  Check,
   Sliders,
+  Calendar,
+  Sparkles,
 } from 'lucide-react';
 
 export default function HomePage() {
@@ -52,113 +49,73 @@ export default function HomePage() {
         id: 'birthday',
         slug: 'birthday-celebration',
         title: 'Birthday Celebration',
-        tagline: 'Milestone moments with interactive live chaat & custom gateaux.',
-        description: 'Interactive live chaat stations, decadent chocolate gateaux, and artisanal street snacks.',
-        badge: 'Top Pick',
-        badgeColor: 'bg-amber-500/90 text-slate-950 border-amber-300/40',
+        tagline: 'Interactive live counters and artisanal desserts.',
+        description: 'Street chaat stations, rich chocolate gateaux, and savory appetizers crafted for celebration.',
+        badge: 'Popular',
         guestRange: '15 – 100 Guests',
         image: '/occasions/birthday-celebration.jpg',
-        sampleCourses: '6 Courses • Live Chaat • Gateaux',
-        brands: 'Maharaja Chaat • Shadab • Chocolate Room',
-        category: 'Celebration',
-      },
-      {
-        id: 'anniversary',
-        slug: 'anniversary-evening',
-        title: 'Anniversary Soirée',
-        tagline: 'Regal intimate dining with slow-simmered heritage courses.',
-        description: 'Intimate celebratory dining with royal Nizami slow-steamed courses and single-origin cacao.',
-        badge: 'Fine Dining',
-        badgeColor: 'bg-emerald-800/90 text-emerald-100 border-emerald-400/30',
-        guestRange: '10 – 100 Guests',
-        image: '/occasions/anniversary-evening.jpg',
-        sampleCourses: '7 Courses • Silver-Vark • Cacao',
-        brands: 'Hotel Shadab • Manam • Niloufer',
-        category: 'Fine Dining',
+        sampleCourses: '6 Courses • Chaat • Gateaux',
+        brands: 'Maharaja Chaat, Hotel Shadab, Manam',
       },
       {
         id: 'family',
         slug: 'family-gathering',
         title: 'Family Gathering',
-        tagline: 'Generational comfort fare uniting all palates around one spread.',
-        description: 'Grand shared handi biryanis, pure ghee sweets, and Segregated pure vegetarian courses.',
-        badge: 'Popular',
-        badgeColor: 'bg-orange-600/90 text-white border-orange-300/30',
+        tagline: 'Generational comfort favorites for the whole family.',
+        description: 'Authentic handi biryanis, pure ghee sweets, and segregated pure vegetarian courses.',
+        badge: 'Family Favorite',
         guestRange: '12 – 80 Guests',
         image: '/occasions/family-gathering.jpg',
-        sampleCourses: '8 Courses • Pure Ghee • Sweets',
-        brands: 'Shadab • Almond House • Samosa King',
-        category: 'Gathering',
+        sampleCourses: '8 Courses • Biryani • Sweets',
+        brands: 'Hotel Shadab, Almond House, Samosa King',
       },
       {
         id: 'corporate',
         slug: 'corporate-feast',
         title: 'Corporate Feast',
-        tagline: 'Refined boardroom catering and executive galas.',
-        description: 'Executive luncheons, single-serve curated bento boxes, and royal Irani tea lounges.',
-        badge: 'Executive',
-        badgeColor: 'bg-slate-800/90 text-slate-100 border-white/20',
+        tagline: 'Professional executive catering and boardroom lunches.',
+        description: 'Curated executive meal boxes, savory starters, and authentic Irani high-tea spreads.',
+        badge: 'Corporate',
         guestRange: '20 – 100 Guests',
         image: '/occasions/corporate-feast.jpg',
-        sampleCourses: 'Executive Boxes • Curated Menus',
-        brands: 'Hotel Shadab • Niloufer • Karachi Bakery',
-        category: 'Corporate',
+        sampleCourses: 'Curated Boxes • High Tea',
+        brands: 'Cafe Niloufer, Hotel Shadab, Karachi Bakery',
       },
       {
-        id: 'romantic',
-        slug: 'romantic-dinner',
-        title: 'Intimate Degustation',
-        tagline: 'Private candlelit residence dining with silver-vark service.',
-        description: 'Private candlelit dining with silver-vark delicacies, slow-cooked broths, and artisanal paan.',
-        badge: 'Bespoke',
-        badgeColor: 'bg-rose-900/90 text-rose-100 border-rose-400/30',
-        guestRange: '2 – 12 Guests',
-        image: '/occasions/intimate-degustation.jpg',
-        sampleCourses: '5 Courses • Butler Pairing',
-        brands: 'Hotel Shadab • Manam • Dimmy Pan',
-        category: 'Fine Dining',
+        id: 'anniversary',
+        slug: 'anniversary-evening',
+        title: 'Anniversary Soirée',
+        tagline: 'Intimate fine dining with classic heritage recipes.',
+        description: 'Slow-cooked Nizami delicacies, aromatic kebabs, and single-origin craft chocolate desserts.',
+        badge: 'Fine Dining',
+        guestRange: '10 – 50 Guests',
+        image: '/occasions/anniversary-evening.jpg',
+        sampleCourses: '7 Courses • Mughlai & Desserts',
+        brands: 'Hotel Shadab, Manam Chocolate, Cafe Niloufer',
       },
       {
         id: 'festival',
         slug: 'festival-celebration',
         title: 'Festive Banquet',
-        tagline: 'Ceremonial holiday feasts with pure ghee sweets.',
-        description: 'Time-honored pure ghee sweets, ceremonial festive handis, and segregate Jain options.',
-        badge: 'Heritage',
-        badgeColor: 'bg-amber-600/90 text-white border-amber-300/30',
+        tagline: 'Traditional festive feasts with pure ghee specialties.',
+        description: 'Celebratory handi curries, ceremonial pure ghee mithai, and dedicated Jain selections.',
+        badge: 'Festive',
         guestRange: '20 – 100 Guests',
         image: '/occasions/festive-banquet.jpg',
-        sampleCourses: 'Pure Veg / Jain • Heritage Sweets',
-        brands: 'Almond House • Shadab • Maharaja Chaat',
-        category: 'Gathering',
+        sampleCourses: 'Pure Veg / Jain Available',
+        brands: 'Almond House, Maharaja Chaat, Hotel Shadab',
       },
       {
         id: 'weekend',
         slug: 'weekend-celebration',
         title: 'Weekend Party',
-        tagline: 'High-energy weekend bashes with live charcoal grills.',
-        description: 'Golden party snack buckets, artisan thick shakes, and midnight steaming dum pots.',
-        badge: 'Vibrant',
-        badgeColor: 'bg-emerald-700/90 text-white border-emerald-300/30',
+        tagline: 'Casual house party spreads with sliders and shakes.',
+        description: 'Finger food platters, crispy cocktail appetizers, and organic fruit ice creams.',
+        badge: 'Casual',
         guestRange: '15 – 60 Guests',
         image: '/occasions/weekend-party.jpg',
-        sampleCourses: 'Skewers • Chaat • Mocktails',
-        brands: 'Samosa King • Ice Berg • Shadab',
-        category: 'Celebration',
-      },
-      {
-        id: 'custom',
-        slug: 'custom-occasion',
-        title: 'Custom Experience',
-        tagline: 'Your unique vision, architected course-by-course.',
-        description: 'Your unique vision architected across 8+ heritage kitchens with dedicated banquet staging.',
-        badge: 'Tailored',
-        badgeColor: 'bg-[#C85419] text-white border-amber-300/40',
-        guestRange: 'Bespoke Scale',
-        image: '/occasions/custom-experience.jpg',
-        sampleCourses: 'Bespoke Menu • Multi-Kitchen Curation',
-        brands: 'All Atelier Kitchens • Dedicated Staging',
-        category: 'Bespoke',
+        sampleCourses: 'Cocktail Starters • Desserts',
+        brands: 'Samosa King, Ice Berg, Cafe Niloufer',
       },
     ],
     []
@@ -169,7 +126,7 @@ export default function HomePage() {
       id: 'ptr_niloufer',
       slug: 'cafe-niloufer',
       businessName: 'Cafe Niloufer',
-      cuisine: 'Irani & Bakery',
+      cuisine: 'Irani Chai & Bakery',
       location: 'Lakdikapul / Banjara Hills',
       description: "Since 1978, Cafe Niloufer has defined Hyderabad's quintessential Irani chai and bakery culture.",
       coverImageUrl: '/dishes/cafe-niloufer-chai-bun.jpg',
@@ -180,30 +137,10 @@ export default function HomePage() {
       slug: 'hotel-shadab',
       businessName: 'Hotel Shadab',
       cuisine: 'Hyderabadi & Mughlai',
-      location: 'Ghansi Bazaar / Old City',
-      description: 'Near the historic Charminar since 1953, producing legendary slow-cooked Nizami Mutton Dum Biryani.',
+      location: 'Old City / Near Charminar',
+      description: 'Near historic Charminar since 1953, known for authentic slow-cooked Nizami Dum Biryani.',
       coverImageUrl: '/dishes/shadab-kaju-paneer-biryani.png',
       established: 1953,
-    },
-    {
-      id: 'ptr_samosasingh',
-      slug: 'samosa-king',
-      businessName: 'Samosa King',
-      cuisine: 'Appetizers & Chaat',
-      location: 'Hitec City / Gachibowli',
-      description: "Reinventing India's favorite snack with golden handcrafted cocktail samosas and chutneys.",
-      coverImageUrl: '/dishes/samosa-king-gourmet.jpg',
-      established: 2016,
-    },
-    {
-      id: 'ptr_manam',
-      slug: 'manam-chocolate',
-      businessName: 'Manam Chocolate',
-      cuisine: 'Artisanal Confectionery',
-      location: 'Road No. 12, Banjara Hills',
-      description: 'Award-winning craft chocolate atelier transforming West Godavari cacao into single-origin bars.',
-      coverImageUrl: '/dishes/manam-craft-truffles.jpg',
-      established: 2022,
     },
     {
       id: 'ptr_almondhouse',
@@ -211,66 +148,81 @@ export default function HomePage() {
       businessName: 'Almond House',
       cuisine: 'Royal Indian Sweets',
       location: 'Himayatnagar / Jubilee Hills',
-      description: 'Master confectioners renowned for pure ghee Gulab Jamun, Badam Halwa, and royal mithai.',
+      description: 'Master confectioners renowned for pure ghee mithai, badam halwa, and traditional sweets.',
       coverImageUrl: '/dishes/almond-house-mithai.jpg',
       established: 1989,
+    },
+    {
+      id: 'ptr_manam',
+      slug: 'manam-chocolate',
+      businessName: 'Manam Chocolate',
+      cuisine: 'Artisanal Confectionery',
+      location: 'Banjara Hills',
+      description: 'Award-winning craft chocolate maker transforming Indian cacao into single-origin bars.',
+      coverImageUrl: '/dishes/manam-craft-truffles.jpg',
+      established: 2022,
+    },
+    {
+      id: 'ptr_samosasingh',
+      slug: 'samosa-king',
+      businessName: 'Samosa King',
+      cuisine: 'Appetizers & Chaat',
+      location: 'Hitec City / Gachibowli',
+      description: 'Handcrafted cocktail samosas, crispy savory snacks, and freshly made dipping chutneys.',
+      coverImageUrl: '/dishes/samosa-king-gourmet.jpg',
+      established: 2016,
     },
     {
       id: 'ptr_iceberg',
       slug: 'ice-berg',
       businessName: 'Ice Berg',
-      cuisine: 'Desserts & Ice Creams',
+      cuisine: 'Organic Ice Creams',
       location: 'Jubilee Hills / Madhapur',
-      description: 'Organic handcrafted ice creams made with real seasonal fruits like Sitaphal and tender coconut.',
+      description: 'Handcrafted organic ice creams made with real seasonal fruits like Sitaphal and tender coconut.',
       coverImageUrl: '/dishes/ice-berg-gelato-cup.jpg',
       established: 2012,
     },
   ];
 
   return (
-    <div className="flex flex-col w-full bg-[#FAF8F5] text-slate-900 selection:bg-[#C85419] selection:text-white overflow-x-hidden">
+    <div className="flex flex-col w-full bg-[#FAF8F5] text-slate-900 selection:bg-[#C85419] selection:text-white">
       {/* ============================================================ */}
-      {/* SECTION 1 — HERO                                             */}
+      {/* SECTION 1 — CLEAN EDITORIAL HERO                             */}
       {/* ============================================================ */}
-      <section className="relative w-full min-h-[92vh] flex flex-col items-center justify-center bg-[#07190F] text-white pt-28 pb-20 px-4 md:px-8 overflow-hidden">
-        {/* Luxury Atmospheric Banquet Visual & Elegant Vignette */}
+      <section className="relative w-full min-h-[85vh] flex flex-col items-center justify-center bg-[#0D2418] text-white pt-32 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
+        {/* Clean Background Visual with natural contrast */}
         <div className="absolute inset-0 z-0 overflow-hidden">
           <img
             src="/hero-luxury-banquet.jpg"
-            alt="Bespoke Luxury Fine-Dining Banquet"
-            className="w-full h-full object-cover object-center brightness-[0.92] contrast-[1.05] scale-100"
+            alt="Event Catering Spread"
+            className="w-full h-full object-cover object-center brightness-[0.4] contrast-[1.05]"
           />
-          {/* Subtle cinematic gradient overlays for pristine text readability */}
-          <div className="absolute inset-0 bg-gradient-to-t from-[#07190F] via-[#07190F]/45 to-[#07190F]/70" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_transparent_20%,_rgba(7,25,15,0.75)_100%)]" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0D2418] via-[#0D2418]/60 to-[#0D2418]/40" />
         </div>
 
         {/* Hero Content */}
-        <div className="relative z-10 max-w-5xl mx-auto text-center flex flex-col items-center">
-          {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-amber-400/25 text-amber-200 text-xs font-semibold uppercase tracking-widest mb-6 shadow-sm">
-            <Sparkles className="w-3.5 h-3.5 text-[#C85419]" />
-            <span>Hyderabad Atelier Guild • Curated Heritage Masters</span>
+        <div className="relative z-10 max-w-4xl mx-auto text-center flex flex-col items-center">
+          {/* Tag */}
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-sm border border-white/15 text-amber-200 text-xs font-semibold tracking-wide mb-6">
+            <span>Hyderabad&apos;s Iconic Restaurants • One Event Order</span>
           </div>
 
           {/* Master Headline */}
-          <h1 className="font-serif text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight text-white leading-[1.08] mb-6 drop-shadow-lg">
-            Your Favorite Food, <br className="hidden sm:block" />
-            <span className="text-amber-100">
-              Tailored For Every Moment.
-            </span>
+          <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-white leading-[1.12] mb-6">
+            Food from your favorite restaurants, <br className="hidden sm:inline" />
+            tailored for your event.
           </h1>
 
           {/* Subtitle */}
-          <p className="text-base sm:text-lg md:text-xl text-slate-200/90 max-w-2xl mb-10 font-normal leading-relaxed drop-shadow-md">
-            Discover Hyderabad&apos;s finest culinary heritage brands and orchestrate a synchronized multi-kitchen banquet calibrated to your guest count.
+          <p className="text-base sm:text-lg text-slate-200/95 max-w-2xl mb-8 leading-relaxed font-normal">
+            Combine signature dishes from Cafe Niloufer, Hotel Shadab, Almond House, and more into one seamless, custom event menu.
           </p>
 
-          {/* Luxury Action CTAs */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full max-w-md">
+          {/* Action CTAs */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5 w-full max-w-sm mb-12">
             <Link
               to="/build-menu"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-3.5 rounded-xl bg-[#C85419] hover:bg-[#A33E00] text-white text-sm font-bold tracking-wide shadow-xl shadow-black/30 border border-amber-400/20 hover:-translate-y-0.5 active:translate-y-0 transition-all"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3 rounded-lg bg-[#C85419] hover:bg-[#B34710] text-white text-sm font-semibold tracking-normal transition-all shadow-md"
             >
               <span>Build My Menu</span>
               <ArrowRight className="w-4 h-4" />
@@ -278,310 +230,199 @@ export default function HomePage() {
 
             <Link
               to="/partners"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-3.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-sm font-bold tracking-wide backdrop-blur-md border border-white/25 shadow-lg hover:-translate-y-0.5 active:translate-y-0 transition-all"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3 rounded-lg bg-white/10 hover:bg-white/20 text-white text-sm font-semibold tracking-normal border border-white/20 backdrop-blur-sm transition-all"
             >
-              <span>Explore Partners</span>
+              <span>Explore Restaurants</span>
             </Link>
+          </div>
+
+          {/* Trust Highlights Bar */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 pt-6 border-t border-white/10 w-full max-w-3xl text-left">
+            <div className="flex items-center gap-2.5 text-xs text-slate-300">
+              <Check className="w-4 h-4 text-emerald-400 shrink-0" />
+              <span>Multiple restaurants on 1 bill</span>
+            </div>
+            <div className="flex items-center gap-2.5 text-xs text-slate-300">
+              <Check className="w-4 h-4 text-emerald-400 shrink-0" />
+              <span>Strict Veg & Non-Veg segregation</span>
+            </div>
+            <div className="flex items-center gap-2.5 text-xs text-slate-300">
+              <Check className="w-4 h-4 text-emerald-400 shrink-0" />
+              <span>Accurate per-guest portions</span>
+            </div>
+            <div className="flex items-center gap-2.5 text-xs text-slate-300">
+              <Check className="w-4 h-4 text-emerald-400 shrink-0" />
+              <span>Synchronized event delivery</span>
+            </div>
           </div>
         </div>
       </section>
 
       {/* ============================================================ */}
-      {/* SECTION 2 — HOW IT WORKS (FOUR-STAGE CURATION)                */}
+      {/* SECTION 2 — HOW IT WORKS (CLEAN 4 STEPS)                     */}
       {/* ============================================================ */}
-      <section className="py-20 md:py-28 bg-[#F6F4EE] border-b border-[#E8E5DD]">
-        <div className="max-w-7xl mx-auto px-4 md:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <span className="text-xs uppercase font-bold tracking-[0.2em] text-[#C85419] block mb-2">
-              The Four-Stage Curation
+      <section className="py-16 sm:py-24 bg-white border-b border-[#EAE5DC]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-2xl mx-auto mb-14">
+            <span className="text-xs font-bold uppercase tracking-wider text-[#C85419] block mb-2">
+              Simple 4-Step Process
             </span>
-            <h2 className="font-serif text-3xl sm:text-5xl font-extrabold text-[#0D381E] tracking-tight">
+            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight">
               How Food Tailor Works
             </h2>
-            <div className="w-12 h-1 bg-[#C85419] rounded-full my-4 mx-auto" />
-            <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
-              From initial guest intake to the final toast, we synchronize Hyderabad&apos;s culinary legends onto one seamless table.
+            <p className="text-sm text-slate-600 mt-3 leading-relaxed">
+              Order signature specialties across multiple iconic kitchens in a single, coordinated experience.
             </p>
           </div>
 
-          {/* 4-Step Illustrated Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {/* STEP 01 */}
-            <div className="bg-white p-7 rounded-2xl border border-[#EDE8DF] hover:border-emerald-700/40 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col items-center text-center group">
-              <div className="w-14 h-14 rounded-2xl bg-orange-50 text-[#C85419] flex items-center justify-center mb-5 group-hover:scale-110 transition-transform shadow-xs">
-                <i className="bi bi-calendar-event text-2xl" />
+          {/* 4 Steps Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {/* Step 1 */}
+            <div className="p-6 rounded-2xl bg-[#FAF8F5] border border-[#EAE5DC] flex flex-col justify-between">
+              <div>
+                <span className="text-2xl font-serif font-bold text-[#C85419] mb-4 block">01</span>
+                <h3 className="font-serif text-lg font-bold text-slate-900 mb-2">
+                  Share Your Event
+                </h3>
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  Select your celebration type, date, delivery location, and guest count (from 10 to 100+ guests).
+                </p>
               </div>
-              <span className="text-[11px] font-bold text-[#C85419] tracking-widest uppercase mb-1">
-                STEP 01
-              </span>
-              <h3 className="font-serif text-lg font-bold text-[#0D381E] mb-2">
-                Tell us your moment.
-              </h3>
-              <p className="text-xs text-slate-500 leading-relaxed">
-                Select your occasion, date, venue location, and guest count. Whether an intimate dinner or a 100-guest banquet.
-              </p>
             </div>
 
-            {/* STEP 02 */}
-            <div className="bg-white p-7 rounded-2xl border border-[#EDE8DF] hover:border-emerald-700/40 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col items-center text-center group">
-              <div className="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-800 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform shadow-xs">
-                <Compass className="w-6 h-6" />
+            {/* Step 2 */}
+            <div className="p-6 rounded-2xl bg-[#FAF8F5] border border-[#EAE5DC] flex flex-col justify-between">
+              <div>
+                <span className="text-2xl font-serif font-bold text-[#C85419] mb-4 block">02</span>
+                <h3 className="font-serif text-lg font-bold text-slate-900 mb-2">
+                  Set Preferences
+                </h3>
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  Specify dietary splits (Pure Veg, Non-Veg, Jain), spice level preference, and favorite food styles.
+                </p>
               </div>
-              <span className="text-[11px] font-bold text-emerald-800 tracking-widest uppercase mb-1">
-                STEP 02
-              </span>
-              <h3 className="font-serif text-lg font-bold text-slate-900 mb-2">
-                Choose what you love.
-              </h3>
-              <p className="text-xs text-slate-500 leading-relaxed">
-                Specify spice tolerance, dietary splits (Pure Veg, Non-Veg, Jain), favorite cuisines, and iconic signature dishes.
-              </p>
             </div>
 
-            {/* STEP 03 */}
-            <div className="bg-white p-7 rounded-2xl border border-[#EDE8DF] hover:border-emerald-700/40 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col items-center text-center group">
-              <div className="w-14 h-14 rounded-2xl bg-amber-50 text-[#C85419] flex items-center justify-center mb-5 group-hover:scale-110 transition-transform shadow-xs">
-                <Sparkles className="w-6 h-6" />
+            {/* Step 3 */}
+            <div className="p-6 rounded-2xl bg-[#FAF8F5] border border-[#EAE5DC] flex flex-col justify-between">
+              <div>
+                <span className="text-2xl font-serif font-bold text-[#C85419] mb-4 block">03</span>
+                <h3 className="font-serif text-lg font-bold text-slate-900 mb-2">
+                  Customize Menu
+                </h3>
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  Pick and combine starters, handi biryanis, main curries, and desserts across top restaurants.
+                </p>
               </div>
-              <span className="text-[11px] font-bold text-[#C85419] tracking-widest uppercase mb-1">
-                STEP 03
-              </span>
-              <h3 className="font-serif text-lg font-bold text-slate-900 mb-2">
-                We tailor your feast.
-              </h3>
-              <p className="text-xs text-slate-500 leading-relaxed">
-                Our AI curation engine synthesizes a multi-course degustation from approved catalog dishes across vetted institutions.
-              </p>
             </div>
 
-            {/* STEP 04 */}
-            <div className="bg-white p-7 rounded-2xl border border-[#EDE8DF] hover:border-emerald-700/40 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col items-center text-center group">
-              <div className="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-800 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform shadow-xs">
-                <ChefHat className="w-6 h-6" />
+            {/* Step 4 */}
+            <div className="p-6 rounded-2xl bg-[#FAF8F5] border border-[#EAE5DC] flex flex-col justify-between">
+              <div>
+                <span className="text-2xl font-serif font-bold text-[#C85419] mb-4 block">04</span>
+                <h3 className="font-serif text-lg font-bold text-slate-900 mb-2">
+                  Enjoy Your Feast
+                </h3>
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  We handle kitchen coordination and ensure everything arrives fresh, on-time, and ready to serve.
+                </p>
               </div>
-              <span className="text-[11px] font-bold text-emerald-800 tracking-widest uppercase mb-1">
-                STEP 04
-              </span>
-              <h3 className="font-serif text-lg font-bold text-slate-900 mb-2">
-                Enjoy the moment.
-              </h3>
-              <p className="text-xs text-slate-500 leading-relaxed">
-                Relax as we coordinate multi-brand delivery and elegant banquet staging right to your table.
-              </p>
             </div>
           </div>
 
-          <div className="mt-12 text-center">
+          <div className="mt-10 text-center">
             <Link
               to="/how-it-works"
-              className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-emerald-900 hover:text-[#C85419] transition-colors"
+              className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#0D2418] hover:text-[#C85419] transition-colors"
             >
-              <span>Explore The Complete Curation Story</span>
-              <ArrowRight className="w-4 h-4" />
+              <span>Learn more about how we coordinate orders</span>
+              <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
         </div>
       </section>
 
       {/* ============================================================ */}
-      {/* SECTION 3 — PERSONALIZATION & 6 DIMENSIONS                   */}
+      {/* SECTION 3 — OCCASIONS                                        */}
       {/* ============================================================ */}
-      <section className="py-20 md:py-28 bg-[#FCFBF7] border-b border-[#E8E5DD]">
-        <div className="max-w-7xl mx-auto px-4 md:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            {/* Left Narrative */}
-            <div className="lg:col-span-6">
-              <span className="text-xs uppercase font-bold tracking-[0.2em] text-[#C85419] block mb-2">
-                Bespoke Dimensions
-              </span>
-              <h2 className="font-serif text-3xl sm:text-5xl font-extrabold text-[#0D381E] tracking-tight leading-tight mb-4">
-                Food should fit the moment.
-              </h2>
-              <div className="w-12 h-1 bg-[#C85419] rounded-full mb-6" />
-
-              <p className="text-base sm:text-lg text-slate-700 mb-4 leading-relaxed font-normal">
-                No two celebrations share the same pulse. Standard catering forces compromise; Food Tailor tailors every course along 6 precise dimensions.
-              </p>
-              <p className="text-xs sm:text-sm text-slate-500 leading-relaxed mb-8 max-w-xl">
-                Whether you need Nizami mutton dum biryani alongside pure vegetarian Jain courses, or an interactive live chaat counter paired with artisanal desserts, our system balances the table flawlessly.
-              </p>
-
-              <Link to="/build-menu" className="btn-primary">
-                <span>Tailor My Experience</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </Link>
-            </div>
-
-            {/* Right Dimension Badges Grid */}
-            <div className="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="p-5 bg-white rounded-2xl border border-[#EDE8DF] flex items-start gap-3.5 shadow-sm hover:shadow-md transition-shadow">
-                <div className="w-10 h-10 rounded-xl bg-emerald-50 border border-emerald-100 flex items-center justify-center flex-shrink-0 text-[#0D381E] shadow-xs">
-                  <UtensilsCrossed className="w-5 h-5" />
-                </div>
-                <div>
-                  <h3 className="font-serif font-bold text-sm text-[#0D381E]">Cuisine Harmony</h3>
-                  <p className="text-xs text-slate-500 mt-0.5 leading-relaxed">Mughlai, Irani, Andhra, Street Chaat & Artisanal Bakes.</p>
-                </div>
-              </div>
-
-              <div className="p-5 bg-white rounded-2xl border border-[#EDE8DF] flex items-start gap-3.5 shadow-sm hover:shadow-md transition-shadow">
-                <div className="w-10 h-10 rounded-xl bg-orange-50 border border-orange-100 flex items-center justify-center flex-shrink-0 text-[#C85419] shadow-xs">
-                  <Flame className="w-5 h-5" />
-                </div>
-                <div>
-                  <h3 className="font-serif font-bold text-sm text-[#0D381E]">Taste & Spice Scale</h3>
-                  <p className="text-xs text-slate-500 mt-0.5 leading-relaxed">Mild aromatics to fiery Rayalaseema heat levels.</p>
-                </div>
-              </div>
-
-              <div className="p-5 bg-white rounded-2xl border border-[#EDE8DF] flex items-start gap-3.5 shadow-sm hover:shadow-md transition-shadow">
-                <div className="w-10 h-10 rounded-xl bg-emerald-50 border border-emerald-100 flex items-center justify-center flex-shrink-0 text-[#0D381E] shadow-xs">
-                  <ShieldCheck className="w-5 h-5" />
-                </div>
-                <div>
-                  <h3 className="font-serif font-bold text-sm text-[#0D381E]">Dietary Preferences</h3>
-                  <p className="text-xs text-slate-500 mt-0.5 leading-relaxed">Thoughtful options for Pure Veg, Jain, Halal, or All-inclusive.</p>
-                </div>
-              </div>
-
-              <div className="p-5 bg-white rounded-2xl border border-[#EDE8DF] flex items-start gap-3.5 shadow-sm hover:shadow-md transition-shadow">
-                <div className="w-10 h-10 rounded-xl bg-amber-50 border border-amber-100 flex items-center justify-center flex-shrink-0 text-[#C85419] shadow-xs">
-                  <Sparkles className="w-5 h-5" />
-                </div>
-                <div>
-                  <h3 className="font-serif font-bold text-sm text-[#0D381E]">Occasion Format</h3>
-                  <p className="text-xs text-slate-500 mt-0.5 leading-relaxed">Seated banquet, high-tea lounge, or cocktail soiree.</p>
-                </div>
-              </div>
-
-              <div className="p-5 bg-white rounded-2xl border border-[#EDE8DF] flex items-start gap-3.5 shadow-sm hover:shadow-md transition-shadow">
-                <div className="w-10 h-10 rounded-xl bg-emerald-50 border border-emerald-100 flex items-center justify-center flex-shrink-0 text-[#0D381E] shadow-xs">
-                  <Users className="w-5 h-5" />
-                </div>
-                <div>
-                  <h3 className="font-serif font-bold text-sm text-[#0D381E]">Guest Count Precision</h3>
-                  <p className="text-xs text-slate-500 mt-0.5 leading-relaxed">Calibrated portions for 10 to 100 banquet covers.</p>
-                </div>
-              </div>
-
-              <div className="p-5 bg-white rounded-2xl border border-[#EDE8DF] flex items-start gap-3.5 shadow-sm hover:shadow-md transition-shadow">
-                <div className="w-10 h-10 rounded-xl bg-orange-50 border border-orange-100 flex items-center justify-center flex-shrink-0 text-[#C85419] shadow-xs">
-                  <ChefHat className="w-5 h-5" />
-                </div>
-                <div>
-                  <h3 className="font-serif font-bold text-sm text-[#0D381E]">Preferred Brands</h3>
-                  <p className="text-xs text-slate-500 mt-0.5 leading-relaxed">Dishes from multiple verified institutions on one single bill.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ============================================================ */}
-      {/* SECTION 4 — OCCASIONS                                        */}
-      {/* ============================================================ */}
-      <section className="py-20 md:py-28 bg-[#FCFBF7] border-b border-[#E8E5DD] relative overflow-hidden">
-        {/* Ambient background glows */}
-        <div className="absolute top-1/4 left-0 w-80 h-80 bg-emerald-500/5 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-10 right-0 w-96 h-96 bg-amber-500/5 rounded-full blur-3xl pointer-events-none" />
-
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 relative z-10">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 sm:mb-16">
+      <section className="py-16 sm:py-24 bg-[#FAF8F5] border-b border-[#EAE5DC]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-12">
             <div>
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#C85419]/10 text-[#C85419] border border-[#C85419]/20 text-xs font-bold uppercase tracking-widest mb-3">
-                <Sparkles className="w-3.5 h-3.5 text-[#C85419]" />
-                <span>Bespoke Banqueting Formats</span>
-              </div>
-              <h2 className="font-serif text-3xl sm:text-5xl font-extrabold text-[#0D381E] tracking-tight">
-                Curated Occasions
+              <span className="text-xs font-bold uppercase tracking-wider text-[#C85419] block mb-2">
+                Event Inspirations
+              </span>
+              <h2 className="font-serif text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight">
+                Curated for Every Occasion
               </h2>
-              <p className="text-sm sm:text-base text-slate-600 mt-2 max-w-2xl leading-relaxed font-normal">
-                Every gathering has its own tempo. Explore calibrated multi-brand lineups engineered for Hyderabad&apos;s most cherished milestones.
+              <p className="text-sm text-slate-600 mt-2 max-w-xl">
+                Explore pre-balanced menu templates designed for different event styles and guest groups.
               </p>
             </div>
 
             <Link
               to="/occasions"
-              className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#0D381E] hover:text-[#C85419] transition-colors self-start md:self-end pb-1"
+              className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#0D2418] hover:text-[#C85419] transition-colors self-start sm:self-end"
             >
-              <span>View All Occasion Folios</span>
-              <ArrowRight className="w-4 h-4" />
+              <span>View All Occasions</span>
+              <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
 
-          {/* 8 Luxury Occasion Cards Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {/* Occasion Cards Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {occasionCards.map((occ) => (
               <div
                 key={occ.id}
-                className="group relative bg-white rounded-3xl overflow-hidden border border-[#EDE8DF] hover:border-amber-500/50 shadow-sm hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col h-full"
+                className="group bg-white rounded-2xl overflow-hidden border border-[#EAE5DC] hover:border-[#D1C9BC] shadow-sm hover:shadow-md transition-all duration-200 flex flex-col h-full"
               >
-                {/* Visual Header Image Container */}
-                <div className="relative h-52 w-full overflow-hidden bg-slate-950">
+                {/* Image Container */}
+                <div className="relative aspect-[16/10] w-full overflow-hidden bg-slate-100">
                   <img
                     src={occ.image}
                     alt={occ.title}
                     loading="lazy"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                    className="w-full h-full object-cover group-hover:scale-102 transition-transform duration-500 ease-out"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/30 to-transparent" />
-
-                  {/* Top Badges: Category Tag & Guest Scale */}
-                  <div className="absolute top-3 left-3 right-3 flex items-center justify-between gap-2">
-                    <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider backdrop-blur-md border shadow-sm ${occ.badgeColor}`}>
+                  <div className="absolute top-3 left-3 right-3 flex items-center justify-between pointer-events-none">
+                    <span className="px-2.5 py-1 rounded-md text-xs font-semibold bg-white/95 text-slate-800 shadow-xs">
                       {occ.badge}
                     </span>
-
-                    <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-semibold bg-black/60 text-white backdrop-blur-md border border-white/15">
-                      <Users className="w-3 h-3 text-amber-300" />
-                      <span>{occ.guestRange}</span>
+                    <span className="px-2 py-0.5 rounded-md text-[11px] font-medium bg-black/60 text-white">
+                      {occ.guestRange}
                     </span>
-                  </div>
-
-                  {/* Bottom Lineup Indicator */}
-                  <div className="absolute bottom-2.5 left-3 right-3 flex items-center justify-between text-[11px] text-amber-200/90 font-medium">
-                    <span className="truncate drop-shadow-sm">{occ.sampleCourses}</span>
                   </div>
                 </div>
 
-                {/* Content Section */}
-                <div className="p-5 sm:p-6 flex-1 flex flex-col justify-between bg-white">
+                {/* Content */}
+                <div className="p-5 flex-1 flex flex-col justify-between">
                   <div>
-                    <h3 className="font-serif text-xl font-bold text-slate-900 group-hover:text-[#C85419] transition-colors leading-tight mb-2">
+                    <h3 className="font-serif text-lg font-bold text-slate-900 group-hover:text-[#C85419] transition-colors leading-snug mb-1">
                       {occ.title}
                     </h3>
-                    
-                    <p className="text-xs text-slate-600 leading-relaxed line-clamp-2 mb-4 font-normal">
+                    <p className="text-xs text-slate-600 leading-relaxed line-clamp-2 mb-3">
                       {occ.description}
                     </p>
 
-                    {/* Curated Brand Roster Tag */}
-                    <div className="p-2.5 rounded-xl bg-[#FAF8F5] border border-[#EDE8DF] mb-4">
-                      <span className="text-[10px] uppercase font-bold tracking-widest text-[#C85419] block mb-1">
-                        Featured Guild Partners
-                      </span>
-                      <p className="text-xs font-semibold text-slate-700 truncate">
-                        {occ.brands}
-                      </p>
+                    <div className="text-[11px] text-slate-500 bg-slate-50 p-2.5 rounded-lg border border-slate-100 mb-4">
+                      <span className="font-semibold text-slate-700">Restaurants: </span>
+                      {occ.brands}
                     </div>
                   </div>
 
-                  {/* Action Link Row */}
-                  <div className="pt-3 border-t border-slate-100 flex items-center justify-between gap-2">
+                  <div className="pt-3 border-t border-slate-100 flex items-center justify-between gap-3">
                     <Link
                       to={`/occasions/${occ.slug}`}
-                      className="text-xs font-bold uppercase tracking-wider text-[#0D381E] hover:text-[#C85419] transition-colors flex items-center gap-1"
+                      className="text-xs font-semibold text-slate-700 hover:text-[#C85419] transition-colors"
                     >
-                      <span>Explore Folio</span>
-                      <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                      View Details
                     </Link>
 
                     <Link
                       to={`/build-menu?occasion=${encodeURIComponent(occ.id)}`}
-                      className="px-3 py-1.5 rounded-xl bg-[#0D381E] hover:bg-[#C85419] text-white text-[11px] font-bold tracking-wide uppercase transition-all shadow-xs"
+                      className="px-3.5 py-1.5 rounded-lg bg-[#0D2418] hover:bg-[#C85419] text-white text-xs font-semibold transition-colors"
                     >
-                      <span>Tailor Feast</span>
+                      Plan Menu
                     </Link>
                   </div>
                 </div>
@@ -592,34 +433,34 @@ export default function HomePage() {
       </section>
 
       {/* ============================================================ */}
-      {/* SECTION 5 — HERITAGE INSTITUTIONS                            */}
+      {/* SECTION 4 — RESTAURANT PARTNERS                              */}
       {/* ============================================================ */}
-      <section className="py-20 md:py-28 bg-[#FCFBF7] border-b border-[#E8E5DD]">
-        <div className="max-w-7xl mx-auto px-4 md:px-8">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14">
+      <section className="py-16 sm:py-24 bg-white border-b border-[#EAE5DC]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-12">
             <div>
-              <span className="text-xs uppercase font-bold tracking-[0.2em] text-[#C85419] block mb-2">
-                The Verified Atelier Guild
+              <span className="text-xs font-bold uppercase tracking-wider text-[#C85419] block mb-2">
+                Curated Kitchens
               </span>
-              <h2 className="font-serif text-3xl sm:text-5xl font-extrabold text-[#0D381E] tracking-tight">
+              <h2 className="font-serif text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight">
                 Hyderabad&apos;s Culinary Icons
               </h2>
-              <p className="text-sm sm:text-base text-slate-600 mt-2 max-w-xl">
-                Direct selections from the city&apos;s verified heritage institutions and iconic local kitchens.
+              <p className="text-sm text-slate-600 mt-2 max-w-xl">
+                Order authentic specialties directly from the city&apos;s most celebrated heritage restaurants and artisan kitchens.
               </p>
             </div>
 
             <Link
               to="/partners"
-              className="btn-primary shrink-0"
+              className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#0D2418] hover:text-[#C85419] transition-colors self-start sm:self-end"
             >
-              <span>View All {partners.length > 0 ? `${partners.length} ` : ''}Partners</span>
+              <span>View All Restaurants</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
 
-          {/* Partner Showcase Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {/* Restaurant Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {displayPartners.map((partner) => (
               <PartnerCard key={partner.id} partner={partner} />
             ))}
@@ -628,93 +469,108 @@ export default function HomePage() {
       </section>
 
       {/* ============================================================ */}
-      {/* SECTION 6 — WHY FOOD TAILOR (ATELIER STANDARDS)              */}
+      {/* SECTION 5 — WHY FOOD TAILOR (VALUE PROPOSITIONS)             */}
       {/* ============================================================ */}
-      <section className="py-20 md:py-28 bg-[#F6F4EE] border-b border-[#E8E5DD]">
-        <div className="max-w-7xl mx-auto px-4 md:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <span className="text-xs uppercase font-bold tracking-[0.2em] text-[#C85419] block mb-2">
-              Four Atelier Commitments
+      <section className="py-16 sm:py-24 bg-[#FAF8F5] border-b border-[#EAE5DC]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-2xl mx-auto mb-14">
+            <span className="text-xs font-bold uppercase tracking-wider text-[#C85419] block mb-2">
+              The Food Tailor Standard
             </span>
-            <h2 className="font-serif text-3xl sm:text-5xl font-extrabold text-[#0D381E] tracking-tight">
-              Why Food Tailor
+            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight">
+              Why Hosts Choose Food Tailor
             </h2>
-            <div className="w-12 h-1 bg-[#C85419] rounded-full my-4 mx-auto" />
-            <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
-              Elevating gathering gastronomy beyond fragmented food delivery and rigid banquet halls.
+            <p className="text-sm text-slate-600 mt-3 leading-relaxed">
+              We eliminate the stress of managing multiple catering vendors and bring city favorites directly to your event.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {/* Standard 01 */}
-            <div className="bg-white p-7 rounded-2xl border border-[#EDE8DF] hover:border-[#0D381E]/30 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col items-center text-center group">
-              <div className="w-14 h-14 rounded-2xl bg-emerald-50 text-[#0D381E] flex items-center justify-center mb-5 group-hover:scale-110 transition-transform shadow-xs">
-                <Award className="w-6 h-6" />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {/* Value 1 */}
+            <div className="p-6 bg-white rounded-2xl border border-[#EAE5DC] shadow-xs">
+              <div className="w-10 h-10 rounded-xl bg-orange-50 text-[#C85419] flex items-center justify-center mb-4">
+                <UtensilsCrossed className="w-5 h-5" />
               </div>
-              <span className="text-[11px] font-bold text-[#C85419] tracking-widest uppercase mb-1">
-                STANDARD 01
-              </span>
-              <h3 className="font-serif text-lg font-bold text-slate-900 mb-2">
-                Curated Provenance
+              <h3 className="font-serif text-base font-bold text-slate-900 mb-2">
+                Multi-Kitchen Ordering
               </h3>
-              <p className="text-xs text-slate-500 leading-relaxed">
-                Only authenticated culinary houses. Every kitchen is selected for signature flavor, preparation standards, and heritage recipe fidelity.
+              <p className="text-xs text-slate-600 leading-relaxed">
+                Order biryani from Shadab, chaat from Maharaja, and sweets from Almond House together in one unified checkout.
               </p>
             </div>
 
-            {/* Standard 02 */}
-            <div className="bg-white p-7 rounded-2xl border border-[#EDE8DF] hover:border-[#0D381E]/30 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col items-center text-center group">
-              <div className="w-14 h-14 rounded-2xl bg-orange-50 text-[#C85419] flex items-center justify-center mb-5 group-hover:scale-110 transition-transform shadow-xs">
-                <Sliders className="w-6 h-6" />
+            {/* Value 2 */}
+            <div className="p-6 bg-white rounded-2xl border border-[#EAE5DC] shadow-xs">
+              <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-800 flex items-center justify-center mb-4">
+                <ShieldCheck className="w-5 h-5" />
               </div>
-              <span className="text-[11px] font-bold text-[#C85419] tracking-widest uppercase mb-1">
-                STANDARD 02
-              </span>
-              <h3 className="font-serif text-lg font-bold text-slate-900 mb-2">
-                Personalized Balancing
-              </h3>
-              <p className="text-xs text-slate-500 leading-relaxed">
-                No rigid packages. Courses are balanced to your headcount, dietary preferences (Pure Veg, Jain, Halal), and course pacing.
-              </p>
-            </div>
-
-            {/* Standard 03 */}
-            <div className="bg-white p-7 rounded-2xl border border-[#EDE8DF] hover:border-[#0D381E]/30 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col items-center text-center group">
-              <div className="w-14 h-14 rounded-2xl bg-emerald-50 text-[#0D381E] flex items-center justify-center mb-5 group-hover:scale-110 transition-transform shadow-xs">
-                <CheckCircle2 className="w-6 h-6" />
-              </div>
-              <span className="text-[11px] font-bold text-[#C85419] tracking-widest uppercase mb-1">
-                STANDARD 03
-              </span>
-              <h3 className="font-serif text-lg font-bold text-slate-900 mb-2">
+              <h3 className="font-serif text-base font-bold text-slate-900 mb-2">
                 Dietary Segregation
               </h3>
-              <p className="text-xs text-slate-500 leading-relaxed">
-                Thoughtful separation and dedicated packaging for pure vegetarian and Jain guest preferences.
+              <p className="text-xs text-slate-600 leading-relaxed">
+                Dedicated packaging, labeling, and handling protocols for pure vegetarian and Jain dishes.
               </p>
             </div>
 
-            {/* Standard 04 */}
-            <div className="bg-white p-7 rounded-2xl border border-[#EDE8DF] hover:border-[#0D381E]/30 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col items-center text-center group">
-              <div className="w-14 h-14 rounded-2xl bg-orange-50 text-[#C85419] flex items-center justify-center mb-5 group-hover:scale-110 transition-transform shadow-xs">
-                <Clock className="w-6 h-6" />
+            {/* Value 3 */}
+            <div className="p-6 bg-white rounded-2xl border border-[#EAE5DC] shadow-xs">
+              <div className="w-10 h-10 rounded-xl bg-orange-50 text-[#C85419] flex items-center justify-center mb-4">
+                <Users className="w-5 h-5" />
               </div>
-              <span className="text-[11px] font-bold text-[#C85419] tracking-widest uppercase mb-1">
-                STANDARD 04
-              </span>
-              <h3 className="font-serif text-lg font-bold text-slate-900 mb-2">
-                Seamless Staging
+              <h3 className="font-serif text-base font-bold text-slate-900 mb-2">
+                Exact Headcount Sizing
               </h3>
-              <p className="text-xs text-slate-500 leading-relaxed">
-                Synchronized simultaneous arrival from multiple kitchens, consolidated invoicing, and end-to-end event support.
+              <p className="text-xs text-slate-600 leading-relaxed">
+                Portions calibrated exactly for your guest list so there is no food shortage or wasteful over-ordering.
+              </p>
+            </div>
+
+            {/* Value 4 */}
+            <div className="p-6 bg-white rounded-2xl border border-[#EAE5DC] shadow-xs">
+              <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-800 flex items-center justify-center mb-4">
+                <Clock className="w-5 h-5" />
+              </div>
+              <h3 className="font-serif text-base font-bold text-slate-900 mb-2">
+                Coordinated Timing
+              </h3>
+              <p className="text-xs text-slate-600 leading-relaxed">
+                Courses from different kitchens arrive simultaneously, fresh, and temperature-controlled at your venue.
               </p>
             </div>
           </div>
         </div>
       </section>
 
+      {/* ============================================================ */}
+      {/* SECTION 6 — CLEAN CTA BANNER                                 */}
+      {/* ============================================================ */}
+      <section className="py-16 sm:py-20 bg-[#0D2418] text-white">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="font-serif text-3xl sm:text-4xl font-bold tracking-tight mb-4">
+            Ready to plan your event menu?
+          </h2>
+          <p className="text-sm sm:text-base text-slate-300 max-w-xl mx-auto mb-8 leading-relaxed font-normal">
+            Tell us about your gathering, choose your favorite dishes, and let us take care of all the culinary logistics.
+          </p>
+
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5">
+            <Link
+              to="/build-menu"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-lg bg-[#C85419] hover:bg-[#B34710] text-white text-sm font-semibold tracking-normal transition-all shadow-md"
+            >
+              <span>Start Building Menu</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+
+            <Link
+              to="/explore"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-lg bg-white/10 hover:bg-white/20 text-white text-sm font-semibold tracking-normal border border-white/20 transition-all"
+            >
+              <span>Browse All Dishes</span>
+            </Link>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
-
-

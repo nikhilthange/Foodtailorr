@@ -174,32 +174,46 @@ export default function MenuBuilderIntake() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FCFBF7] text-slate-900 pb-24">
-      {/* Luxury Porcelain Editorial Header */}
-      <section className="relative bg-gradient-to-b from-white via-[#FCFBF7] to-[#F6F4EE] pt-28 pb-10 sm:pb-12 px-4 sm:px-6 lg:px-8 border-b border-[#E8E5DD] overflow-hidden">
-        {/* Subtle Ambient Glows */}
-        <div className="absolute top-6 left-1/4 w-96 h-96 bg-[#0D381E]/5 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[#C85419]/5 rounded-full blur-3xl pointer-events-none" />
-
-        <div className="max-w-4xl mx-auto relative z-10 text-center">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#C85419]/10 text-[#C85419] border border-[#C85419]/20 text-xs font-bold uppercase tracking-widest mb-3 shadow-xs">
-            <Sparkles className="w-3.5 h-3.5 text-[#C85419]" />
-            <span>Interactive Curation Studio • Multi-Brand Calibration</span>
-          </div>
-          <h1 className="font-serif text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-[#0D381E] leading-tight">
-            Tailor Your Gathering
+    <div className="min-h-screen bg-[#FAF8F5] text-slate-900 pb-24">
+      {/* Header */}
+      <section className="bg-white pt-28 pb-10 sm:pb-12 px-4 sm:px-6 lg:px-8 border-b border-[#EAE5DC]">
+        <div className="max-w-4xl mx-auto text-center">
+          <span className="text-xs font-bold uppercase tracking-wider text-[#C85419] block mb-2">
+            Menu Builder
+          </span>
+          <h1 className="font-serif text-3xl sm:text-5xl font-bold tracking-tight text-slate-900 leading-tight">
+            Build Your Event Menu
           </h1>
-          <p className="mt-2.5 text-slate-600 text-sm sm:text-base max-w-xl mx-auto font-normal leading-relaxed">
-            Step {step} of 8 • Define your gathering parameters to synthesize a balanced multi-brand feast.
+          <p className="mt-2 text-slate-600 text-sm sm:text-base max-w-xl mx-auto font-normal leading-relaxed">
+            Step {step} of 8 • Specify your event details to generate a balanced multi-restaurant menu.
           </p>
         </div>
       </section>
 
       {/* Main Workspace Container */}
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8">
-        {/* Stepper Progress Indicator */}
-        <div className="bg-white p-4 sm:p-5 rounded-2xl border border-[#EDE8DF] shadow-sm mb-6 overflow-x-auto no-scrollbar">
-          <div className="flex items-center justify-between min-w-[560px]">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
+        {/* Responsive Stepper Progress Indicator */}
+        <div className="bg-white p-4 sm:p-5 rounded-2xl border border-[#EAE5DC] shadow-xs mb-6">
+          {/* Mobile Step Header */}
+          <div className="flex sm:hidden items-center justify-between mb-3 text-xs">
+            <span className="font-semibold text-slate-700">
+              Step {step} of 8: <span className="text-[#C85419] font-bold">{[
+                'Occasion', 'Guests', 'Taste & Cuisines', 'Dietary', 'Atmosphere', 'Restaurants', 'Budget', 'Review'
+              ][step - 1]}</span>
+            </span>
+            <span className="text-slate-400 font-medium">{Math.round((step / 8) * 100)}%</span>
+          </div>
+
+          {/* Mobile Progress Bar */}
+          <div className="block sm:hidden w-full bg-slate-100 h-1.5 rounded-full overflow-hidden mb-3">
+            <div
+              className="bg-[#C85419] h-full transition-all duration-300 rounded-full"
+              style={{ width: `${(step / 8) * 100}%` }}
+            />
+          </div>
+
+          {/* Scrollable / Desktop Step Pills */}
+          <div className="flex items-center justify-between overflow-x-auto no-scrollbar gap-2 sm:gap-0">
             {[
               { num: 1, label: 'Occasion' },
               { num: 2, label: 'Guests' },
@@ -216,14 +230,15 @@ export default function MenuBuilderIntake() {
                 <React.Fragment key={s.num}>
                   <button
                     onClick={() => !synthesizing && setStep(s.num)}
-                    className="flex items-center gap-1.5 focus:outline-none cursor-pointer"
+                    className="flex items-center gap-1.5 focus:outline-none cursor-pointer shrink-0"
+                    aria-label={`Step ${s.num}: ${s.label}`}
                   >
                     <div
                       className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold transition-all ${
                         isActive
-                          ? 'bg-[#C85419] text-white shadow-sm ring-4 ring-[#C85419]/20'
+                          ? 'bg-[#C85419] text-white shadow-xs'
                           : isPast
-                          ? 'bg-[#0D381E] text-amber-200'
+                          ? 'bg-[#0D2418] text-white'
                           : 'bg-slate-100 text-slate-500'
                       }`}
                     >
@@ -231,7 +246,7 @@ export default function MenuBuilderIntake() {
                     </div>
                     <span
                       className={`text-xs font-semibold hidden md:inline ${
-                        isActive ? 'text-[#0D381E] font-bold' : 'text-slate-500'
+                        isActive ? 'text-[#0D2418] font-bold' : 'text-slate-500'
                       }`}
                     >
                       {s.label}
@@ -239,8 +254,8 @@ export default function MenuBuilderIntake() {
                   </button>
                   {idx < arr.length - 1 && (
                     <div
-                      className={`flex-1 h-[2px] mx-2 transition-colors ${
-                        step > idx + 1 ? 'bg-[#0D381E]' : 'bg-slate-200'
+                      className={`hidden sm:block flex-1 h-[2px] mx-2 transition-colors ${
+                        step > idx + 1 ? 'bg-[#0D2418]' : 'bg-slate-200'
                       }`}
                     />
                   )}
@@ -642,41 +657,41 @@ export default function MenuBuilderIntake() {
           {step === 8 && (
             <div>
               <div className="mb-6">
-                <span className="text-xs font-bold uppercase tracking-widest text-[#C85419] block mb-1">
-                  Step 08 • Synthesis Profile
+                <span className="text-xs font-bold uppercase tracking-wider text-[#C85419] block mb-1">
+                  Step 08 • Summary
                 </span>
-                <h2 className="font-serif font-bold text-2xl sm:text-3xl text-[#0D381E]">
-                  Review your personalization profile.
+                <h2 className="font-serif font-bold text-2xl sm:text-3xl text-slate-900">
+                  Review your specifications.
                 </h2>
                 <p className="text-xs text-slate-500 mt-1 font-normal">
-                  Ready to activate our AI curation engine and generate your tailored degustation packages.
+                  Ready to generate tailored menu recommendations from approved restaurant dishes.
                 </p>
               </div>
 
-              <div className="bg-[#F6F4EE] p-5 sm:p-6 rounded-2xl border border-[#EDE8DF] space-y-4 mb-8">
+              <div className="bg-[#FAF8F5] p-5 sm:p-6 rounded-2xl border border-[#EAE5DC] space-y-4 mb-8">
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs">
                   <div>
                     <span className="text-slate-500 uppercase tracking-wider block font-semibold text-[10px]">Occasion</span>
-                    <strong className="text-[#0D381E] text-sm capitalize">{formData.occasion}</strong>
+                    <strong className="text-slate-900 text-sm capitalize">{formData.occasion}</strong>
                   </div>
                   <div>
                     <span className="text-slate-500 uppercase tracking-wider block font-semibold text-[10px]">Headcount</span>
-                    <strong className="text-[#0D381E] text-sm">{formData.guestCount} Guests</strong>
+                    <strong className="text-slate-900 text-sm">{formData.guestCount} Guests</strong>
                   </div>
                   <div>
                     <span className="text-slate-500 uppercase tracking-wider block font-semibold text-[10px]">Dietary</span>
-                    <strong className="text-[#0D381E] text-sm">{formData.dietaryType}</strong>
+                    <strong className="text-slate-900 text-sm">{formData.dietaryType}</strong>
                   </div>
                   <div>
                     <span className="text-slate-500 uppercase tracking-wider block font-semibold text-[10px]">Target Budget</span>
-                    <strong className="text-[#0D381E] text-sm">₹{formData.budgetPerHead} / head</strong>
+                    <strong className="text-slate-900 text-sm">₹{formData.budgetPerHead} / head</strong>
                   </div>
                 </div>
 
                 <div className="pt-3 border-t border-slate-200/70 grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
                   <div>
                     <span className="text-slate-500 uppercase tracking-wider block font-semibold text-[10px] mb-1">Atmosphere</span>
-                    <span className="px-2.5 py-0.5 rounded-md bg-white text-[#0D381E] border border-slate-200 font-semibold">
+                    <span className="px-2.5 py-0.5 rounded-md bg-white text-slate-900 border border-slate-200 font-medium">
                       {formData.mood}
                     </span>
                   </div>
@@ -684,7 +699,7 @@ export default function MenuBuilderIntake() {
                     <span className="text-slate-500 uppercase tracking-wider block font-semibold text-[10px] mb-1">Cuisines Selected</span>
                     <div className="flex flex-wrap gap-1">
                       {formData.cuisines.map((c) => (
-                        <span key={c} className="px-2 py-0.5 rounded-md bg-white text-[#0D381E] border border-slate-200 text-[11px]">
+                        <span key={c} className="px-2 py-0.5 rounded-md bg-white text-slate-900 border border-slate-200 text-[11px]">
                           {c}
                         </span>
                       ))}
@@ -701,7 +716,7 @@ export default function MenuBuilderIntake() {
               <button
                 type="button"
                 onClick={() => setStep((s) => s - 1)}
-                className="px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-slate-700 border border-slate-200 rounded-xl hover:bg-slate-50 transition-all flex items-center gap-1.5 cursor-pointer"
+                className="px-5 py-2.5 text-xs font-semibold uppercase tracking-wider text-slate-700 border border-slate-200 rounded-xl hover:bg-slate-50 transition-all flex items-center gap-1.5 cursor-pointer"
               >
                 <ArrowLeft className="w-3.5 h-3.5" />
                 <span>Back</span>
@@ -714,7 +729,7 @@ export default function MenuBuilderIntake() {
               <button
                 type="button"
                 onClick={() => setStep((s) => s + 1)}
-                className="inline-flex items-center gap-2 px-7 py-3 rounded-xl bg-[#C85419] hover:bg-[#A33E00] text-white text-xs font-bold uppercase tracking-wider shadow-md shadow-orange-950/20 hover:-translate-y-0.5 active:translate-y-0 transition-all cursor-pointer"
+                className="inline-flex items-center gap-1.5 px-6 py-2.5 rounded-xl bg-[#C85419] hover:bg-[#B34710] text-white text-xs font-semibold uppercase tracking-wider shadow-sm transition-all cursor-pointer"
               >
                 <span>Continue</span>
                 <ArrowRight className="w-3.5 h-3.5" />
@@ -724,39 +739,29 @@ export default function MenuBuilderIntake() {
                 type="button"
                 onClick={handleGenerateMenu}
                 disabled={synthesizing}
-                className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-[#C85419] hover:bg-[#A33E00] text-white text-xs font-bold uppercase tracking-wider shadow-xl shadow-orange-950/30 hover:-translate-y-0.5 active:translate-y-0 transition-all cursor-pointer"
+                className="inline-flex items-center gap-2 px-7 py-3 rounded-xl bg-[#C85419] hover:bg-[#B34710] text-white text-xs font-semibold uppercase tracking-wider shadow-md transition-all cursor-pointer"
               >
-                <Sparkles className="w-4 h-4 text-amber-200 animate-pulse" />
-                <span>GENERATE MY MENU</span>
+                <Sparkles className="w-4 h-4 text-white" />
+                <span>GENERATE MENU</span>
               </button>
             )}
           </div>
         </div>
       </div>
 
-      {/* AI Menu Generation Modal */}
+      {/* Menu Generation Modal */}
       {synthesizing && (
-        <div className="fixed inset-0 z-50 bg-slate-950/75 backdrop-blur-md flex items-center justify-center p-4">
-          <div className="bg-white p-8 sm:p-12 rounded-3xl border border-amber-400/40 max-w-md w-full text-center shadow-2xl space-y-6 animate-fade-in">
-            <div className="relative w-24 h-24 mx-auto flex items-center justify-center">
-              <div className="absolute inset-0 rounded-full border-3 border-dashed border-[#C85419] animate-spin" style={{ animationDuration: '6s' }} />
-              <ChefHat className="w-10 h-10 text-[#0D381E] animate-pulse" />
-            </div>
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-white p-8 sm:p-10 rounded-2xl border border-slate-200 max-w-sm w-full text-center shadow-xl space-y-5 animate-fade-in">
+            <div className="w-12 h-12 rounded-full border-3 border-[#0D2418] border-t-transparent animate-spin mx-auto" />
 
             <div>
-              <span className="text-[10px] uppercase font-bold tracking-widest text-[#C85419] block mb-1">
-                Atelier Intelligence Active
-              </span>
-              <h3 className="font-serif font-bold text-2xl text-[#0D381E]">
-                Inking Your Bespoke Menu...
+              <h3 className="font-serif font-bold text-xl text-slate-900">
+                Curating Your Event Menu...
               </h3>
-              <p className="text-xs text-slate-500 mt-2 font-normal leading-relaxed">
-                Balancing course harmony across {formData.guestCount} covers with verified dishes from Hyderabad&apos;s premier culinary houses.
+              <p className="text-xs text-slate-500 mt-1 font-normal leading-relaxed">
+                Balancing dishes across {formData.guestCount} guests with verified items from Hyderabad&apos;s premier kitchens.
               </p>
-            </div>
-
-            <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
-              <div className="bg-gradient-to-r from-[#C85419] via-amber-400 to-[#D95D1E] h-full animate-pulse w-3/4 rounded-full" />
             </div>
           </div>
         </div>

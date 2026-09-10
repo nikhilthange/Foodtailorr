@@ -52,13 +52,13 @@ export default function LoginPage() {
             <FoodTailorLogo className="h-9 sm:h-10 w-auto mx-auto" />
           </Link>
           <span className="text-[11px] uppercase font-bold tracking-[0.2em] text-[#C85419] block mb-1">
-            Private Culinary Access
+            Food Tailor Account
           </span>
           <h1 className="font-display text-2xl sm:text-3xl text-slate-900 font-extrabold tracking-tight mb-2">
             Welcome Back
           </h1>
           <p className="text-xs sm:text-sm text-slate-500 leading-relaxed font-normal">
-            Sign in to orchestrate bespoke catering or oversee your atelier guild.
+            Sign in to manage your catering bookings and custom menus.
           </p>
         </div>
 

@@ -38,13 +38,13 @@ export default function RegisterPage() {
             <FoodTailorLogo className="h-9 sm:h-10 w-auto mx-auto" />
           </Link>
           <span className="text-[11px] uppercase font-bold tracking-[0.2em] text-[#C85419] block mb-1">
-            Private Host Membership
+            Get Started
           </span>
           <h1 className="font-display text-2xl sm:text-3xl text-slate-900 font-extrabold tracking-tight mb-2">
-            Join the Atelier
+            Create Your Account
           </h1>
           <p className="text-xs sm:text-sm text-slate-500 leading-relaxed font-normal">
-            Create your host account for bespoke culinary degustations.
+            Create your account to start crafting custom menus for your events.
           </p>
         </div>
         
@@ -143,19 +143,19 @@ export default function RegisterPage() {
             {isSubmitting ? (
               <>
                 <i className="bi bi-arrow-repeat animate-spin text-sm" />
-                <span>Registering...</span>
+                <span>Creating Account...</span>
               </>
             ) : (
               <>
                 <i className="bi bi-person-plus text-sm" />
-                <span>Request Access</span>
+                <span>Create Account</span>
               </>
             )}
           </button>
         </form>
         
         <div className="mt-7 text-center border-t border-slate-100 pt-5">
-          <span className="text-xs text-slate-500">Already an atelier member? </span>
+          <span className="text-xs text-slate-500">Already have an account? </span>
           <Link to="/login" className="text-xs font-bold text-[#C85419] uppercase tracking-wider hover:underline transition-colors ml-1">
             Sign In
           </Link>

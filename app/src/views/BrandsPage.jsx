@@ -4,7 +4,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { api } from '../lib/apiClient';
 import { FALLBACK_PARTNERS } from '../lib/fallbackData';
 import PartnerCard from '../components/PartnerCard';
-import { Search, ChefHat, Sparkles, Building2 } from 'lucide-react';
+import { Search, Building2 } from 'lucide-react';
 
 export default function BrandsPage() {
   const [partners, setPartners] = useState(FALLBACK_PARTNERS);
@@ -55,40 +55,34 @@ export default function BrandsPage() {
   }, [list, selectedCuisine, searchQuery]);
 
   return (
-    <div className="min-h-screen bg-[#FCFBF7] text-slate-900">
-      
-      {/* Luxury Porcelain Editorial Header */}
-      <section className="relative bg-gradient-to-b from-white via-[#FCFBF7] to-[#F6F4EE] pt-28 pb-12 sm:pb-16 px-4 sm:px-6 lg:px-8 border-b border-[#E8E5DD] overflow-hidden">
-        {/* Subtle Ambient Glows */}
-        <div className="absolute top-10 left-1/4 w-96 h-96 bg-brand-forest/5 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-brand-terracotta/5 rounded-full blur-3xl pointer-events-none" />
-
-        <div className="max-w-7xl mx-auto relative z-10">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-terracotta/10 text-brand-terracotta border border-brand-terracotta/20 text-xs font-bold uppercase tracking-widest mb-4">
-            <Sparkles className="w-3.5 h-3.5 text-brand-terracotta" />
-            <span>Official Culinary Guild • Verified Master Ateliers</span>
-          </div>
-          <h1 className="font-serif text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight text-slate-900 max-w-3xl leading-tight">
-            Hyderabad's Culinary Heritage, Curated For You
+    <div className="min-h-screen bg-[#FAF8F5] text-slate-900">
+      {/* Header */}
+      <section className="bg-white pt-28 pb-12 sm:pb-14 px-4 sm:px-6 lg:px-8 border-b border-[#EAE5DC]">
+        <div className="max-w-7xl mx-auto">
+          <span className="text-xs font-bold uppercase tracking-wider text-[#C85419] block mb-2">
+            Verified Partner Restaurants
+          </span>
+          <h1 className="font-serif text-3xl sm:text-5xl font-bold tracking-tight text-slate-900 leading-tight">
+            Hyderabad&apos;s Culinary Heritage
           </h1>
-          <p className="mt-3 text-slate-600 text-sm sm:text-base max-w-2xl font-normal leading-relaxed">
-            Every culinary partner is an authenticated institution with verified Hyderabadi provenance, proven culinary mastery, and uncompromising recipe fidelity.
+          <p className="mt-2 text-slate-600 text-sm sm:text-base max-w-2xl font-normal leading-relaxed">
+            Order authentic specialties directly from the city&apos;s verified heritage restaurants and artisan kitchens for your special events.
           </p>
         </div>
       </section>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
         {/* Filters Bar */}
-        <div className="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/80 shadow-card-soft mb-8 flex flex-col md:flex-row gap-4 justify-between items-start md:items-center">
+        <div className="bg-white p-4 sm:p-5 rounded-2xl border border-[#EAE5DC] shadow-xs mb-8 flex flex-col md:flex-row gap-4 justify-between items-start md:items-center">
           {/* Search Input */}
           <div className="relative w-full md:w-80">
             <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
             <input
               type="text"
-              placeholder="Search kitchen or cuisine..."
+              placeholder="Search restaurant or cuisine..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2.5 bg-slate-50/80 rounded-xl border border-slate-200 focus:outline-none focus:border-brand-forest text-sm text-slate-900 placeholder-slate-400"
+              className="w-full pl-9 pr-4 py-2 bg-[#FAF8F5] rounded-lg border border-[#EAE5DC] focus:outline-none focus:border-[#0D2418] text-xs font-medium text-slate-900 placeholder-slate-400"
             />
           </div>
 
@@ -98,10 +92,10 @@ export default function BrandsPage() {
               <button
                 key={cuisine}
                 onClick={() => setSelectedCuisine(cuisine)}
-                className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all cursor-pointer ${
                   selectedCuisine === cuisine
-                    ? 'bg-brand-forest text-white shadow-xs'
-                    : 'bg-slate-50 text-slate-600 border border-slate-200 hover:bg-slate-100'
+                    ? 'bg-[#0D2418] text-white shadow-xs'
+                    : 'bg-[#FAF8F5] text-slate-600 border border-[#EAE5DC] hover:text-slate-900'
                 }`}
               >
                 {cuisine === 'ALL' ? 'All Cuisines' : cuisine}
@@ -113,38 +107,35 @@ export default function BrandsPage() {
         {/* Counter Summary */}
         <div className="flex items-center justify-between mb-6">
           <div className="text-xs font-medium text-slate-500">
-            Showing <strong className="text-slate-900 font-bold">{filteredPartners.length}</strong> verified partner kitchens
-          </div>
-          <div className="text-xs text-slate-400 hidden sm:block">
-            Direct kitchen allocation & temperature-controlled logistics
+            Showing <strong className="text-slate-900 font-semibold">{filteredPartners.length}</strong> verified partner restaurants
           </div>
         </div>
 
         {/* Partners Grid */}
         {loading ? (
           <div className="py-20 flex flex-col items-center justify-center">
-            <div className="w-10 h-10 border-3 border-brand-forest border-t-transparent rounded-full animate-spin mb-4" />
-            <p className="text-xs uppercase font-bold tracking-widest text-slate-500">Loading Partner Kitchens...</p>
+            <div className="w-8 h-8 border-2 border-[#0D2418] border-t-transparent rounded-full animate-spin mb-3" />
+            <p className="text-xs font-medium text-slate-500">Loading restaurants...</p>
           </div>
         ) : filteredPartners.length === 0 ? (
-          <div className="bg-white rounded-2xl border border-slate-200/80 p-12 text-center max-w-md mx-auto shadow-card-soft">
-            <Building2 className="w-12 h-12 text-brand-terracotta mx-auto mb-3 opacity-80" />
-            <h3 className="font-serif font-bold text-lg text-slate-900 mb-1">No Kitchens Found</h3>
-            <p className="text-xs text-slate-500 mb-6 leading-relaxed">
-              No culinary houses match your current search criteria.
+          <div className="bg-white rounded-2xl border border-[#EAE5DC] p-10 text-center max-w-md mx-auto shadow-xs">
+            <Building2 className="w-10 h-10 text-slate-400 mx-auto mb-2" />
+            <h3 className="font-serif font-bold text-base text-slate-900 mb-1">No Restaurants Found</h3>
+            <p className="text-xs text-slate-500 mb-5 leading-relaxed">
+              No restaurants match your current search criteria.
             </p>
             <button
               onClick={() => {
                 setSelectedCuisine('ALL');
                 setSearchQuery('');
               }}
-              className="btn-accent px-5 py-2.5 rounded-xl text-xs uppercase tracking-wider font-bold"
+              className="px-4 py-2 rounded-lg bg-[#C85419] text-white text-xs font-semibold"
             >
               Reset Search
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredPartners.map((partner) => (
               <PartnerCard key={partner.id || partner.slug} partner={partner} />
             ))}
